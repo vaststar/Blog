@@ -1,1 +1,6 @@
-from flask import Blueprint
+from flask import jsonify
+from . import auth_blue
+
+@auth_blue.route("/",methods=["GET"])
+def get_AllAuths():
+    return jsonify({"method":"get","error":"404"})

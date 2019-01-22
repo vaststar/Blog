@@ -7,5 +7,5 @@ class FlaskServerApp(object):
     def registerBluePrint(self,blueprint,url_pre):
         self.app.register_blueprint(blueprint,url_prefix=url_pre)
 
-    def RunApp(self):
-        self.app.run()
+    def RunApp(self,host=None, port=None, debug=None):
+        self.app.run(host, port, debug)

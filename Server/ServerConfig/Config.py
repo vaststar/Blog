@@ -1,3 +1,3 @@
+#数据库等
 class Config(object):
-    def __init__(self):
-        print("g")
+    pass
