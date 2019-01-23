@@ -4,4 +4,5 @@ from Server.ServerDB import blogDB
 
 @auth_blue.route("/",methods=["GET"])
 def get_AllAuths():
+    blogDB.getAllUser()
     return jsonify({"method":"get","error":"404"})
