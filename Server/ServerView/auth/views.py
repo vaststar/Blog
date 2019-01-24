@@ -4,5 +4,8 @@ from Server.ServerDB import blogDB
 
 @auth_blue.route("/",methods=["GET"])
 def get_AllAuths():
-    blogDB.getAllUser()
-    return jsonify({"method":"get","error":"404"})
+    result = []
+    for k,v in enumerate(blogDB.getAllUser()):
+        result.append(dict(zip(("id","name","password"),v)))
+
+    return jsonify(result)

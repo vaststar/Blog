@@ -1,7 +1,7 @@
 import pymysql
 
 class mysqlDB(object):
-    def __init__(self,host='localhost',port=3306,user='root',passwd='ZZT06118115',dbname='dbname'):
+    def __init__(self,host='localhost',port=3306,user='root',passwd='test',dbname='dbname'):
         self.db = pymysql.connect(host=host, port=port, user=user, passwd=passwd,db=dbname)
         self.cursor = self.db.cursor()
 
