@@ -11,5 +11,5 @@ if __name__ == "__main__":
     for k,v in BLUEPRINT.items():
         app.registerBluePrint(v,k)
     #运行app
-    app.RunApp(debug=True)
+    app.RunApp('0.0.0.0',4444,debug=True)
 
