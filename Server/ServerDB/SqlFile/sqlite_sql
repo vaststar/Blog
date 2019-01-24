@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS user_base (
+    userid       VARCHAR (32)  PRIMARY KEY
+                               UNIQUE
+                               NOT NULL,
+    username     VARCHAR (256) NOT NULL,
+    userpassword VARCHAR (256) NOT NULL
+);
+//
+CREATE TABLE IF NOT EXISTS user_class (
+    userid      VARCHAR (32) PRIMARY KEY
+                             REFERENCES user_base (userid) ON DELETE CASCADE
+                                                           ON UPDATE CASCADE
+                             NOT NULL
+                             UNIQUE,
+    write_level VARCHAR (32)
+);
