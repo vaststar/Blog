@@ -13,4 +13,5 @@ def get_AllAuths():
 def register_Auths():
     params = request.get_json()
     bl = blogDB.addUser(params.get('userid'),params.get('password'))
+    le = blogDB
     return jsonify(bl)

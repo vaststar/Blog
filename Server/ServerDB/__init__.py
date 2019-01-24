@@ -1,5 +1,5 @@
 from Server.ServerConfig import config
-from Server.ServerDB.serverDB import mysqlDB,sqliteDB
+from .serverDB import mysqlDB,sqliteDB
 
 blogDB = None
 if config.DB_TYPE == "Sqlite":
