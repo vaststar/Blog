@@ -11,6 +11,7 @@ class mysqlDB(OperateDB):
 class sqliteDB(OperateDB):
     '''sqlite connection'''
     def __init__(self,dbname,sqlFiles=None):
+        print(dbname)
         OperateDB.__init__(self,sqlite3.connect(dbname,check_same_thread=False),sqlFiles)
 
 
