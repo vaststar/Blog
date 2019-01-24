@@ -2,7 +2,8 @@ CREATE TABLE IF NOT EXISTS user_base (
     userid       VARCHAR (32)  PRIMARY KEY
                                UNIQUE
                                NOT NULL,
-    username     VARCHAR (256) NOT NULL,
+    username     VARCHAR (256) UNIQUE
+                               NOT NULL,
     userpassword VARCHAR (256) NOT NULL
 );
 //

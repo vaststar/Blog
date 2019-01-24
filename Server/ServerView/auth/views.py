@@ -12,6 +12,6 @@ def get_AllAuths():
 @auth_blue.route("/",methods=["POST"])
 def register_Auths():
     params = request.get_json()
-    bl = blogDB.addUser(params.get('userid'),params.get('password'))
+    bl = blogDB.addUser(params.get('username'),params.get('password'))
     le = blogDB
     return jsonify(bl)

@@ -14,7 +14,10 @@ class BaseDB(object,metaclass=abc.ABCMeta):
         self._CommitChange()
 
     def _ExecuteSQL(self,command):
-        self.__cursor.execute(command)
+        try:
+            self.__cursor.execute(command)
+        except Exception as e:
+            print(e)
 
     def _CommitChange(self):
         self.__db.commit()

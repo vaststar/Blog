@@ -6,7 +6,8 @@ class Config(object):
                  "sqlFile":[]}
 
     SQLITE_SET = {"DBPATH":os.path.join(os.getcwd(),'ServerDB/DBFile','blog_sqlite.db'),
-                  "sqlFile":[os.path.join(os.getcwd(),'ServerDB/SqlFile','sqlite_sql')]}
+                  "sqlFile":[os.path.join(os.getcwd(),'ServerDB/SqlFile','sqlite_sql'),
+                             os.path.join(os.getcwd(), 'ServerDB/SqlFile', 'sqlite_test_data')]}
 
     #启用数据库类型Sqlite or Mysql
     DB_TYPE = "Sqlite"

@@ -1,0 +1,15 @@
+INSERT INTO user_base VALUES ('1','test1','testpassword1')
+//
+INSERT INTO user_base VALUES ('2','test2','testpassword2')
+//
+INSERT INTO user_base VALUES ('3','test3','testpassword3')
+//
+INSERT INTO user_base VALUES ('4','test4','testpassword4')
+//
+INSERT INTO user_base VALUES ('5','test5','testpassword5')
+//
+INSERT INTO user_base VALUES ('6','test6','testpassword6')
+//
+INSERT INTO user_base VALUES ('7','test7','testpassword7')
+//
+INSERT INTO user_base VALUES ('8','test858','testpassword8')
