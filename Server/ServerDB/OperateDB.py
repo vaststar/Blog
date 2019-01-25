@@ -20,12 +20,19 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
         return self._FetchOne()
 
     def addUser(self,username,password):
-        if self.getUserByName(username) is None:
-            self._ExecuteSQL('INSERT INTO user_base VALUES (\'{}\',\'{}\',\'{}\')'.
-                                format(BaseDB.GenerateUUID(),username,password))
-            self._CommitChange()
-            return True
-        else:
-            return False
+        if not self.getUserByName(username) and username.strip()!='' and password.strip() != '':
+            userid = BaseDB.GenerateUUID()
+            if self._ExecuteSQL('INSERT INTO user_base VALUES (\'{}\',\'{}\',\'{}\')'.
+                                format(userid,username,password)):
+                self._CommitChange()
+                return userid
+        return None
+
+    def checkPassword(self,username,password):
+        user =self.getUserByName(username)
+        if not user:
+            if password == user[2]:
+                return user[0]
+        return None
 
 

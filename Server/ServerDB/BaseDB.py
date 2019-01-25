@@ -16,8 +16,10 @@ class BaseDB(object,metaclass=abc.ABCMeta):
     def _ExecuteSQL(self,command):
         try:
             self.__cursor.execute(command)
+            return True
         except Exception as e:
             print(e)
+            return False
 
     def _CommitChange(self):
         self.__db.commit()
@@ -33,6 +35,7 @@ class BaseDB(object,metaclass=abc.ABCMeta):
 
     def _FetchOne(self):
         return self.__cursor.fetchone()
+
     @staticmethod
     def GenerateUUID():
         return "".join(str(uuid.uuid1()).split('-'))
