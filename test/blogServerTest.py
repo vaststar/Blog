@@ -28,5 +28,5 @@ class BlogTest(object):
 
 if __name__=='__main__':
     test = BlogTest()
-    test.register_user('ttt','uu')
+    # test.register_user('ttt','uu')
     test.get_allAuthor(test.get_token('ttt','uu'))

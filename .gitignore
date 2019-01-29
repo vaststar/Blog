@@ -104,3 +104,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+#数据库文件
+*.db
