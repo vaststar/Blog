@@ -7,7 +7,6 @@ class mysqlDB(OperateDB):
         OperateDB.__init__(self,pymysql.connect(host=host, port=port, user=user, passwd=passwd,db=dbname),sqlFiles)
 
 
-
 class sqliteDB(OperateDB):
     '''sqlite connection'''
     def __init__(self,dbname,sqlFiles=None):
