@@ -52,7 +52,7 @@ class Authority(object):
     def authenticate(username,password):
         '''登陆验证，成功则返回token'''
         userid =  blogDB.checkPassword(username,password)
-        if not userid:
+        if not userid is None:
             payload = Authority.encode_jwt(userid)
             return jsonify(Common.trueReturn(payload.decode(),"Get Token OK"))
         else:
@@ -69,9 +69,9 @@ class Authority(object):
             else:
                 auth_token = auth_tokenArr[1]
                 payload = Authority.decode_jwt(auth_token)
-                if not isinstance(payload, str):
+                if not isinstance(payload, str) is None:
                     user =  blogDB.getUserById(payload['data']['id'])
-                    if not user:
+                    if not user is None:
                         return Common.trueReturn(payload['data']['id'],'Account Verify OK')
                     else:
                         return Common.falseReturn(None,'Account Verify Wrong')

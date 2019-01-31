@@ -30,7 +30,8 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
 
     def checkPassword(self,username,password):
         user =self.getUserByName(username)
-        if not user:
+        print(user)
+        if not user is None:
             if password == user[2]:
                 return user[0]
         return None

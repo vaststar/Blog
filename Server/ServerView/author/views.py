@@ -9,7 +9,9 @@ from Server.ServerView.Authority import Authority as Authority
 def get_token():
     '''获取一个口令，用于保持登陆'''
     params = request.get_json()
-    return Authority.Authority.authenticate(params.get('username'), Authority.Authority.hash_secret(params.get('password')))
+    a = Authority.Authority.authenticate(params.get('username'), Authority.Authority.hash_secret(params.get('password')))
+    print(a)
+    return a
 
 @author_blue.route("/",methods=["GET"])
 @Authority.login_required

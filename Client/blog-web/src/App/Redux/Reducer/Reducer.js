@@ -4,5 +4,5 @@ import {userReducer} from '../ActionReducer/user'
 
 
 
-const CombineReducer = userReducer;//combineReducers({userReducer})
+const CombineReducer = combineReducers({userReducer})
 export default CombineReducer
