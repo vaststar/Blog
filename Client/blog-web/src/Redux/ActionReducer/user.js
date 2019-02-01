@@ -1,10 +1,11 @@
 const UserData = {
     user:{
-        username:'ttt',
-        password:'uu',
+        username:'test',
+        password:'test',
         remember:true
     },
-    token:null
+    token:window.localStorage.getItem('token'),
+    valid:false
 }
 
 export const UpdateUser = "changeUser";
@@ -25,9 +26,10 @@ export const userReducer = (state=UserData,action)=>{
     }
     switch (action.type) {
         case UpdateUser:
-        // console.log('lala',state.user,action)
             return {...state,user:action.data};
         case UpdateToken:
+            window.localStorage.setItem('token',action.data)
+            state.valid = action.data != null
             return {...state,token:action.data};
         default:
             return {...state};

@@ -1,27 +1,26 @@
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
 import { BrowserRouter, Route , Switch, Redirect} from 'react-router-dom'
+import { connect } from 'react-redux'
 
-import Login from './page/login/login'
-import HomePage from './page/home/home'
-import {changeToken} from './Redux/ActionReducer/user'
-
+import routerMap from './routerMap'
 
 class App extends Component {
-  
   render() {
-    // const {token,user}=this.props
-    // if(token!=null){
-    //   history.push('/');
-
-    // }
+    console.log('yyyyyy',this.props)
+    if(window.localStorage.getItem('token'))
+    {
+      console.log('token',window.localStorage.getItem('token'));
+    }
     return (
         <div className='App'>
           <BrowserRouter >
             <Switch>
-              <Route exact path="/" component={HomePage}/>
-              <Route path="/login/" component={Login}/>
-              <Redirect to='/'/>
+              {routerMap.map((item,index) => {
+                  return <Route  key={index} path={item.path} exact render={props =>
+                    (!item.auth ? (<item.component {...props} />) : ( this.props.token != null? <item.component {...props} /> : <Redirect to='/login' />)
+                    )} />
+              })}
+              <Redirect to='/login'/>
             </Switch>
           </BrowserRouter>
         </div>
@@ -30,18 +29,10 @@ class App extends Component {
 }
 
 const  mapStateToProps =(state,props)=>{
-  console.log('9999',state)
   return {
     ...state.userReducer
   }
 }
 
-const mapDispatch =(dispatch,ownProps)=>{
-  return {
-    ChangeToken:(data)=>{
-      dispatch(changeToken(data))
-    }
-  }
-}
-
-export default connect(mapStateToProps,mapDispatch)(App);
+const A =connect(mapStateToProps)(App);
+export default A

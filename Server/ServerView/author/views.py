@@ -33,3 +33,9 @@ def register_Auths():
         return jsonify(Common.trueReturn({'userid':bl},'register ok'))
     else:
         return jsonify(Common.falseReturn(None,'register failure'))
+
+# @author_blue.route('/',methods=['GET'])
+# @Authority.login_required
+# def get_AuthorInfo():
+#     '''获取自己的信息'''
+
