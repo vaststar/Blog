@@ -20,7 +20,10 @@ def get_AllAuths():
     result = []
     for k,v in enumerate(blogDB.getAllUser()):
         result.append(dict(zip(("id","name","password"),v)))
-    return jsonify(result)
+    if result:
+        return jsonify(Common.trueReturn(result,'query ok'))
+    else:
+        return jsonify(Common.falseReturn(None,'no member'))
 
 @author_blue.route("/",methods=["POST"])
 def register_Auths():

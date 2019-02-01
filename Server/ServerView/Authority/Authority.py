@@ -69,7 +69,7 @@ class Authority(object):
             else:
                 auth_token = auth_tokenArr[1]
                 payload = Authority.decode_jwt(auth_token)
-                if not isinstance(payload, str) is None:
+                if not isinstance(payload, str):
                     user =  blogDB.getUserById(payload['data']['id'])
                     if not user is None:
                         return Common.trueReturn(payload['data']['id'],'Account Verify OK')

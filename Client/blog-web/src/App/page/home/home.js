@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {get} from '../../Common/RequestREST'
 import MenuNav from '../../Common/MenuNav'
 
-import {changeUser,changeToken} from '../../../Redux/ActionReducer/user'
+import {changeValid} from '../../../Redux/ActionReducer/user'
 
 class HomePage extends Component {
     render() {
@@ -24,14 +24,13 @@ class HomePage extends Component {
         get("http://127.0.0.1:4444/author/").then(result => {
             console.log('getauthor',result)
             if(result.status){
-                
+                this.props.ChangeValid(true);
             }else{
-                this.PaymentResponse.changeToken(null)
-                this.props.ChangeUser({username:'woca',password:'uuuu',remember:'true'})
+                this.props.ChangeValid(false);
             }
             return '';
         }).catch(function (e) {
-            this.props.ChangeToken(null);
+            this.props.ChangeValid(false);
             console.log("fetch fail", e);
         });
     }
@@ -46,11 +45,8 @@ const  mapStateToProps =(state,props)=>{
   
 const mapDispatch =(dispatch,ownProps)=>{
   return {
-      ChangeUser:(data)=>{
-        dispatch(changeUser(data))
-      },
-      ChangeToken:(data)=>{
-        dispatch(changeToken(data))
+      ChangeValid:(data)=>{
+          dispatch(changeValid(data))
       }
   }
 }

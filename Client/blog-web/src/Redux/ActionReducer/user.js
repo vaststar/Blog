@@ -1,5 +1,5 @@
 const UserData = {
-    user:{
+    user:JSON.parse(window.localStorage.getItem('user'))||{
         username:'test',
         password:'test',
         remember:true
@@ -20,17 +20,25 @@ export const changeToken = (data)=>({
     data
 });
 
+export const UpdateLoginState = 'changeValid';
+export const changeValid = (data)=>({
+    type:UpdateLoginState,
+    data
+});
+
 export const userReducer = (state=UserData,action)=>{
     if (typeof state === 'undefined') {
       return UserData
     }
     switch (action.type) {
         case UpdateUser:
+            window.localStorage.setItem('user',JSON.stringify(action.data))
             return {...state,user:action.data};
         case UpdateToken:
             window.localStorage.setItem('token',action.data)
-            state.valid = action.data != null
             return {...state,token:action.data};
+        case UpdateLoginState:
+            return {...state,valid:action.data};
         default:
             return {...state};
     }

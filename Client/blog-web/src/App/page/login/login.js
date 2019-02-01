@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 
 import {post} from '../../Common/RequestREST'
 import BlogLoginForm from './LoginForm'
-import {changeUser,changeToken} from '../../../Redux/ActionReducer/user'
+import {changeUser,changeToken, changeValid} from '../../../Redux/ActionReducer/user'
 
 class Login extends Component {
   render() {
@@ -22,14 +22,17 @@ class Login extends Component {
       if(result.status){
         this.props.ChangeUser({'username':form.userName,'password':form.password,'remember':form.remember})
         this.props.ChangeToken(result.data);
+        this.props.ChangeValid(true);
         this.props.history.push('/');
       }
       else{
         this.props.ChangeToken(null);
+        this.props.ChangeValid(false);
         console.log('用户名或者密码错误',result)
       }
     }).catch(function (e) {
         this.props.ChangeToken(null);
+        this.props.ChangeValid(false);
         console.log("fetch fail", e);
     });
   }
@@ -48,6 +51,9 @@ const mapDispatch =(dispatch,ownProps)=>{
       },
       ChangeToken:(data)=>{
         dispatch(changeToken(data))
+      },
+      ChangeValid:(data)=>{
+        dispatch(changeValid(data))
       }
   }
 }

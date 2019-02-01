@@ -15,12 +15,13 @@ class MenuNav extends Component{
                 首页
               </Menu.Item>
               <Menu.Item key="app" >
-                发现
+              <Link exact to='/video/'/>
+                视频
               </Menu.Item>
               {this.props.ok?
               <Menu.SubMenu title={<span><Icon type="setting" />{this.props.username}</span>}>
-                  <Menu.Item key="setting">个人中心</Menu.Item>
-                  <Menu.Item key="logout"><Link exact to='/login/'/>退出登陆</Menu.Item>
+                <Menu.Item key="setting">个人中心</Menu.Item>
+                <Menu.Item key="logout"><Link exact to='/login/'/>退出登陆</Menu.Item>
               </Menu.SubMenu>
               :
               <Menu.Item key='login'><Link to='/login/'/>登陆</Menu.Item>}
