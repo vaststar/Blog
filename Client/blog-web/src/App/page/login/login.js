@@ -1,14 +1,23 @@
 import React,{ Component } from 'react'
 import {connect} from 'react-redux'
-import { withRouter } from 'react-router-dom';
+import { withRouter ,Redirect} from 'react-router-dom'
 
 import {post} from '../../Common/RequestREST'
 import BlogLoginForm from './LoginForm'
 import {changeUser,changeToken, changeValid} from '../../../Redux/ActionReducer/user'
 
 class Login extends Component {
+  state = {redirectToReferrer: false}
   render() {
     const {username,password,remember} = this.props;
+    console.log('rrrrrrrrrrrrrr',this.props.location.state)
+    let { from } = this.props.location.state || { from: "/" };
+    let { redirectToReferrer } = this.state;
+    
+    if (redirectToReferrer)
+    {
+      return <Redirect to={from} />; 
+    } 
     return (
       <div>
       <BlogLoginForm userName={username} password={password} remember={remember} submitForm={this.handleSubmit} forgetUrl='http://www.baidu.com' registerUrl='http://www.baidu.com'></BlogLoginForm>
@@ -23,14 +32,16 @@ class Login extends Component {
         this.props.ChangeUser({'username':form.userName,'password':form.password,'remember':form.remember})
         this.props.ChangeToken(result.data);
         this.props.ChangeValid(true);
-        this.props.history.push('/');
+        this.setState({ redirectToReferrer: true });
       }
       else{
+        this.setState({ redirectToReferrer: false });
         this.props.ChangeToken(null);
         this.props.ChangeValid(false);
         console.log('用户名或者密码错误',result)
       }
     }).catch(function (e) {
+      this.setState({ redirectToReferrer: false });
         this.props.ChangeToken(null);
         this.props.ChangeValid(false);
         console.log("fetch fail", e);

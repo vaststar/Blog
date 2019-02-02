@@ -16,14 +16,22 @@ def get_token():
 @author_blue.route("/",methods=["GET"])
 @Authority.login_required
 def get_AllAuths():
-    '''获取user_base表所有内容'''
-    result = []
-    for k,v in enumerate(blogDB.getAllUser()):
-        result.append(dict(zip(("id","name","password"),v)))
-    if result:
-        return jsonify(Common.trueReturn(result,'query ok'))
-    else:
-        return jsonify(Common.falseReturn(None,'no member'))
+    param = request.args.get('username')
+    if param is None:
+        '''获取user_base表所有内容'''
+        result = []
+        for k,v in enumerate(blogDB.getAllUser()):
+            result.append(dict(zip(("id","name","password"),v)))
+        if result:
+            return jsonify(Common.trueReturn(result,'query ok'))
+        else:
+            return jsonify(Common.falseReturn(None,'no member'))
+    else :
+        user = blogDB.getUserByName(param)
+        if user :
+            return jsonify(Common.trueReturn(dict(zip(("id","name","password"),user)),'query ok'))
+        else:
+            return jsonify(Common.falseReturn(None,'bad query'))
 
 @author_blue.route("/",methods=["POST"])
 def register_Auths():
@@ -41,4 +49,5 @@ def register_Auths():
 # @Authority.login_required
 # def get_AuthorInfo():
 #     '''获取自己的信息'''
+#     param = request.args.get('username')
 

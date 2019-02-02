@@ -6,21 +6,16 @@ import routerMap from './routerMap'
 
 class App extends Component {
   render() {
-    console.log('yyyyyy',this.props)
-    if(window.localStorage.getItem('token'))
-    {
-      console.log('token',window.localStorage.getItem('token'));
-    }
     return (
         <div className='App'>
           <BrowserRouter >
             <Switch>
               {routerMap.map((item,index) => {
                   return <Route  key={index} path={item.path} exact render={props =>
-                    (!item.auth ? (<item.component {...props} />) : ( this.props.token != null? <item.component {...props} /> : <Redirect to='/login' />)
+                    (!item.auth ? (<item.component {...props} />) : ( this.props.valid ? <item.component {...props} /> : <Redirect to='/login/' />)
                     )} />
               })}
-              <Redirect to='/login'/>
+              <Redirect to='/'/>
             </Switch>
           </BrowserRouter>
         </div>

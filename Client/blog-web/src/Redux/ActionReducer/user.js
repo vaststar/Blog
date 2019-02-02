@@ -5,7 +5,7 @@ const UserData = {
         remember:true
     },
     token:window.localStorage.getItem('token'),
-    valid:false
+    valid:window.localStorage.getItem('valid') ==='true'
 }
 
 export const UpdateUser = "changeUser";
@@ -38,6 +38,7 @@ export const userReducer = (state=UserData,action)=>{
             window.localStorage.setItem('token',action.data)
             return {...state,token:action.data};
         case UpdateLoginState:
+            window.localStorage.setItem('valid',action.data?'true':'false')
             return {...state,valid:action.data};
         default:
             return {...state};

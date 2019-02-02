@@ -21,5 +21,5 @@ class Config(object):
 
     #JWT验证参数
     JWT_SET = {
-                "expiration":datetime.timedelta(days=0,minutes=10,seconds=0),"secret":"JWT_secret"
+                "expiration":datetime.timedelta(days=0,minutes=1,seconds=0),"secret":"JWT_secret"
               }
