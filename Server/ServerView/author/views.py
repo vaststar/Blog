@@ -35,13 +35,20 @@ def get_AllAuths():
 
 @author_blue.route("/",methods=["POST"])
 def register_Auths():
-    '''注册一个账户，需要提供 post json 信息 {"username":"???","password":"???"}'''
+    '''注册一个账户，需要提供 post json 信息 
+    {"username":"???","password":"???","realname":???,"idcard":???,"cellphone":???,"email":???}'''
     params = request.get_json()
     if not params.get('username') or not params.get('password'):
         return jsonify(Common.falseReturn(None,'username or password cannot be empty'))
+    if blogDB.getUserByName(params.get('username')) :
+        return jsonify(Common.falseReturn('user algready exist','register failure'))
     bl = blogDB.addUser(params.get('username'),Authority.Authority.hash_secret(params.get('password')))
     if not bl is None:
-        return jsonify(Common.trueReturn({'userid':bl},'register ok'))
+        print('ttttttt',params)
+        if blogDB.addUserInfo(bl,params.get('realname'),params.get('idcard'),params.get('cellphone'),params.get('email')):
+            return jsonify(Common.trueReturn({'userid':bl},'register ok'))
+        else:
+            return jsonify(Common.falseReturn(None,'register failure'))
     else:
         return jsonify(Common.falseReturn(None,'register failure'))
 

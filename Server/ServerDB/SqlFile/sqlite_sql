@@ -4,7 +4,19 @@ CREATE TABLE IF NOT EXISTS user_base (
                                NOT NULL,
     username     VARCHAR (256) UNIQUE
                                NOT NULL,
-    userpassword VARCHAR (256) NOT NULL
+    password VARCHAR (256) NOT NULL
+);
+//
+CREATE TABLE IF NOT EXISTS user_info (
+    userid       VARCHAR (32)  PRIMARY KEY
+                               REFERENCES user_base (userid) ON DELETE CASCADE
+                                                             ON UPDATE CASCADE
+                               NOT NULL
+                               UNIQUE,
+    realname     VARCHAR (32) ,
+    idcard       VARCHAR (32) ,
+    cellphone    VARCHAR (32) ,
+    email        VARCHAR (256) 
 );
 //
 CREATE TABLE IF NOT EXISTS user_class (

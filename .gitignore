@@ -107,3 +107,6 @@ venv.bak/
 
 #数据库文件
 *.db
+
+#vscode
+.vscode/
