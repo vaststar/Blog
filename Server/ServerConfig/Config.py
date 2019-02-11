@@ -16,10 +16,18 @@ class Config(object):
     #启用数据库类型Sqlite or Mysql
     DB_TYPE = "Sqlite"
 
-    #密码加密salt
+    #用户密码加密salt
     SECRET_SAULT = b"secret_sault"
 
     #JWT验证参数
     JWT_SET = {
                 "expiration":datetime.timedelta(days=0,minutes=1,seconds=0),"secret":"JWT_secret"
               }
+
+class DevelopmentConfig(Config):
+    '''开发环境配置'''
+    DB_TYPE = "Sqlite"
+
+class ProductionConfig(Config):
+    '''生产环境配置'''
+    DB_TYPE = "Mysql"

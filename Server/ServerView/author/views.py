@@ -44,7 +44,6 @@ def register_Auths():
         return jsonify(Common.falseReturn('user algready exist','register failure'))
     bl = blogDB.addUser(params.get('username'),Authority.Authority.hash_secret(params.get('password')))
     if not bl is None:
-        print('ttttttt',params)
         if blogDB.addUserInfo(bl,params.get('realname'),params.get('idcard'),params.get('cellphone'),params.get('email')):
             return jsonify(Common.trueReturn({'userid':bl},'register ok'))
         else:

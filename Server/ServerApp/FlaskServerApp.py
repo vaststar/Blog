@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
-from flask_script import Manager,Server
+from flask_script import Manager
 
 class FlaskServerApp(object):
     def __init__(self):
@@ -15,5 +15,5 @@ class FlaskServerApp(object):
         self.app.run(host, port, debug)
     
     def RunManager(self):
-        #eg:-h 0.0.0.0 -p 4444 -d(-h地址 -p端口 -d开启调试模式)
+        #eg:runserver -h 0.0.0.0 -p 4444 -d(-h地址 -p端口 -d开启调试模式)
         self.manager.run()

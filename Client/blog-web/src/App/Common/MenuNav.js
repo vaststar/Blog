@@ -12,7 +12,7 @@ class MenuNav extends Component{
             state:{from:this.props.location.pathname}})
     }
     render(){
-        console.log('hhhhhhh',this.props.location.pathname)
+        // console.log('hhhhhhh',this.props.location.pathname)
         return (
             <Menu onClick={this.handleClick}
               mode="horizontal"

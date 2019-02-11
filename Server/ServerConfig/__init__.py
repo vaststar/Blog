@@ -1,3 +1,4 @@
-from Server.ServerConfig.Config import Config
+from Server.ServerConfig.Config import DevelopmentConfig
+from Server.ServerConfig.Config import ProductionConfig
 
-config = Config()
+config = DevelopmentConfig()

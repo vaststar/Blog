@@ -10,7 +10,7 @@ class Login extends Component {
   state = {redirectToReferrer: false}
   render() {
     const {username,password,remember} = this.props;
-    console.log('rrrrrrrrrrrrrr',this.props.location.state)
+    // console.log('rrrrrrrrrrrrrr',this.props.location.state)
     let { from } = this.props.location.state || { from: "/" };
     let { redirectToReferrer } = this.state;
     
