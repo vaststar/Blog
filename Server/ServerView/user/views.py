@@ -1,10 +1,11 @@
-from flask import jsonify,request
+from flask import jsonify,request,send_from_directory
+import os
 from . import user_blue
 
-from Server.ServerDB import blogDB
 from Server.ServerView.Common import Common
 from Server.ServerView.Authority import Authority
 from Server.ServerView.user.userApi import UserApi
+from Server.ServerConfig import config
 
 @user_blue.route("/tokens/",methods=['POST'])
 def get_token():
@@ -35,6 +36,15 @@ def register_Auths():
         info = UserApi.registerUserInfo(base.get('data').get('userid'),params.get('realname'),params.get('idcard'),params.get('cellphone'),params.get('email'))
         return jsonify(info)
     return jsonify(base)
+
+@user_blue.route("/images/<path:imgname>",methods=["GET","POST"])
+def send_Image(imgname):
+    if "GET" == request.method:
+        '''提供图片下载功能'''
+        return send_from_directory(os.path.join(config.STATIC_FILE_PATH,'images'), imgname, as_attachment=True)
+    elif "POST" == request.method:
+        '''上传图片功能'''
+
 
 # @author_blue.route("/usernames/",method=["POST"])
 # def get_

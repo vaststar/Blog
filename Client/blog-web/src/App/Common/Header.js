@@ -30,7 +30,7 @@ class Header extends Component {
               selectedKeys={[this.props.location.pathname]}
             >
               <Menu.Item key="/"><Link to={'/'}/>首页</Menu.Item>
-              <Menu.Item key="/video/" ><Link to={this.getLinkToUrl('/video/')}/>视频</Menu.Item>
+              <Menu.Item key="/video/" ><Link to={this.getLinkToUrl('/video/')}/>热门</Menu.Item>
               {
                 valid?
                 <Menu.SubMenu title={<span><Icon type="setting" />{user.username}</span>}>

@@ -21,8 +21,10 @@ class Config(object):
 
     #JWT验证参数
     JWT_SET = {
-                "expiration":datetime.timedelta(days=0,minutes=1,seconds=0),"secret":"JWT_secret"
+                "expiration":datetime.timedelta(days=1,minutes=1,seconds=0),"secret":"JWT_secret"
               }
+    #静态文件路径
+    STATIC_FILE_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))),"StaticFile")
 
 class DevelopmentConfig(Config):
     '''开发环境配置'''
