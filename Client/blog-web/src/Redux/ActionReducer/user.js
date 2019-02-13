@@ -5,7 +5,8 @@ const UserData = {
         remember:true
     },
     token:window.localStorage.getItem('token'),
-    valid:window.localStorage.getItem('valid') ==='true'
+    userUrl:"http://127.0.0.1:4444/users",
+    valid:window.sessionStorage.getItem('valid') ==='true'
 }
 
 export const UpdateUser = "changeUser";

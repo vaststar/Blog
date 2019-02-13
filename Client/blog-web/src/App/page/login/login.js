@@ -10,7 +10,6 @@ class Login extends Component {
   state = {redirectToReferrer: false}
   render() {
     const {username,password,remember} = this.props;
-    // console.log('rrrrrrrrrrrrrr',this.props.location.state)
     let { from } = this.props.location.state || { from: "/" };
     let { redirectToReferrer } = this.state;
     
@@ -20,13 +19,13 @@ class Login extends Component {
     } 
     return (
       <div>
-      <BlogLoginForm userName={username} password={password} remember={remember} submitForm={this.handleSubmit} forgetUrl='http://www.baidu.com' registerUrl='http://www.baidu.com'></BlogLoginForm>
+      <BlogLoginForm userName={username} password={password} remember={remember} submitForm={this.handleSubmit} forgetUrl='http://www.baidu.com' registerUrl='/register/'></BlogLoginForm>
       </div>
     );
   }
   handleSubmit =(form)=>{
     //请求token
-    post("http://127.0.0.1:4444/author/token/",{'username':form.userName,'password':form.password}).then(result => {
+    post(this.props.userUrl+"/tokens/",{'username':form.userName,'password':form.password}).then(result => {
       // 在此处写获取数据之后的处理逻辑
       if(result.status){
         this.props.ChangeUser({'username':form.userName,'password':form.password,'remember':form.remember})
@@ -37,8 +36,9 @@ class Login extends Component {
       else{
         this.setState({ redirectToReferrer: false });
         this.props.ChangeToken(null);
+        alert(JSON.stringify(result));
         this.props.ChangeValid(false);
-        console.log('用户名或者密码错误',result)
+        console.log('用户名或者密码错误',result);
       }
     }).catch(function (e) {
       this.setState({ redirectToReferrer: false });
@@ -51,7 +51,7 @@ class Login extends Component {
 
 const  mapStateToProps =(state,props)=>{
   return {
-    ...state.userReducer.user
+    ...state.userReducer.user,userUrl:state.userReducer.userUrl
   }
 }
 
