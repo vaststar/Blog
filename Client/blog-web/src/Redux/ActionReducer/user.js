@@ -1,11 +1,12 @@
 const UserData = {
     user:JSON.parse(window.localStorage.getItem('user'))||{
-        username:'test',
-        password:'test',
-        remember:true
+        username:'',
+        password:'',
+        remember:false
     },
     token:window.localStorage.getItem('token'),
     userUrl:"http://127.0.0.1:4444/users",
+    articleUrl:"http://127.0.0.1:4444/articles",
     valid:window.sessionStorage.getItem('valid') ==='true'
 }
 

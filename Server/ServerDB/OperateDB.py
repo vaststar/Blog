@@ -59,5 +59,19 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
             return True
         return False
 
+#文章表
+    #获取所有文章
+    def getAllArticle(self):
+        self._ExecuteSQL('SELECT * FROM article_base')
+        return self._FetchAll()
+    #根据id获取文章
+    def getArticleById(self,artid):
+        self._ExecuteSQL('SELECT * FROM article_base WHERE articleid=\'{}\''.format(artid))
+        return self._FetchOne()
+
+    #根据文章id获取所有评论
+    def getCommentByArticleId(self,artid):
+        self._ExecuteSQL('SELECT * FROM comments WHERE articleid=\'{}\''.format(artid))
+
 
 
