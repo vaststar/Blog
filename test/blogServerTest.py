@@ -34,8 +34,16 @@ class BlogTest(object):
         res = request.urlopen(req).read()
         print(res.decode(encoding='utf-8'))
 
+    def upload_file(self,text,fileurl):
+        url = "http://127.0.0.1:4444/files/"+fileurl
+        header = {'Content-Type': 'application/json;charset=utf-8'}
+        body = json.dumps({'file': text, 'url': fileurl}).encode(encoding='utf-8')
+        req = request.Request(url=url, data=body, headers=header)
+        request.urlopen(req)
+
 if __name__=='__main__':
     test = BlogTest()
     # test.register_user('tttt','uu','zhu','341125','176','47@qq.com')
     # test.get_allAuthor(test.get_token('ttt','uu'))
-    test.get_self('ttt','uu')
+    # test.get_self('ttt','uu')
+    test.upload_file("tytytytyty","file/1/1/2.md")

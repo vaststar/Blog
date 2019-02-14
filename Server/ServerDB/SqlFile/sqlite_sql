@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS article_base (
     articleid    VARCHAR (32)           PRIMARY KEY
                                         NOT NULL
                                         UNIQUE,
-    userid       VARCHAR (32)           NOT NULL,
+    userid       VARCHAR (32)           NOT NULL
                                         REFERENCES user_base (userid) ON DELETE CASCADE
                                                                    ON UPDATE CASCADE,
     title        VARCHAR (256)          NOT NULL,
@@ -45,13 +45,13 @@ CREATE TABLE IF NOT EXISTS comments (
     commentid    VARCHAR (32)           PRIMARY KEY
                                         NOT NULL
                                         UNIQUE,
-    articleid    VARCHAR (32)           NOT NULL,
+    articleid    VARCHAR (32)           NOT NULL
                                         REFERENCES article_base (articleid) ON DELETE CASCADE
                                                                             ON UPDATE CASCADE,
-    userid       VARCHAR (32)           NOT NULL,
+    userid       VARCHAR (32)           NOT NULL
                                         REFERENCES user_base (userid) ON DELETE CASCADE
                                                                    ON UPDATE CASCADE,
     uptime       VARCHAR (256)          NOT NULL,
     comments     VARCHAR (2000)         NOT NULL,
-    refid        VARCHAR (32)           ,
+    refid        VARCHAR (32)
 );

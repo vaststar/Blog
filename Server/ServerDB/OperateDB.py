@@ -68,10 +68,25 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
     def getArticleById(self,artid):
         self._ExecuteSQL('SELECT * FROM article_base WHERE articleid=\'{}\''.format(artid))
         return self._FetchOne()
-
     #根据文章id获取所有评论
     def getCommentByArticleId(self,artid):
         self._ExecuteSQL('SELECT * FROM comments WHERE articleid=\'{}\''.format(artid))
-
+        self._FetchAll()
+    #添加一个文章
+    def addArticle(self,userid,title,brief,uptime,bodyurl):
+        artid = BaseDB.GenerateUUID()
+        if self._ExecuteSQL('INSERT INTO article_base (articleid,userid,title,breif,uptime,bodyurl) VALUES(\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\')'.
+                         format(artid,userid,title,brief,uptime,bodyurl)):
+            self._CommitChange()
+            return artid
+        return None
+    #添加一个评论
+    def addComment(self,articleid,userid,uptime,comments,refid):
+        commentid = BaseDB.GenerateUUID()
+        if self._ExecuteSQL('INSERT INTO comments (commentid,articleid,userid,uptime,comments,refid) VALUES(\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\')'.
+                         format(commentid,articleid,userid,uptime,comments,refid)):
+            self._CommitChange()
+            return commentid
+        return None
 
 
