@@ -65,4 +65,4 @@ if __name__=='__main__':
     # test.get_allAuthor(test.get_token('ttt','uu'))
     # test.get_self('ttt','uu')
     # test.post_Article(test.get_token('tttt','uu'),"titi","bribri","contecont")
-    test.get_Article("cc8e241830f411e99d6b1831bfb80f05")
+    test.get_Article("83204fb4310111e994281831bfb80f05")

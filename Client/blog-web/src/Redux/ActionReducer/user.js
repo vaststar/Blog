@@ -7,6 +7,7 @@ const UserData = {
     token:window.localStorage.getItem('token'),
     userUrl:"http://127.0.0.1:4444/users",
     articleUrl:"http://127.0.0.1:4444/articles",
+    fileUrl:"http://127.0.0.1:4444/files",
     valid:window.sessionStorage.getItem('valid') ==='true'
 }
 
