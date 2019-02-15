@@ -37,15 +37,6 @@ def register_Auths():
         return jsonify(info)
     return jsonify(base)
 
-@user_blue.route("/images/<path:imgname>",methods=["GET","POST"])
-def send_Image(imgname):
-    if "GET" == request.method:
-        '''提供图片下载功能'''
-        return send_from_directory(os.path.join(config.STATIC_FILE_PATH,'images'), imgname, as_attachment=True)
-    elif "POST" == request.method:
-        '''上传图片功能'''
-
-
 # @author_blue.route("/usernames/",method=["POST"])
 # def get_
 # @author_blue.route('/',methods=['GET'])

@@ -34,16 +34,35 @@ class BlogTest(object):
         res = request.urlopen(req).read()
         print(res.decode(encoding='utf-8'))
 
-    def upload_file(self,text,fileurl):
+    def post_Article(self,token,title,brief,text):
+        url = "http://127.0.0.1:4444/articles/"
+        header = {'Content-Type': 'application/json;charset=utf-8', 'Authorization': 'JWT ' + token}
+        body = json.dumps({'title': title,'brief':brief,'body':text}).encode(encoding='utf-8')
+        req = request.Request(url=url, data=body, headers=header)
+        res = request.urlopen(req).read()
+        print(res.decode(encoding='utf-8'))
+
+    def get_Article(self,articleid):
+        url = "http://127.0.0.1:4444/articles/bases/"+articleid
+        header = {'Content-Type': 'application/json;charset=utf-8'}
+        req = request.Request(url=url,  headers=header)
+        res = request.urlopen(req).read()
+        resJson = json.loads(res)
+        text = self.get_file(resJson['data']['bodyurl'])
+        print(text,res.decode(encoding='utf-8'))
+
+    def get_file(self,fileurl):
         url = "http://127.0.0.1:4444/files/"+fileurl
         header = {'Content-Type': 'application/json;charset=utf-8'}
-        body = json.dumps({'file': text, 'url': fileurl}).encode(encoding='utf-8')
-        req = request.Request(url=url, data=body, headers=header)
-        request.urlopen(req)
+        req = request.Request(url=url, headers=header)
+        res = request.urlopen(req).read()
+        return res.decode(encoding='utf-8')
+
 
 if __name__=='__main__':
     test = BlogTest()
     # test.register_user('tttt','uu','zhu','341125','176','47@qq.com')
     # test.get_allAuthor(test.get_token('ttt','uu'))
     # test.get_self('ttt','uu')
-    test.upload_file("tytytytyty","file/1/1/2.md")
+    # test.post_Article(test.get_token('tttt','uu'),"titi","bribri","contecont")
+    test.get_Article("cc8e241830f411e99d6b1831bfb80f05")

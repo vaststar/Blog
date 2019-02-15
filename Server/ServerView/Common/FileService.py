@@ -1,35 +1,40 @@
 from flask import request,send_from_directory,jsonify
-from werkzeug.utils import secure_filename
+
 import os
 from . import file_blue
 from Server.ServerConfig import config
 from Server.ServerView.Common import Common
 
 @file_blue.route("/<path:filePath>",methods=["GET","POST"])
-def send_Image(filePath):
+def file_Services(filePath):
     if "GET" == request.method:
         '''提供下载功能'''
-        return send_from_directory(config.STATIC_FILE_PATH, filePath, as_attachment=True)
+        file = os.path.join(config.STATIC_FILE_PATH, filePath)
+        if os.path.isfile(file):
+            return send_from_directory( os.path.dirname(file), os.path.basename(file), as_attachment=True)
+        else:
+            return jsonify(Common.falseReturn(None,'not find file'))
     elif "POST" == request.method:
         '''上传功能'''
+        refPath = Common.generateFilePath(filePath)
+        uploadPath = os.path.join(config.STATIC_FILE_PATH, refPath)
         if 'file' in request.files:
             file = request.files['file']
-            uploadPath = os.path.join(config.STATIC_FILE_PATH, file.filename)
-            file.save(uploadPath)
-            return jsonify(Common.trueReturn(None,'up ok'))
+            Common.makeSureFilePath(uploadPath)
+            try:
+                file.save(uploadPath)
+                return jsonify(Common.trueReturn({'filepath':refPath},'up ok'))
+            except Exception as e:
+                return jsonify(Common.falseReturn(e,'unknown error'))
         elif 'file' in request.get_json():
             params = request.get_json()
-            uploadPath = os.path.join(config.STATIC_FILE_PATH, params['url'])
-            # 将文件路径分割出来
-            file_dir = os.path.split(uploadPath )[0]
-            #判断文件路径是否存在，如果不存在，则创建，此处是创建多级目录
-            if not os.path.isdir(file_dir):
-                os.makedirs(file_dir)
-            with open(os.path.join(config.STATIC_FILE_PATH, params['url']), 'w') as f:
-                pass
-            with open(os.path.join(config.STATIC_FILE_PATH, params['url']),'r+') as f:
-                f.write(params['file'])
-                return jsonify()
-            return Common.falseReturn(None,'up fail')
+            Common.makeSureFilePath(uploadPath)
+            with open(uploadPath,'w') as f:
+                try:
+                    f.write(params['file'])
+                    return jsonify(Common.trueReturn({'filepath':refPath},'up ok'))
+                except Exception as e:
+                    return jsonify(Common.falseReturn(e, 'unknown error'))
+            return jsonify(Common.falseReturn(None,'up fail'))
         else:
             return jsonify(Common.falseReturn(None,'No file part'))

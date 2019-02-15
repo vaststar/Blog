@@ -89,3 +89,9 @@ def login_required(func):
         else :
             return jsonify(res)
     return wrapper
+
+def get_user_id():
+    res = Authority.identify(request)
+    if res.get('status'):
+        return res.get('data')
+    return None
