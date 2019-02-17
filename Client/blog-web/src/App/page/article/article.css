@@ -1,0 +1,28 @@
+.articlesingle {
+    border:1px solid #aca7a7;
+    border-radius:2px;
+    width: 600px; 
+    box-shadow: 2px 2px 2px #a3a2a2;
+    background: rgb(221, 234, 238); 
+    margin: 0 auto;
+    line-height: 26px;
+}
+.article-title{
+    text-align:center;
+}
+.article-breif{
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: justify;text-justify:inter-ideograph;
+}
+.list-footer{
+    margin:0 20px 0 15px;
+}
+
+.article-note{
+    float: right;
+    margin: 0 10px 0 15px;
+}
+.article-class{
+    padding-left: 10px;
+}

@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {get} from '../../Common/RequestREST'
 
+import Article from './singleArticleComponent'
+
 class AllArticles extends Component {
     state={articles:[]}
     render() {
@@ -9,7 +11,13 @@ class AllArticles extends Component {
         return (
             <div>
                 {this.state.articles.map((article,i)=>{
-                    return <p key={i}>{article.articleid}</p>
+                    return (
+                    <div key={i} >
+                        <p/>
+                        <Article article={article} ></Article>
+                        <p/>
+                    </div>
+                    )
                 })}
             </div>
         )

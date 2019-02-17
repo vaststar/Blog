@@ -9,10 +9,8 @@ class HomePage extends Component {
         const {token,user,valid}=this.props
         return (
             <div>
-                {/* <Header></Header> */}
                 <Header/>
-                <Articles></Articles>
-                <li>AAA{token===null?'未登录':user.username}</li>
+                <Articles class='articlecom'></Articles>
             </div>
         )
     }

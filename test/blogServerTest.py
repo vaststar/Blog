@@ -35,7 +35,7 @@ class BlogTest(object):
         print(res.decode(encoding='utf-8'))
 
     def post_Article(self,token,title,brief,text):
-        url = "http://127.0.0.1:4444/articles/"
+        url = "http://127.0.0.1:4444/articles/bases/"
         header = {'Content-Type': 'application/json;charset=utf-8', 'Authorization': 'JWT ' + token}
         body = json.dumps({'title': title,'brief':brief,'body':text}).encode(encoding='utf-8')
         req = request.Request(url=url, data=body, headers=header)
@@ -61,8 +61,8 @@ class BlogTest(object):
 
 if __name__=='__main__':
     test = BlogTest()
-    # test.register_user('tttt','uu','zhu','341125','176','47@qq.com')
-    # test.get_allAuthor(test.get_token('ttt','uu'))
-    # test.get_self('ttt','uu')
-    # test.post_Article(test.get_token('tttt','uu'),"titi","bribri","contecont")
-    test.get_Article("83204fb4310111e994281831bfb80f05")
+    # test.register_user('aaa','uu','zhu','341125','176','47@qq.com')
+    # test.get_allAuthor(test.get_token('aaa','uu'))
+    # test.get_self('aaa','uu')
+    test.post_Article(test.get_token('aaa','uu'),"rtyu","iouasdffffffffffffffdsafha阿斯顿发生决定离开房间数量的反抗螺丝钉零三分纪录是扩大解放了世界的分厘卡即使ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffssssssssssssssssssatetetetetefyy","hhfgghghfggh")
+    # test.get_Article("47b539de312311e9954e00e04c83a093")

@@ -12,7 +12,11 @@ from Server.ServerConfig import config
 def get_AllArticles():
     return jsonify(ArticleApi.getAllArticle())
 
-@article_blue.route("/",methods=["POST"])
+@article_blue.route("/bases/<path:articleid>",methods=["GET"])
+def get_ArticleByID(articleid):
+    return jsonify(ArticleApi.getArticleBaseByID(articleid))
+
+@article_blue.route("/bases/",methods=["POST"])
 @Authority.login_required
 def post_Article():
     userid = Authority.get_user_id()
@@ -30,6 +34,9 @@ def post_Article():
     else:
         return jsonify(Common.falseReturn(None,'Please make sure {"title":a,"breif":a,"body":a}'))
 
-@article_blue.route("/bases/<path:articleid>",methods=["GET"])
-def get_ArticleByID(articleid):
-    return jsonify(ArticleApi.getArticleBaseByID(articleid))
+@article_blue.route("/comments/",methods=["GET"])
+def get_Comments():
+    pass
+
+
+

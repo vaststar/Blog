@@ -108,5 +108,8 @@ venv.bak/
 #数据库文件
 *.db
 
+#静态文件
+StaticFile/
+
 #vscode
 .vscode/
