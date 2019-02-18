@@ -34,9 +34,22 @@ def post_Article():
     else:
         return jsonify(Common.falseReturn(None,'Please make sure {"title":a,"breif":a,"body":a}'))
 
-@article_blue.route("/comments/",methods=["GET"])
-def get_Comments():
-    pass
+@article_blue.route("/comments/<path:articleid>",methods=["GET"])
+def get_Comments(articleid):
+    comments = ArticleApi.getCommentByArticleId(articleid)
+    return jsonify(comments)
+
+@article_blue.route("/comments/",methods=["POST"])
+@Authority.login_required
+def post_Comments():
+    '''需要提供articleid，comments，refuserid'''
+    userid = Authority.get_user_id()
+    if not userid :
+        return jsonify(Common.falseReturn(None,'login required'))
+    params = request.get_json()
+    res = ArticleApi.postComment(params.get('articleid'),userid,params.get('comment'),params.get('refid'))
+    return jsonify(res)
+
 
 
 

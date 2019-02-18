@@ -27,10 +27,14 @@ class ArticleApi(object):
 
     @staticmethod
     def getCommentByArticleId(artid):
-        result = []
-        for k, v in enumerate(blogDB.getCommentByArticleId(artid)):
-            result.append(dict(zip(("commentid","articleid","userid","uptime","comments","refid"), v)))
-        return Common.trueReturn(result, 'query ok')
+        comments = blogDB.getCommentByArticleId(artid)
+        print('getcccc',artid,comments)
+        if not comments is None:
+            result = []
+            for k, v in enumerate(comments):
+                result.append(dict(zip(("commentid","articleid","userid","uptime","comments","refid"), v)))
+            return Common.trueReturn(result, 'query ok')
+        return Common.falseReturn(None,'not found')
 
     @staticmethod
     def getArticleBaseByID(artid):

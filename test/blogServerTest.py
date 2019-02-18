@@ -58,11 +58,28 @@ class BlogTest(object):
         res = request.urlopen(req).read()
         return res.decode(encoding='utf-8')
 
+    def post_comments(self,token,articleid,comments,refuserid):
+        url = "http://127.0.0.1:4444/articles/comments/"
+        header = {'Content-Type': 'application/json;charset=utf-8', 'Authorization': 'JWT ' + token}
+        body = json.dumps({'articleid': articleid, 'comment': comments, 'refid': refuserid}).encode(encoding='utf-8')
+        req = request.Request(url=url, data=body, headers=header)
+        res = request.urlopen(req).read()
+        print(res.decode(encoding='utf-8'))
+
+    def get_comments(self,articleid):
+        url = "http://127.0.0.1:4444/articles/comments/"+articleid
+        header = {'Content-Type': 'application/json;charset=utf-8'}
+        req = request.Request(url=url, headers=header)
+        res = request.urlopen(req).read()
+        print(res.decode(encoding='utf-8'))
+
 
 if __name__=='__main__':
     test = BlogTest()
     # test.register_user('aaa','uu','zhu','341125','176','47@qq.com')
     # test.get_allAuthor(test.get_token('aaa','uu'))
     # test.get_self('aaa','uu')
-    test.post_Article(test.get_token('aaa','uu'),"rtyu","iouasdffffffffffffffdsafha阿斯顿发生决定离开房间数量的反抗螺丝钉零三分纪录是扩大解放了世界的分厘卡即使ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffssssssssssssssssssatetetetetefyy","hhfgghghfggh")
-    # test.get_Article("47b539de312311e9954e00e04c83a093")
+    # test.post_Article(test.get_token('aaa','uu'),"rtyu","testbreif","testcontent")
+    # test.get_Article("fac53374331a11e98b6f1831bfb80f05")
+    # test.post_comments(test.get_token('aaa','uu'),"fac53374331a11e98b6f1831bfb80f05",'retyreterter','')
+    test.get_comments("fac53374331a11e98b6f1831bfb80f05")
