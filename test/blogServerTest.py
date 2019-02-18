@@ -47,9 +47,10 @@ class BlogTest(object):
         header = {'Content-Type': 'application/json;charset=utf-8'}
         req = request.Request(url=url,  headers=header)
         res = request.urlopen(req).read()
-        resJson = json.loads(res)
-        text = self.get_file(resJson['data']['bodyurl'])
-        print(text,res.decode(encoding='utf-8'))
+        print(res.decode(encoding='utf-8'))
+        # resJson = json.loads(res)
+        # text = self.get_file(resJson['data']['bodyurl'])
+        # print(text,res.decode(encoding='utf-8'))
 
     def get_file(self,fileurl):
         url = "http://127.0.0.1:4444/files/"+fileurl
@@ -80,6 +81,6 @@ if __name__=='__main__':
     # test.get_allAuthor(test.get_token('aaa','uu'))
     # test.get_self('aaa','uu')
     # test.post_Article(test.get_token('aaa','uu'),"rtyu","testbreif","testcontent")
-    # test.get_Article("fac53374331a11e98b6f1831bfb80f05")
-    # test.post_comments(test.get_token('aaa','uu'),"fac53374331a11e98b6f1831bfb80f05",'retyreterter','')
-    test.get_comments("fac53374331a11e98b6f1831bfb80f05")
+    # test.get_Article("")
+    # test.post_comments(test.get_token('aaa','uu'),"3b22a258338211e98a2b00e04c83a093",'sdfsdsss','5db081c0338211e9b52c00e04c83a093')
+    test.get_comments("3b22a258338211e98a2b00e04c83a093")

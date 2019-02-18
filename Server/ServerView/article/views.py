@@ -37,7 +37,21 @@ def post_Article():
 @article_blue.route("/comments/<path:articleid>",methods=["GET"])
 def get_Comments(articleid):
     comments = ArticleApi.getCommentByArticleId(articleid)
-    return jsonify(comments)
+    if not comments['status']:
+        return jsonify(comments)
+    #将线性的评论转换为树状结构
+    entities={}
+    [entities.update({content['commentid']:content}) for content in comments['data']]
+    l=[]
+    for e_id in entities:
+        entitiy = entities[e_id]
+        fid = entitiy['refid']
+        if fid == '':
+            l.append(entitiy)
+        else:
+            entities[fid].setdefault('soncomment', []).append(entitiy)
+    return jsonify(Common.trueReturn(l,'query ok'))
+
 
 @article_blue.route("/comments/",methods=["POST"])
 @Authority.login_required
