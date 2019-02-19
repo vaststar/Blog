@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 
-// const ARTICLE_PROPS = 'article';
+const COMMENT_PROPS = 'comments';
 class CommentComponent extends Component {
     dateTranfer=(datestr)=>{
         let ymd = datestr.split(' ')[0]
@@ -14,14 +14,14 @@ class CommentComponent extends Component {
     render(){
         return (
             <div className='commentscomponent'>
-                <div>comments</div>
+                <div>{this.props.comments[0].articleid}</div>
             </div>
         );
     }
 }
 
-//类型检查，需要传入 userName,password,remember以及回调函数
-// CommentComponent.propTypes={
-//     [ARTICLE_PROPS]:PropTypes.object.isRequired
-//   };
+// 类型检查，需要传入 userName,password,remember以及回调函数
+CommentComponent.propTypes={
+    [COMMENT_PROPS]:PropTypes.array.isRequired
+  };
 export default CommentComponent
