@@ -12,7 +12,7 @@ class ArticleComponent extends Component {
         return y+'年'+m+'月'+d+'日'
     }
     render(){
-        console.log('hhhh',this.props)
+        // console.log('hhhh',this.props)
         return (
             <div className='articlesingle'>
                 <h3 className="article-title">{this.props.article.title}</h3>
