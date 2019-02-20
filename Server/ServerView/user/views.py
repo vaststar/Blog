@@ -37,11 +37,7 @@ def register_Auths():
         return jsonify(info)
     return jsonify(base)
 
-# @author_blue.route("/usernames/",method=["POST"])
-# def get_
-# @author_blue.route('/',methods=['GET'])
-# @Authority.login_required
-# def get_AuthorInfo():
-#     '''获取自己的信息'''
-#     param = request.args.get('username')
+@user_blue.route("/usernames/<path:userid>",methods=["GET"])
+def get_username(userid):
+    return jsonify(UserApi.getUserNameById(userid))
 

@@ -55,4 +55,14 @@ class UserApi(object):
         else:
             return Common.falseReturn(None,'cannot find {}'.format(username))
 
+    @staticmethod
+    def getUserNameById(userid):
+        if not userid:
+            return Common.falseReturn(None,'userid is required')
+        user = blogDB.getUserById(userid)
+        if user:
+            return Common.trueReturn(user[1],'query ok')
+        else:
+            return Common.falseReturn(None,'not found')
+
 

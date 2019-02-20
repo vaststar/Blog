@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import Header from '../../Common/Header'
 
-import Articles from '../article/allArticles'
+import Articles from '../articles/allArticles'
 
 class HomePage extends Component {
     render() {

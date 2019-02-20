@@ -59,10 +59,10 @@ class BlogTest(object):
         res = request.urlopen(req).read()
         return res.decode(encoding='utf-8')
 
-    def post_comments(self,token,articleid,comments,refuserid):
+    def post_comments(self,token,articleid,comments,refcommentid):
         url = "http://127.0.0.1:4444/articles/comments/"
         header = {'Content-Type': 'application/json;charset=utf-8', 'Authorization': 'JWT ' + token}
-        body = json.dumps({'articleid': articleid, 'comment': comments, 'refid': refuserid}).encode(encoding='utf-8')
+        body = json.dumps({'articleid': articleid, 'comment': comments, 'refid': refcommentid}).encode(encoding='utf-8')
         req = request.Request(url=url, data=body, headers=header)
         res = request.urlopen(req).read()
         print(res.decode(encoding='utf-8'))
@@ -80,7 +80,7 @@ if __name__=='__main__':
     # test.register_user('aaa','uu','zhu','341125','176','47@qq.com')
     # test.get_allAuthor(test.get_token('aaa','uu'))
     # test.get_self('aaa','uu')
-    # test.post_Article(test.get_token('aaa','uu'),"rtyu","testbreif","testcontent")
+    # test.post_Article(test.get_token('aaa','uu'),"文章标题","简介","文章内容")
     # test.get_Article("")
-    # test.post_comments(test.get_token('aaa','uu'),"3b22a258338211e98a2b00e04c83a093",'sdfsdsss','5db081c0338211e9b52c00e04c83a093')
-    test.get_comments("3b22a258338211e98a2b00e04c83a093")
+    # test.post_comments(test.get_token('aaa','uu'),"ea5602b834b711e98eda1831bfb80f05",'评论121','1a45e24a34b811e98fcc1831bfb80f05')
+    test.get_comments("ea5602b834b711e98eda1831bfb80f05")
