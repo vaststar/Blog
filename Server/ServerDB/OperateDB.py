@@ -72,6 +72,10 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
     def getCommentByArticleId(self,artid):
         self._ExecuteSQL('SELECT * FROM comments WHERE articleid=\'{}\''.format(artid))
         return self._FetchAll()
+    #根据文章id获取所有顶级评论数量
+    def getCommentNumberByArticleId(self,artid):
+        self._ExecuteSQL('SELECT COUNT(*) FROM comments WHERE articleid=\'{}\' AND refid=\'\''.format(artid))
+        return self._FetchAll()
     #添加一个文章
     def addArticle(self,userid,title,brief,uptime,bodyurl):
         artid = BaseDB.GenerateUUID()

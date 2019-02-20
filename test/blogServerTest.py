@@ -83,4 +83,4 @@ if __name__=='__main__':
     # test.post_Article(test.get_token('aaa','uu'),"文章标题","简介","文章内容")
     # test.get_Article("")
     # test.post_comments(test.get_token('aaa','uu'),"ea5602b834b711e98eda1831bfb80f05",'评论121','1a45e24a34b811e98fcc1831bfb80f05')
-    test.get_comments("ea5602b834b711e98eda1831bfb80f05")
+    test.get_comments("3b22a258338211e98a2b00e04c83a093")

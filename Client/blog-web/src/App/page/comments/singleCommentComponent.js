@@ -27,12 +27,11 @@ class CommentComponent extends Component {
         //根据userid获取用户名称
         get(this.props.userUrl+"/usernames/"+this.props[COMMENT_PROPS].userid).then(result=>{
             if(result.status){
-                //读取所有文章基本信息
                 this.setState({username:result.data})
             }else{
             }
         }).catch(function (e) {
-            console.log("fetch all article bases fail", e);
+            console.log(e);
         });
     }
 }

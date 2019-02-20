@@ -12,7 +12,7 @@ from Server.ServerConfig import config
 def get_AllArticles():
     return jsonify(ArticleApi.getAllArticle())
 
-@article_blue.route("/bases/<path:articleid>",methods=["GET"])
+@article_blue.route("/bases/<articleid>",methods=["GET"])
 def get_ArticleByID(articleid):
     return jsonify(ArticleApi.getArticleBaseByID(articleid))
 
@@ -34,7 +34,7 @@ def post_Article():
     else:
         return jsonify(Common.falseReturn(None,'Please make sure {"title":a,"breif":a,"body":a}'))
 
-@article_blue.route("/comments/<path:articleid>",methods=["GET"])
+@article_blue.route("/comments/<articleid>",methods=["GET"])
 def get_Comments(articleid):
     comments = ArticleApi.getCommentByArticleId(articleid)
     if not comments['status']:
@@ -63,6 +63,12 @@ def post_Comments():
     params = request.get_json()
     res = ArticleApi.postComment(params.get('articleid'),userid,params.get('comment'),params.get('refid'))
     return jsonify(res)
+
+@article_blue.route("/counts/topcomments/<articleid>",methods=["GET"])
+def get_articleCommentCounts(articleid):
+    return jsonify(ArticleApi.getCommentCountByArticleId(articleid))
+
+
 
 
 

@@ -44,3 +44,10 @@ class ArticleApi(object):
             result = dict(zip(("articleid", "userid", "title", "breif", "uptime", "bodyurl"), blogbase))
             return Common.trueReturn(result,'query ok')
         return Common.falseReturn(None,'not found')
+
+    @staticmethod
+    def getCommentCountByArticleId(artid):
+        res = blogDB.getCommentNumberByArticleId(artid)
+        if res:
+            return Common.trueReturn(res[0],'query ok')
+        return Common.falseReturn(None,'query false')

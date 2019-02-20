@@ -9,7 +9,7 @@ import {get} from '../../Common/RequestREST'
 
 const ARTICLE_PROPS = 'article';
 class ArticleComponent extends Component {
-    state={comments:[],showComment:false}
+    state={commentsNumber:0,showComment:false}
     //点击评论按钮
     commentClick=()=>{
         this.setState({showComment:!this.state.showComment})
@@ -22,25 +22,25 @@ class ArticleComponent extends Component {
                     {this.props.article.breif}
                 </div>
                 <div className="list-footer">
-                  <span className="article-note"> · 阅读 </span>
-                  <span className="article-note" onClick={this.commentClick} > · 评论({this.state.comments.length}) </span>  
-                  <span className="article-note"> · 赞 </span>  
+                  <span className="article-note"> · 阅读() </span>
+                  <span className="article-note" onClick={this.commentClick} > · 评论({this.state.commentsNumber}) </span>  
+                  <span className="article-note"> · 赞() </span>  
                   <span className="article-note">{moment(this.props.article.uptime,'YYYY-MM-DD HH:mm:ss').format('YYYY年MM月DD日')}</span>
                 </div>
-                {this.state.showComment?<Comment comments={this.state.comments}/>:""}
+                {this.state.showComment?<Comment comments={this.props[ARTICLE_PROPS].articleid}/>:null}
             </div>
         );
     }
-    refreshComments=()=>{
+    refreshCommentNumbers=()=>{
         //根据文章id获取其所有评论，已经为树状结构，
-        get(this.props.articleUrl+"/comments/"+this.props[ARTICLE_PROPS].articleid).then(result=>{
-            this.setState({comments:result.data})
+        get(this.props.articleUrl+"/counts/topcomments/"+this.props[ARTICLE_PROPS].articleid).then(result=>{
+            this.setState({commentsNumber:result.data})
         }).catch(function (e){
-
+            console.log(e)
         });
     }
     componentDidMount(){
-        this.refreshComments()
+        this.refreshCommentNumbers()
     }
 }
 

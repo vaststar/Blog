@@ -37,7 +37,7 @@ def register_Auths():
         return jsonify(info)
     return jsonify(base)
 
-@user_blue.route("/usernames/<path:userid>",methods=["GET"])
+@user_blue.route("/usernames/<userid>",methods=["GET"])
 def get_username(userid):
     return jsonify(UserApi.getUserNameById(userid))
 
