@@ -18,3 +18,20 @@
     float: right;
     padding-right: 20px;
 }
+.commentFoot{
+    margin: 0 10px 0 5px;
+    cursor:pointer;
+}
+
+.commentTextEdit{
+    margin: 0;
+    width: 100%;
+}
+.commentTextArea{
+    margin-left: 10px;
+    margin-right: 5px;
+}
+.commentButton{
+    float: right;
+    margin-right: 10px;
+}

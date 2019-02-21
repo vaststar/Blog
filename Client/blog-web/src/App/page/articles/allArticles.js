@@ -12,7 +12,7 @@ class AllArticles extends Component {
             <div>
                 {this.state.articles.map((article,i)=>{
                     return (
-                    <div key={i} >
+                    <div key={i} className="article-info-div">
                         <Article article={article} ></Article>
                     </div>
                     )
@@ -22,7 +22,7 @@ class AllArticles extends Component {
     }
     componentDidMount(){
         //查询所有文章基本信息
-        get(this.props.articleUrl+"/bases/").then(result=>{
+        get(this.props.articleUrl+"/bases/").then(response => response.json()).then(result=>{
             if(result.status){
                 //读取所有文章基本信息
                 this.setState({articles:result.data})

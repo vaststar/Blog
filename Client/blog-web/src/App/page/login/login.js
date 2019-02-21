@@ -25,7 +25,7 @@ class Login extends Component {
   }
   handleSubmit =(form)=>{
     //请求token
-    post(this.props.userUrl+"/tokens/",{'username':form.userName,'password':form.password}).then(result => {
+    post(this.props.userUrl+"/tokens/",{'username':form.userName,'password':form.password}).then(response => response.json()).then(result => {
       // 在此处写获取数据之后的处理逻辑
       if(result.status){
         this.props.ChangeUser({'username':form.userName,'password':form.password,'remember':form.remember})

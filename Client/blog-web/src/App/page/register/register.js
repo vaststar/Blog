@@ -11,7 +11,7 @@ class Register extends Component {
     handleSubmit =(form)=>{
       post(this.props.userUrl+"/",
         {'username':form.nickname,'password':form.password,'realname':form.realname,'idcard':form.idcard,'cellphone':form.phone,'email':form.email}
-      ).then(result => {
+      ).then(response => response.json()).then(result => {
         // 在此处写获取数据之后的处理逻辑
       if(result.status){
         this.props.ChangeUser({'username':form.nickname,'password':'','remember':true})

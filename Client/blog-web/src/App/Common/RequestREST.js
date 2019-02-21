@@ -10,11 +10,11 @@ export default function request(method,url,body,token){
         method,
         mode: "cors",
         headers: {
-            "Content-Type": "application/json; charset=utf-8",
+            "Content-Type": "application/json,text/plain,*/*; charset=utf-8",
             "Authorization":"JWT "+token
         },
         body
-    }).then(response => response.json());
+    });
 }
 
 export const get = (url) => request('GET', url, null, window.localStorage.getItem('token')); 

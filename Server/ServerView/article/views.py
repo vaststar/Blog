@@ -56,7 +56,7 @@ def get_Comments(articleid):
 @article_blue.route("/comments/",methods=["POST"])
 @Authority.login_required
 def post_Comments():
-    '''需要提供articleid，comments，refuserid'''
+    '''需要提供articleid，comment，refid'''
     userid = Authority.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'login required'))

@@ -3,33 +3,38 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 
 import SingleComment from './singleCommentComponent'
-import {get} from '../../Common/RequestREST'
+import TextEdit from './textEdit'
+import {get,post} from '../../Common/RequestREST'
 
-const COMMENT_PROPS = 'comments';
+const ARTICLE_ID = 'articleid';
 class Comments extends Component {
     state={comments:[]}
     recursionNode=(data)=>{
-        return <ul>{
+        return <ul>
+        {
             data.map((node,index)=>(
                 <div key={index}>
-                    <SingleComment comment={node}/>
+                    <SingleComment comment={node} refreshFunc={this.refreshComments}/>
                     {
                         node.soncomment && node.soncomment.length>0?this.recursionNode(node.soncomment):null
                     }
                 </div>
             ))
-        }</ul>
+        }
+        </ul>
     }
     render(){
         return (
             <div className='commentscomponent'>
                 <div>{this.recursionNode(this.state.comments)}</div>
+                {this.props.valid?<hr className="commetnHline"/>:null}
+                {this.props.valid?<TextEdit submitfunc={this.submitComment}></TextEdit>:null}
             </div>
         );
     }
     refreshComments=()=>{
         //根据文章id获取其所有评论，已经为树状结构，
-        get(this.props.articleUrl+"/comments/"+this.props[COMMENT_PROPS]).then(result=>{
+        get(this.props.articleUrl+"/comments/"+this.props[ARTICLE_ID]).then(response => response.json()).then(result=>{
             this.setState({comments:result.data})
         }).catch(function (e){
             console.log(e)
@@ -38,11 +43,23 @@ class Comments extends Component {
     componentDidMount(){
         this.refreshComments()
     }
+    submitComment=(str)=>{
+        //提交评论
+        let body = {'articleid':this.props[ARTICLE_ID],'comment':str,'refid':""}
+        post(this.props.articleUrl+"/comments/",body).then(result=>{
+            if(result.status)
+            {
+                this.refreshComments();
+            }
+        }).catch(function(e){
+            console.log(e)
+        });
+    }
 }
 
-// 类型检查，需要传入 userName,password,remember以及回调函数
+// 类型检查，需要传入 articleid
 Comments.propTypes={
-    [COMMENT_PROPS]:PropTypes.string.isRequired
+    [ARTICLE_ID]:PropTypes.string.isRequired
 };
 const  mapStateToProps =(state,props)=>{
     return {

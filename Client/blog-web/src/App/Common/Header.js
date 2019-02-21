@@ -46,7 +46,7 @@ class Header extends Component {
     
     componentDidMount(){
         //通过获取自己的信息，判断是否进入验证
-        get(this.props.userUrl+"/bases/"+this.props.user.username+"/").then(result => {
+        get(this.props.userUrl+"/bases/"+this.props.user.username+"/").then(response => response.json()).then(result => {
             console.log(result);
             if(result.status){
                 this.props.ChangeValid(true);

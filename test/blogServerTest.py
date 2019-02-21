@@ -57,7 +57,7 @@ class BlogTest(object):
         header = {'Content-Type': 'application/json;charset=utf-8'}
         req = request.Request(url=url, headers=header)
         res = request.urlopen(req).read()
-        return res.decode(encoding='utf-8')
+        print(res.decode(encoding='utf-8'))
 
     def post_comments(self,token,articleid,comments,refcommentid):
         url = "http://127.0.0.1:4444/articles/comments/"
@@ -80,7 +80,8 @@ if __name__=='__main__':
     # test.register_user('aaa','uu','zhu','341125','176','47@qq.com')
     # test.get_allAuthor(test.get_token('aaa','uu'))
     # test.get_self('aaa','uu')
-    # test.post_Article(test.get_token('aaa','uu'),"文章标题","简介","文章内容")
+    test.post_Article(test.get_token('aaa','uu'),"Kotlin指针指南","没什么讲的","<p><span style='color: rgb(255, 0, 0);'><em><strong>1111</strong></em><em><strong><img src='http://localhost:4444/files/1.png' title='1.png' alt='1.png'/></strong></em></span></p>")
     # test.get_Article("")
-    # test.post_comments(test.get_token('aaa','uu'),"ea5602b834b711e98eda1831bfb80f05",'评论121','1a45e24a34b811e98fcc1831bfb80f05')
-    test.get_comments("3b22a258338211e98a2b00e04c83a093")
+    # test.post_comments(test.get_token('aaa','uu'),"3a2ee930359d11e993291831bfb80f05",'讲得好','')
+    # test.get_comments("ea5602b834b711e98eda1831bfb80f05")
+    # test.get_file("2019/02/21/2019_02_21_13_55_01_C")
