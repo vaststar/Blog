@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown'
 
 import Header from '../../Common/Header'
 import {get} from '../../Common/RequestREST'
+import Comments from '../comments/allComments'
 
 class ArticlePage extends Component {
     state={articlebase:null,content:""}
@@ -13,6 +14,7 @@ class ArticlePage extends Component {
             <div>
                 <Header/>
                 <ReactMarkdown source={this.state.content} />
+                <Comments articleid={this.props.location.pathname.split("/").pop()}></Comments>
             </div>
         )
     }

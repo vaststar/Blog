@@ -35,6 +35,7 @@ class Header extends Component {
                 valid?
                 <Menu.SubMenu title={<span><Icon type="setting" />{user.username}</span>}>
                     <Menu.Item key="setting">个人中心</Menu.Item>
+                    <Menu.Item key="/writes/"><Link to={this.getLinkToUrl('/writes/')}/>发布文章</Menu.Item>
                     <Menu.Item key="logout">退出登陆</Menu.Item>
                 </Menu.SubMenu>
                 :

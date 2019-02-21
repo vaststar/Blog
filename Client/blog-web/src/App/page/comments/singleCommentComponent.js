@@ -11,7 +11,7 @@ const COMMENT_REFRESH_FUNC='refreshFunc';
 class CommentComponent extends Component {
     state={username:"",replyshow:false}
     render(){
-        console.log('ccccccc',this.props[COMMENT_PROPS])
+        // console.log('ccccccc',this.props[COMMENT_PROPS])
         return (
             <div className='singlecomment'>
             <hr className="commetnHline"/>
@@ -20,8 +20,9 @@ class CommentComponent extends Component {
                 <div className="commentDetail">
                 {this.props[COMMENT_PROPS].comments} 
                 </div>
-                <span className="commentFoot"> 赞</span>
-                <span className="commentFoot" onClick={this.clickReply}> {this.state.replyshow?"取消回复":"回复"}</span>
+                {/* <span className="commentFoot"> 赞</span> */}
+                {this.props.valid?
+                <span className="commentFoot" onClick={this.clickReply}> {this.state.replyshow?"取消回复":"回复"}</span>:null}
                 {this.state.replyshow?<TextEdit submitfunc={this.submitComment}></TextEdit>:null}
             </div>
         );
