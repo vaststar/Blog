@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 
 import Header from '../../Common/Header'
+import MarkDownEditor from './markDownEditor'
 
 class WriteArticleComponent extends Component {
     render() {
         return (
             <div>
             <Header  /> 
-            write article
+            <MarkDownEditor id="editor"></MarkDownEditor>
             </div> 
         )
     }
