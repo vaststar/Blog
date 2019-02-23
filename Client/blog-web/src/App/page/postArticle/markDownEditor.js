@@ -10,13 +10,8 @@ import {postFile} from '../../Common/RequestREST'
 
 class MarkdownEditor extends Component {
     render() {
-        window.addEventListener("paste", e => {
-
-            console.log('ppppp',e)
-           
-           }, false)
         return (
-            <textarea id="mark-editor" className='CodeMirror-scroll'></textarea>
+            <textarea id="mark-editor"></textarea>
         )
     }
     createSimpleMDE=()=>{
@@ -48,10 +43,10 @@ class MarkdownEditor extends Component {
                 });
             }
         });
+        //监听粘贴事件
+        // this.simplemde.codemirror.on('paste',this.receivePaste)
         //监听拖拽事件
         this.simplemde.codemirror.on('drop', this.receiveDrop)
-        //监听粘贴事件
-        this.simplemde.codemirror.on('paste',this.receivePaste)
     }
     componentDidMount(){
         this.createSimpleMDE();
@@ -78,13 +73,15 @@ class MarkdownEditor extends Component {
     }
     //粘贴
     receivePaste=(editor, e) => { // 粘贴图片的触发函数
+        e.preventDefault()
+        console.log('hhhhhhh',e.clipboardData.items[0])
         if (!(e.clipboardData && e.clipboardData.items)) {
             alert("浏览器不支持粘贴上传")
         return
         }
         let dataList = e.clipboardData.items
         for (let i = 0; i < dataList.length; i++) {
-            console.log('paste',dataList[0])
+            console.log('paste',dataList[i])
             if (dataList[i].kind === 'file' && dataList[i].getAsFile().type.indexOf('image') !== -1) {
                 let formData = new FormData()
                 formData.append('file', dataList[i])
