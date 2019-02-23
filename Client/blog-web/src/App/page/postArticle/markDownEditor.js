@@ -10,6 +10,11 @@ import {postFile} from '../../Common/RequestREST'
 
 class MarkdownEditor extends Component {
     render() {
+        window.addEventListener("paste", e => {
+
+            console.log('ppppp',e)
+           
+           }, false)
         return (
             <textarea id="mark-editor" className='CodeMirror-scroll'></textarea>
         )
@@ -78,8 +83,8 @@ class MarkdownEditor extends Component {
         return
         }
         let dataList = e.clipboardData.items
-        console.log('paste',e)
         for (let i = 0; i < dataList.length; i++) {
+            console.log('paste',dataList[0])
             if (dataList[i].kind === 'file' && dataList[i].getAsFile().type.indexOf('image') !== -1) {
                 let formData = new FormData()
                 formData.append('file', dataList[i])
