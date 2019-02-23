@@ -21,3 +21,13 @@ export const get = (url) => request('GET', url, null, window.localStorage.getIte
 export const post = (url, body) => request('POST', url, body, window.localStorage.getItem('token')); 
 export const put = (url, body) => request('PUT', url, body, window.localStorage.getItem('token')); 
 export const del = (url, body) => request('DELETE', url, body, window.localStorage.getItem('token'));
+export const postFile = (url,file)=>{
+    return fetch(url, {
+        method:"POST",
+        mode: "cors",
+        headers: {
+            "Authorization":"JWT "+window.localStorage.getItem('token')
+        },
+        body:file
+    });
+}

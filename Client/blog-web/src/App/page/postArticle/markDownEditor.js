@@ -5,7 +5,7 @@ import highlight from 'highlight.js'
 import 'simplemde/dist/simplemde.min.css'
 import {connect} from 'react-redux'
 
-import {post} from '../../Common/RequestREST'
+import {postFile} from '../../Common/RequestREST'
 
 
 class MarkdownEditor extends Component {
@@ -45,42 +45,58 @@ class MarkdownEditor extends Component {
         });
         //监听拖拽事件
         this.simplemde.codemirror.on('drop', this.receiveDrop)
+        //监听粘贴事件
+        this.simplemde.codemirror.on('paste',this.receivePaste)
     }
     componentDidMount(){
         this.createSimpleMDE();
     }
+    //拖拽
     receiveDrop=(editor, e)=> {
-        console.log("codemirror on drop")
+        e.preventDefault()
+        e.stopPropagation()
         if (!(e.dataTransfer && e.dataTransfer.files)) {
             alert("浏览器不支持拖拽上传")
             return
         }
         let dataList = e.dataTransfer.files
-        console.log("dataList:" + dataList)
-        console.log(dataList)
         for (let i = 0; i < dataList.length; i++) {
             if (dataList[i].type.indexOf('image') === -1 ) {
                 alert("仅可上传图片")
                 continue
             }
             let formData = new FormData()
-            formData.append('file', dataList[i],dataList[i].name)
-            console.log('ggggggg',formData.get('file'))
+            formData.append('file', dataList[i])
             //拖拽之后，上传图片到服务器，返回结果写入编辑器
-            console.log('oooo',this.props.fileUrl+"/",formData)
-            fetch(this.props.fileUrl+"/"+"test.png", {
-                method:'POST',
-                mode: "cors",
-                body:formData
-            }).then(result=>{
-                console.log('post',result)
-            }).catch(function(e){
-                console.log(e)
-            })
+            this.postImage(editor,formData,dataList[i].name)
         }
-        
-        e.preventDefault()
-        e.stopPropagation()
+    }
+    //粘贴
+    receivePaste=(editor, e) => { // 粘贴图片的触发函数
+        if (!(e.clipboardData && e.clipboardData.items)) {
+            alert("浏览器不支持粘贴上传")
+        return
+        }
+        let dataList = e.clipboardData.items
+        console.log('paste',e)
+        for (let i = 0; i < dataList.length; i++) {
+            if (dataList[i].kind === 'file' && dataList[i].getAsFile().type.indexOf('image') !== -1) {
+                let formData = new FormData()
+                formData.append('file', dataList[i])
+                //粘贴之后，上传图片到服务器，返回结果写入编辑器
+                // this.postImage(editor,formData,dataList[i].name)
+            }
+        }
+    }
+    postImage=(editor,formData,filename)=>{
+        postFile(this.props.fileUrl+"/"+filename, formData
+        ).then(result=>result.json()).then(result=>{
+            let url = `![](${this.props.fileUrl+"/"+result.data.filepath})` // 拼接成markdown语法
+            editor.setValue(editor.getValue() + url + '\n') // 和编辑框之前的内容进行拼接
+            // console.log('post',result)
+        }).catch(function(e){
+            console.log(e)
+        })
     }
 }
 
