@@ -29,7 +29,7 @@ def post_file_Services(fileName):
             return jsonify(Common.trueReturn({'filepath':refPath},'up ok'))
         except Exception as e:
             return jsonify(Common.falseReturn(e,'unknown error'))
-    elif 'file' in request.get_json():
+    elif request.get_json() and 'file' in request.get_json():
         params = request.get_json()
         Common.makeSureFilePath(uploadPath)
         with open(uploadPath,'w') as f:

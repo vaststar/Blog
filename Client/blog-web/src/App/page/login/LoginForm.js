@@ -47,7 +47,7 @@ class LoginForm extends Component {
           <Form.Item>
             {getFieldDecorator(REMEMBER, {
               valuePropName: 'checked',
-              initialValue: getFieldValue(REMEMBER),
+              initialValue: getFieldValue(REMEMBER)
             })(
               <Checkbox>Remember me</Checkbox>
             )}

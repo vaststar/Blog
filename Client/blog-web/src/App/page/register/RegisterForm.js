@@ -169,7 +169,7 @@ class RegisterForm extends Component {
     }
 }
 
-//类型检查，需要传入 userName,password,remember以及回调函数
+//类型检查，需要传入 submitForm agreementUrl
 RegisterForm.propTypes={
     [SUBMIT_FORM]:PropTypes.func.isRequired,
     [AGREEMENT_URL]:PropTypes.string.isRequired

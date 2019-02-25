@@ -3,7 +3,7 @@ import HomePage from './page/home/home'
 import VideoPage from './page/home/video'
 import RegisterPage from './page/register/register'
 import ArticlePage from './page/article/articlePage'
-import WriteArticlePage from './page/postArticle/writeArticle'
+import WriteArticlePage from './page/postArticle/articleWritePage'
 
 export default [
     { path: "/", name: "App", component: HomePage ,auth:false},
