@@ -9,15 +9,22 @@
     margin: 0 auto;
 }
 .article-title{
+    height:30%;
+    padding-left:5px;
     font-size: 18px;
     font-weight: 700;
     line-height: 1.5;
 }
 .article-breif{
+    height:50%;
+    padding-left:5px;
     text-align: justify;
     text-justify:inter-ideograph;
 }
-
+.list-footer{
+    height:20%;
+    margin:5px 0px 5px 5px;
+}
 .article-note{
     /* float: right; */
     margin: 0 10px 0 5px;
@@ -40,6 +47,8 @@
     color: black;
 }
 .articleCover{
+    margin:10% auto;
     width:100%;
-    height:auto;
+    height:80%;
+    padding-right: 3px;
 }
