@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import { withRouter ,Redirect} from 'react-router-dom'
 import moment from 'moment'
+import {Row,Col,Icon} from 'antd'
 
 import Comment from '../comments/allComments'
 import {get} from '../../Common/RequestREST'
-
 
 const ARTICLE_PROPS = 'article';
 class ArticleComponent extends Component {
@@ -18,23 +17,44 @@ class ArticleComponent extends Component {
     render(){
         return (
             <div className='articlesingle' >
-                <a className="article-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/articles/'+this.props[ARTICLE_PROPS].articleid}>
-                <div className="article-title">{this.props[ARTICLE_PROPS].title}</div>
-                </a>
-                <div className="article-breif">
-                    {this.props.article.breif}
-                </div>
-                <div className="list-footer">
-                  <span className="article-note"> 
+            <Row >
+                <Col span={20}>
+                    <div >
+                        <div className="article-title">
+                            <a className="article-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/articles/'+this.props[ARTICLE_PROPS].articleid}>
+                                {this.props[ARTICLE_PROPS].title}
+                            </a>
+                        </div>
+                        <div className="article-breif">
+                            {this.props.article.breif}
+                        </div>
+                        <div className="list-footer">
+                            <span className="article-note"> 
+                                <a className="article-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/articles/'+this.props[ARTICLE_PROPS].articleid}>
+                                    <Icon type="eye" /> 0 
+                                </a>
+                            </span>
+                            <span className="article-note" onClick={this.commentClick} > 
+                                <Icon type="message" /> {this.state.commentsNumber} 
+                            </span>  
+                            <span className="article-note"> 
+                                <Icon type="heart" /> 0 
+                            </span>  
+                            <span className="article-note">
+                                {moment(this.props.article.uptime,'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')}
+                            </span>
+                        </div>
+                    </div>
+                </Col>
+                <Col span={4}>
                     <a className="article-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/articles/'+this.props[ARTICLE_PROPS].articleid}>
-                    · 阅读() 
+                        <img src={this.props.fileUrl+"/"+this.props[ARTICLE_PROPS].coverurl} className="articleCover" alt="封面丢失"></img>
                     </a>
-                </span>
-                  <span className="article-note" onClick={this.commentClick} > · 评论({this.state.commentsNumber}) </span>  
-                  <span className="article-note"> · 赞() </span>  
-                  <span className="article-note">{moment(this.props.article.uptime,'YYYY-MM-DD HH:mm:ss').format('YYYY年MM月DD日')}</span>
-                </div>
-                {this.state.showComment?<Comment articleid={this.props[ARTICLE_PROPS].articleid}/>:null}
+                </Col>
+            </Row>
+            <Row>
+                {/* {this.state.showComment?<Comment articleid={this.props[ARTICLE_PROPS].articleid}/>:null} */}
+            </Row>
             </div>
         );
     }
@@ -61,4 +81,4 @@ const  mapStateToProps =(state,props)=>{
       ...state.userReducer
     }
 }
-export default withRouter(connect(mapStateToProps)(ArticleComponent))
+export default connect(mapStateToProps)(ArticleComponent)

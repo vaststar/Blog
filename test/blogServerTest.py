@@ -34,10 +34,10 @@ class BlogTest(object):
         res = request.urlopen(req).read()
         print(res.decode(encoding='utf-8'))
 
-    def post_Article(self,token,title,brief,text):
+    def post_Article(self,token,title,brief,keywords,coverurl,text):
         url = "http://127.0.0.1:4444/articles/bases/"
         header = {'Content-Type': 'application/json;charset=utf-8', 'Authorization': 'JWT ' + token}
-        body = json.dumps({'title': title,'brief':brief,'body':text}).encode(encoding='utf-8')
+        body = json.dumps({'title': title,'brief':brief,'keywords':keywords,'coverurl':coverurl,'body':text}).encode(encoding='utf-8')
         req = request.Request(url=url, data=body, headers=header)
         res = request.urlopen(req).read()
         print(res.decode(encoding='utf-8'))
@@ -80,7 +80,7 @@ if __name__=='__main__':
     # test.register_user('aaa','uu','zhu','341125','176','47@qq.com')
     # test.get_allAuthor(test.get_token('aaa','uu'))
     # test.get_self('aaa','uu')
-    # test.post_Article(test.get_token('aaa','uu'),"Kotlin指针指南","没什么讲的","<p><span style='color: rgb(255, 0, 0);'><em><strong>1111</strong></em><em><strong><img src='http://localhost:4444/files/1.png' title='1.png' alt='1.png'/></strong></em></span></p>")
+    # test.post_Article(test.get_token('aaa','uu'),"Kotlin指针指南","没什么讲的","key","coverurl","<p><span style='color: rgb(255, 0, 0);'><em><strong>1111</strong></em><em><strong><img src='http://localhost:4444/files/1.png' title='1.png' alt='1.png'/></strong></em></span></p>")
     # test.get_Article("")
     # test.post_comments(test.get_token('aaa','uu'),"3a2ee930359d11e993291831bfb80f05",'讲得好','')
     # test.get_comments("ea5602b834b711e98eda1831bfb80f05")

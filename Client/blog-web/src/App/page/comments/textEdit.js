@@ -20,7 +20,7 @@ class TextEdit extends Component{
         }
     }
 }
-// 类型检查，需要传入 userName,password,remember以及回调函数
+// 类型检查，需要传入回调函数
 TextEdit.propTypes={
     [COMMENT_SUBMIT]:PropTypes.func.isRequired
   };

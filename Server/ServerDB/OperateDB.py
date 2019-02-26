@@ -77,10 +77,10 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
         self._ExecuteSQL('SELECT COUNT(*) FROM comments WHERE articleid=\'{}\' AND refid=\'\''.format(artid))
         return self._FetchAll()
     #添加一个文章
-    def addArticle(self,userid,title,brief,uptime,bodyurl):
+    def addArticle(self,userid,title,brief,keys,coverurl,uptime,bodyurl):
         artid = BaseDB.GenerateUUID()
-        if self._ExecuteSQL('INSERT INTO article_base (articleid,userid,title,breif,uptime,bodyurl) VALUES(\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\')'.
-                         format(artid,userid,title,brief,uptime,bodyurl)):
+        if self._ExecuteSQL('INSERT INTO article_base (articleid,userid,title,breif,keywords,coverurl,uptime,bodyurl) VALUES(\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\')'.
+                         format(artid,userid,title,brief,keys,coverurl,uptime,bodyurl)):
             self._CommitChange()
             return artid
         return None

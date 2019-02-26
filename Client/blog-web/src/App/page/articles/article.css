@@ -3,28 +3,19 @@
     margin-bottom: 15px;
 }
 .articlesingle {
-    /* border:1px solid #aca7a7; */
     border-radius:2px;
-    width: 800px; 
     box-shadow: 0px 0px 10px #a3a2a2;
     background: rgb(255, 255, 255); 
     margin: 0 auto;
-    line-height: 30px;
-    padding-bottom: 10px;
 }
 .article-title{
-    padding-left:5px;
     font-size: 18px;
     font-weight: 700;
     line-height: 1.5;
 }
 .article-breif{
-    padding-left: 5px;
-    padding-right: 5px;
-    text-align: justify;text-justify:inter-ideograph;
-}
-.list-footer{
-    margin:0 10px 0 10px;
+    text-align: justify;
+    text-justify:inter-ideograph;
 }
 
 .article-note{
@@ -32,20 +23,23 @@
     margin: 0 10px 0 5px;
     cursor:pointer;
 }
-.article-class{
-    padding-left: 10px;
-}
-
 .article-url-link{
     text-decoration:none;
     color: black;
 }
 .article-url-link:hover{
     text-decoration:none;
+    color: black;
 }
 .article-url-link:active{
     text-decoration:none;
+    color: black;
 }
 .article-url-link:link{
     text-decoration:none;
+    color: black;
+}
+.articleCover{
+    width:100%;
+    height:auto;
 }

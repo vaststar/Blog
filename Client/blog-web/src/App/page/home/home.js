@@ -10,7 +10,10 @@ class HomePage extends Component {
         return (
             <div>
                 <Header/>
-                <Articles class='articlecom'></Articles>
+                <div className='articlecom'>
+                    <Articles ></Articles>
+                </div>
+                
             </div>
         )
     }

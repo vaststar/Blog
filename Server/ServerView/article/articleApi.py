@@ -5,8 +5,8 @@ from Server.ServerView.Common import Common
 class ArticleApi(object):
     '''定义一些用户相关的接口，给视图调用，减少视图工作量'''
     @staticmethod
-    def postArticle(userid,title,brief,bodyurl):
-        artid = blogDB.addArticle(userid,title,brief,datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),bodyurl)
+    def postArticle(userid,title,brief,keys,coverurl,bodyurl):
+        artid = blogDB.addArticle(userid,title,brief,keys,coverurl,datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),bodyurl)
         if not artid is None:
             return Common.trueReturn({"articleid":artid},'add article ok')
         return Common.falseReturn(None,'add article false')
@@ -22,7 +22,7 @@ class ArticleApi(object):
     def getAllArticle():
         result = []
         for k, v in enumerate(blogDB.getAllArticle()):
-            result.append(dict(zip(("articleid", "userid", "title", "breif", "uptime", "bodyurl"), v)))
+            result.append(dict(zip(("articleid", "userid", "title", "breif", "keywords","coverurl","uptime", "bodyurl"), v)))
         return Common.trueReturn(result, 'query ok')
 
     @staticmethod
@@ -41,7 +41,7 @@ class ArticleApi(object):
     def getArticleBaseByID(artid):
         blogbase =blogDB.getArticleById(artid)
         if not blogbase is None:
-            result = dict(zip(("articleid", "userid", "title", "breif", "uptime", "bodyurl"), blogbase))
+            result = dict(zip(("articleid", "userid", "title", "breif", "keywords","coverurl","uptime", "bodyurl"), blogbase))
             return Common.trueReturn(result,'query ok')
         return Common.falseReturn(None,'not found')
 

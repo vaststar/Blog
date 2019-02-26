@@ -28,11 +28,11 @@ def post_Article():
         filePath = Common.generateFilePath(params['title'])
         absFilePath = os.path.join(config.STATIC_FILE_PATH,filePath)
         if Common.saveFile(absFilePath,params['body']):
-            return jsonify(ArticleApi.postArticle(userid,params['title'],params['brief'],filePath))
+            return jsonify(ArticleApi.postArticle(userid,params['title'],params['brief'],params["keywords"],params["coverurl"],filePath))
         else:
             return jsonify(Common.falseReturn(None,'file save failure!'))
     else:
-        return jsonify(Common.falseReturn(None,'Please make sure {"title":a,"breif":a,"body":a}'))
+        return jsonify(Common.falseReturn(None,'Please make sure {"title":a,"breif":a,"keywords":a,"body":a}'))
 
 @article_blue.route("/comments/<articleid>",methods=["GET"])
 def get_Comments(articleid):
