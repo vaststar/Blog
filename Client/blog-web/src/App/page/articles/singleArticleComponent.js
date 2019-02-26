@@ -19,7 +19,7 @@ class ArticleComponent extends Component {
             <div className='articlesingle' >
             <Row >
                 <Col span={20}>
-                    <div >
+                    <div className="article-single-left">
                         <div className="article-title">
                             <a className="article-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/articles/'+this.props[ARTICLE_PROPS].articleid}>
                                 {this.props[ARTICLE_PROPS].title}

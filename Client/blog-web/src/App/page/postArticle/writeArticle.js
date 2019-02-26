@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import { withRouter} from 'react-router-dom'
 
 import {
     Form, Icon, Input, Button, Modal
@@ -29,6 +30,10 @@ class WriteArticleComponent extends Component {
             console.log('Received values of form: ', values);
             post(this.props.articleUrl+"/bases/",{'title': values.articleTitle,'brief':values.articleBrief,'keywords':values.articleKeys,'coverurl':values.articleCover.replace("\\","/"),'body':values.articleContent})
             .then(res=>res.json()).then(result=>{
+                if(result.status){
+                    //跳转到主页
+                    this.props.history.push("/");
+                }
                 console.log('post article',result)
             }).catch(function(e){
                 console.log(e)
@@ -174,4 +179,4 @@ const mapPropsToFields = (props)=>{
       ...state.userReducer
     }
   }
-export default connect(mapStateToProps)(Form.create({mapPropsToFields:mapPropsToFields,onFieldsChange:onFieldsChange})(WriteArticleComponent))
+export default withRouter(connect(mapStateToProps)(Form.create({mapPropsToFields:mapPropsToFields,onFieldsChange:onFieldsChange})(WriteArticleComponent)))
