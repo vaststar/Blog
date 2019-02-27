@@ -1,3 +1,4 @@
+window.onload = function(){
  //封装Math.random()函数 
  function MyRandom(n, m) { 
 	 //取n到m的随机数, [n, m] 
@@ -14,7 +15,7 @@ canvas.style.zIndex = '-1';
 canvas.style.opacity = '1';
 canvas.style.backgroundColor = 'rgba(255, 255, 255, 0)';
 const ctx = canvas.getContext('2d'); 
-ctx.globalAlpha = 0.4; 
+ctx.globalAlpha = 0.3; 
 
 // 2.小球类 
 class Ball{ 
@@ -61,3 +62,4 @@ setInterval(function () {
 		ballArr[i].upDate(); 
 	} }
 , 50);
+}

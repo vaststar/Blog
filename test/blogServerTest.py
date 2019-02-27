@@ -2,11 +2,11 @@ from urllib import request,parse
 import json
 
 class BlogTest(object):
-    def register_user(self,username,password,realname='',idcard='',cellphone='',email=''):
+    def register_user(self,username,password,realname='',idcard='',cellphone='',email='',avatarurl=''):
         url = "http://127.0.0.1:4444/users/"
         header = {'Content-Type': 'application/json;charset=utf-8'}
         body = json.dumps({'username':username,'password':password,'realname':realname,
-                           'idcard':idcard,'cellphone':cellphone,'email':email}).encode(encoding='utf-8')
+                           'idcard':idcard,'cellphone':cellphone,'email':email,'avatarurl':avatarurl}).encode(encoding='utf-8')
         req = request.Request(url=url,data=body,headers=header)
         res = request.urlopen(req).read()
         print(res.decode(encoding='utf-8'))

@@ -17,7 +17,7 @@ class UserApi(object):
             return Common.falseReturn('unknown reason','register wrong')
 
     @staticmethod
-    def registerUserInfo(userid,realname,phone,idcard,email):
+    def registerUserInfo(userid,realname,phone,idcard,email,avatarurl):
         if not blogDB.getUserById(userid) :
             return Common.falseReturn(None,"{} doesn't exist in user_base".format(userid))
         if not realname or not phone or not idcard or not email:
@@ -26,7 +26,7 @@ class UserApi(object):
             user = blogDB.getUserInfoById(userid)
             print(user)
             return Common.falseReturn(None,"{} is already exists in user_info ".format(userid))
-        if blogDB.addUserInfo(userid, realname, idcard, phone, email):
+        if blogDB.addUserInfo(userid, realname, idcard, phone, email,avatarurl):
             return Common.trueReturn(userid,'register ok')
         else:
             return Common.falseReturn(None,'unknown reason')
@@ -42,7 +42,7 @@ class UserApi(object):
     def getAllUserInfo():
         result=[]
         for k,v in enumerate(blogDB.getAllUserInfo()):
-            result.append(dict(zip("userid,realname,idcard,cellphone,email"),v))
+            result.append(dict(zip("userid,realname,idcard,cellphone,email,avatarurl"),v))
         return Common.trueReturn(result,'query ok')
 
     @staticmethod

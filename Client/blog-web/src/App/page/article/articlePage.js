@@ -27,10 +27,8 @@ class ArticlePage extends Component {
                 //读取文本内容
                 let bodyurl = this.state.articlebase.bodyurl.replace("\\","/");
                 get(this.props.fileUrl+"/"+bodyurl).then(result=>result.text()).then(result=>{
-                    console.log('uuu',result)
-                    // if(result.status){
+                    console.log('dd',result)
                         this.setState({content:result});
-                    // }
                 }).catch(function(e){
                     console.log( e);
                 })

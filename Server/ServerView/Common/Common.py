@@ -27,12 +27,12 @@ def makeSureFilePath(filePath):
     # 判断文件路径是否存在，如果不存在，则创建，此处是创建多级目录
     if not os.path.isdir(file_dir):
         os.makedirs(file_dir)
-    with open(filePath, 'w') as f:
+    with open(filePath, 'w', encoding='utf-8') as f:
         pass
 
 def saveFile(filePath,content):
     makeSureFilePath(filePath)
-    with open(filePath, 'w') as f:
+    with open(filePath, 'w', encoding='utf-8') as f:
         try:
             f.write(content)
             return True

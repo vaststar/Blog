@@ -52,9 +52,9 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
         return self._FetchOne()
 
     #添加一个用户信息
-    def addUserInfo(self,userid,realname,idcard,cellphone,email):
-        if self._ExecuteSQL('INSERT INTO user_info (userid,realname,idcard,cellphone,email) VALUES(\'{}\',\'{}\',\'{}\',\'{}\',\'{}\')'.
-                         format(userid,realname,idcard,cellphone,email)):
+    def addUserInfo(self,userid,realname,idcard,cellphone,email,avatarurl):
+        if self._ExecuteSQL('INSERT INTO user_info (userid,realname,idcard,cellphone,email,avatarurl) VALUES(\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\')'.
+                         format(userid,realname,idcard,cellphone,email,avatarurl)):
             self._CommitChange()
             return True
         return False
@@ -92,5 +92,9 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
             self._CommitChange()
             return commentid
         return None
+    #根据评论id。获取子评论数量
+    def getChildNumberByCommentId(self,commentid):
+        self._ExecuteSQL('SELECT COUNT(*) FROM comments WHERE refid=\'{}\''.format(commentid))
+        return self._FetchAll()
 
 

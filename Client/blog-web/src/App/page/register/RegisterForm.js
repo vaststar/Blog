@@ -1,14 +1,18 @@
 import React,{ Component } from 'react'
 import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
 
 import {
-    Form, Icon, Input, Button, Checkbox, Select, Tooltip
+    Form, Icon, Input, Button, Checkbox, Select, Tooltip, Modal
   } from 'antd';
 
+import {postFile,post} from '../../Common/RequestREST'
 
 const SUBMIT_FORM = 'submitForm';
 const AGREEMENT_URL = 'agreementUrl';
 class RegisterForm extends Component {
+    state={previewVisible: false,avatarrurl:null}
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -22,6 +26,13 @@ class RegisterForm extends Component {
         const form = this.props.form;
         if (value && value !== form.getFieldValue('password')) {
           callback('Two passwords that you enter is inconsistent!');
+        } else {
+          callback();
+        }
+    }
+    agreeChecked=(rule,value,callback)=>{
+        if (!value ) {
+          callback('Please agree!');
         } else {
           callback();
         }
@@ -129,6 +140,19 @@ class RegisterForm extends Component {
             </Form.Item>
             <Form.Item
                 {...formItemLayout}
+                label="Avatar"
+            >
+                {getFieldDecorator('avatarurl', {
+                  rules: [{ required: false, message: 'Please paste or drag cover image!' }],
+                  normalize:this.normalAll
+                })(
+                <Input addonAfter={<Icon type="eye" onClick={this.viewAvatar}/>} 
+                  onPaste={this.pasteAvatar} onDrop={this.dropAvatar}
+                  placeholder="拖拽图片或者粘贴图片" allowClear readOnly/>
+                )}
+            </Form.Item>
+            <Form.Item
+                {...formItemLayout}
                 label="Password"
             >
                 {getFieldDecorator('password', {
@@ -156,7 +180,14 @@ class RegisterForm extends Component {
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
                 {getFieldDecorator('agreement', {
-                    valuePropName: 'false',
+                    rules: [{
+                        required: true, message: 'Please check agreement!',
+                        },{
+                        validator:this.agreeChecked,
+                        }
+                    ],
+                    validateTrigger:"onChange",
+                    valuePropName: 'checked',
                 })(
                     <Checkbox>I have read the <a href={this.props[AGREEMENT_URL]}>agreement</a></Checkbox>
                 )}
@@ -164,8 +195,69 @@ class RegisterForm extends Component {
             <Form.Item {...tailFormItemLayout}>
                 <Button type="primary" htmlType="submit">Register</Button>
             </Form.Item>
+            <Modal visible={this.state.previewVisible} footer={null} onCancel={this.handleCancel}>
+                <img alt="example" style={{ width: '100%' }} src={this.state.avatarurl} />
+            </Modal>
         </Form>
         );
+    }
+    //监听item内容修改
+    normalAll=(value, prevValue, allValues)=>{
+        if(value && value!==prevValue)
+        {
+            this.setState({avatarurl:this.props.fileUrl+"/"+value.replace("\\","/")})
+        }
+        return value
+    }
+    //预览封面
+    viewAvatar=()=>{this.setState({previewVisible: true});}
+    //关闭预览封面
+    handleCancel = () => this.setState({ previewVisible: false })
+    //拖拽
+    dropAvatar=(e)=> {
+        if (!(e.dataTransfer && e.dataTransfer.files)) {
+            alert("浏览器不支持拖拽上传")
+            return
+        }
+        let dataList = e.dataTransfer.files
+        for (let i = 0; i < dataList.length; i++) {
+            if (dataList[i].type.indexOf('image') === -1 ) {
+                alert("仅可上传图片")
+                continue
+            }
+            let formData = new FormData()
+            formData.append('file', dataList[i])
+            //拖拽之后，上传图片到服务器，返回结果写入编辑器
+            this.postImage(formData,dataList[i].name)
+        }
+        e.preventDefault()
+        e.stopPropagation()
+        e.nativeEvent.stopImmediatePropagation()
+    }
+    //粘贴封面
+    pasteAvatar=(e)=>{
+        if (!(e.clipboardData && e.clipboardData.items)) {
+            alert("浏览器不支持粘贴上传")
+        return
+        }
+        let dataList = e.clipboardData.items
+        for (let i = 0; i < dataList.length; i++) {
+            if (dataList[i].kind === 'file' && dataList[i].getAsFile().type.indexOf('image') !== -1) {
+                let formData = new FormData()
+                formData.append('file', dataList[i].getAsFile())
+                //粘贴之后，上传图片到服务器，返回结果写入编辑器
+                this.postImage(formData,dataList[i].getAsFile().name)
+            }
+        }
+    }
+    //上传图片
+    postImage=(formData,filename)=>{
+        postFile(this.props.fileUrl+"/"+filename, formData
+        ).then(result=>result.json()).then(result=>{
+            this.props.form.setFieldsValue({avatarurl:result.data.filepath}) 
+        }).catch(function(e){
+            console.log(e)
+        })
     }
 }
 
@@ -175,4 +267,9 @@ RegisterForm.propTypes={
     [AGREEMENT_URL]:PropTypes.string.isRequired
 };
 
-export default Form.create()(RegisterForm);
+const  mapStateToProps =(state,props)=>{
+    return {
+      ...state.userReducer
+    }
+  }
+export default connect(mapStateToProps)(Form.create()(RegisterForm));

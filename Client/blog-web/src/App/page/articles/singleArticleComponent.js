@@ -17,33 +17,40 @@ class ArticleComponent extends Component {
     render(){
         return (
             <div className='articlesingle' >
-            <Row >
+            <Row type="flex" justify="space-between" gutter={16} >
                 <Col span={20}>
-                    <div className="article-single-left">
-                        <div className="article-title">
-                            <a className="article-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/articles/'+this.props[ARTICLE_PROPS].articleid}>
-                                {this.props[ARTICLE_PROPS].title}
-                            </a>
-                        </div>
-                        <div className="article-breif">
-                            {this.props.article.breif}
-                        </div>
-                        <div className="list-footer">
-                            <span className="article-note"> 
-                                <a className="article-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/articles/'+this.props[ARTICLE_PROPS].articleid}>
+                    <div className="article-title">
+                        <a className="article-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/articles/'+this.props[ARTICLE_PROPS].articleid}>
+                            {this.props[ARTICLE_PROPS].title}
+                        </a>
+                    </div>
+                    <div className="article-breif">
+                        {this.props.article.breif}
+                    </div>
+                    <div className="article-note">
+                        <Row gutter={10} >
+                            <Col span={2} > 
+                                <div ><a className="article-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/articles/'+this.props[ARTICLE_PROPS].articleid}>
                                     <Icon type="eye" /> 0 
-                                </a>
-                            </span>
-                            <span className="article-note" onClick={this.commentClick} > 
-                                <Icon type="message" /> {this.state.commentsNumber} 
-                            </span>  
-                            <span className="article-note"> 
+                                </a></div>
+                            </Col>
+                            <Col span={2} > 
+                                <div  onClick={this.commentClick} >
+                                    <Icon type="message" /> {this.state.commentsNumber} 
+                                </div>
+                            </Col>  
+                            <Col span={2} > 
+                                <div >
                                 <Icon type="heart" /> 0 
-                            </span>  
-                            <span className="article-note">
-                                {moment(this.props.article.uptime,'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')}
-                            </span>
-                        </div>
+                                </div>
+                            </Col>  
+                            <Col span={8} >
+                                <div >
+                                    {moment(this.props.article.uptime,'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')}
+                                </div>
+                            </Col>
+                            <Col span={10}></Col>
+                        </Row>
                     </div>
                 </Col>
                 <Col span={4}>
@@ -53,8 +60,10 @@ class ArticleComponent extends Component {
                 </Col>
             </Row>
             <Row>
-                {/* {this.state.showComment?<Comment articleid={this.props[ARTICLE_PROPS].articleid}/>:null} */}
             </Row>
+            {/* <div>
+                {this.state.showComment?<Comment articleid={this.props[ARTICLE_PROPS].articleid}/>:null}
+            </div> */}
             </div>
         );
     }

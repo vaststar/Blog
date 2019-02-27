@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import { Link, withRouter} from 'react-router-dom'
-import {Menu, Icon} from 'antd'
+import {Layout, Menu, Icon,Row,Col,Avatar} from 'antd'
 
 import {get} from './RequestREST'
 import {changeUser,changeToken,changeValid} from '../../Redux/ActionReducer/user'
+import logo from './logo.png'
 
-class Header extends Component {
+class HeaderCom extends Component {
     getLinkToUrl= (url)=>{
         //处理登陆完之后的跳转页面
         return ({
@@ -24,31 +25,40 @@ class Header extends Component {
     render() {
         const {user,valid}=this.props
         return (
-            <Menu onClick={this.handleClick}
-              mode="horizontal"
-              theme='dark'
-              selectedKeys={[this.props.location.pathname]}
-            >
-              <Menu.Item key="/"><Link to={'/'}/>首页</Menu.Item>
-              <Menu.Item key="/video/" ><Link to={this.getLinkToUrl('/video/')}/>热门</Menu.Item>
-              {
-                valid?
-                <Menu.SubMenu title={<span><Icon type="setting" />{user.username}</span>}>
-                    <Menu.Item key="setting">个人中心</Menu.Item>
-                    <Menu.Item key="/writes/"><Link to={this.getLinkToUrl('/writes/')}/>发布文章</Menu.Item>
-                    <Menu.Item key="logout">退出登陆</Menu.Item>
-                </Menu.SubMenu>
-                :
-                <Menu.Item key='login'><Link to={this.getLinkToUrl('/login/')}/>登陆</Menu.Item>
-              }
-            </Menu>
+            <Layout.Header>
+                <Row gutter={24}>
+                    <Col span={1} offset={3}>
+                        <Avatar src={logo} alt="学士" size={60}></Avatar>
+                    </Col>
+                <Col span={19} offset={1}>
+                <Menu onClick={this.handleClick}
+                  mode="horizontal"
+                  theme='dark'
+                  selectedKeys={[this.props.location.pathname]}
+                  style={{ lineHeight: '64px' }}
+                >
+                  <Menu.Item key="/"><Link to={'/'}/><Icon type="home" />首页</Menu.Item>
+                  <Menu.Item key="/video/" ><Link to={this.getLinkToUrl('/video/')}/><Icon type="fire" />热门</Menu.Item>
+                  {
+                    valid?
+                    <Menu.SubMenu title={<span><Icon type="user" />{user.username}</span>}>
+                        <Menu.Item key="setting">个人中心</Menu.Item>
+                        <Menu.Item key="/writes/"><Link to={this.getLinkToUrl('/writes/')}/>发布文章</Menu.Item>
+                        <Menu.Item key="logout">退出登陆</Menu.Item>
+                    </Menu.SubMenu>
+                    :
+                    <Menu.Item key='login'><Link to={this.getLinkToUrl('/login/')}/>登陆</Menu.Item>
+                  }
+                </Menu></Col>
+                </Row>
+            </Layout.Header>
         );
     }
     
     componentDidMount(){
         //通过获取自己的信息，判断是否进入验证
         get(this.props.userUrl+"/bases/"+this.props.user.username+"/").then(response => response.json()).then(result => {
-            console.log(result);
+            // console.log(result);
             if(result.status){
                 this.props.ChangeValid(true);
             }else{
@@ -80,7 +90,7 @@ const mapDispatch =(dispatch,ownProps)=>{
         }
     }
 }
-export default withRouter(connect(mapStateToProps,mapDispatch)(Header))
+export default withRouter(connect(mapStateToProps,mapDispatch)(HeaderCom))
 
 
 

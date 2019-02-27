@@ -51,3 +51,10 @@ class ArticleApi(object):
         if res:
             return Common.trueReturn(res[0],'query ok')
         return Common.falseReturn(None,'query false')
+
+    @staticmethod
+    def getChildCommentCountByCommentId(commentid):
+        res = blogDB.getChildNumberByCommentId(commentid)
+        if res:
+            return Common.trueReturn(res[0], 'query ok')
+        return Common.falseReturn(None, 'query false')

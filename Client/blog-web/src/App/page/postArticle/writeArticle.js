@@ -108,8 +108,6 @@ class WriteArticleComponent extends Component {
     handleCancel = () => this.setState({ previewVisible: false })
     //拖拽
     dropCover=(e)=> {
-        e.preventDefault()
-        e.stopPropagation()
         if (!(e.dataTransfer && e.dataTransfer.files)) {
             alert("浏览器不支持拖拽上传")
             return
@@ -125,6 +123,9 @@ class WriteArticleComponent extends Component {
             //拖拽之后，上传图片到服务器，返回结果写入编辑器
             this.postImage(formData,dataList[i].name)
         }
+        e.preventDefault()
+        e.stopPropagation()
+        e.nativeEvent.stopImmediatePropagation()
     }
     //粘贴封面
     pasteCover=(e)=>{
@@ -134,7 +135,6 @@ class WriteArticleComponent extends Component {
         }
         let dataList = e.clipboardData.items
         for (let i = 0; i < dataList.length; i++) {
-            console.log('paste',dataList[i])
             if (dataList[i].kind === 'file' && dataList[i].getAsFile().type.indexOf('image') !== -1) {
                 let formData = new FormData()
                 formData.append('file', dataList[i].getAsFile())

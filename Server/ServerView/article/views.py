@@ -68,6 +68,10 @@ def post_Comments():
 def get_articleCommentCounts(articleid):
     return jsonify(ArticleApi.getCommentCountByArticleId(articleid))
 
+@article_blue.route("/counts/childcomments/<commentid>",methods=["GET"])
+def get_childCommentCounts(commentid):
+    return jsonify(ArticleApi.getChildCommentCountByCommentId(commentid))
+
 
 
 

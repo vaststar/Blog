@@ -6,6 +6,11 @@
     background: rgb(255, 255, 255); 
     padding-bottom: 5px;
 }
+.commentsTitle{
+    padding-left: 10px;
+    font-size: 18px;
+    font-weight: 700;
+}
 .singlecomment{
     margin:0 0 0 -30px;
 }
@@ -14,23 +19,12 @@
     opacity:0.5;
 }
 .commentTime{
-    float: right;
     padding-right: 20px;
 }
+.commentBody{
+    padding-left: 5px;
+    margin:3px auto;
+}
 .commentFoot{
-    margin: 0 10px 0 5px;
     cursor:pointer;
-}
-
-.commentTextEdit{
-    margin: 0;
-    width: 100%;
-}
-.commentTextArea{
-    margin-left: 10px;
-    margin-right: 5px;
-}
-.commentButton{
-    float: right;
-    margin-right: 10px;
 }

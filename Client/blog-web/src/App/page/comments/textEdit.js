@@ -4,20 +4,24 @@ import { Button, Input , Row, Col} from 'antd';
 
 const COMMENT_SUBMIT="submitfunc"
 class TextEdit extends Component{
+    state={inputVal:null}
     render(){
         return (<div className="commentTextEdit">
-        <Row>
-            <Col span={21}><Input className="commentTextArea" id="comment-input-area"/></Col>
-            <Col span={3}><Button type="primary" className="commentButton" onClick={this.clickButton}>评论</Button> </Col>
+        <Row gutter={16} type="flex" justify="space-around">
+            <Col span={22}><Input id="comment-input-area" onPressEnter={this.clickButton} onChange={this.inputChange} value={this.state.inputVal}/></Col>
+            <Col span={1}><Button type="primary" onClick={this.clickButton}>评论</Button> </Col>
         </Row>
         </div>)
     }
     clickButton=()=>{
-        var submitObj = document.getElementById('comment-input-area');
-        if(submitObj.value.length !== 0 )
+        if(this.state.inputVal && this.state.inputVal.length !== 0 )
         {
-            this.props[COMMENT_SUBMIT](submitObj.value)
+            this.props[COMMENT_SUBMIT](this.state.inputVal)
+            this.setState({inputVal:null});
         }
+    }
+    inputChange=(e)=>{
+        this.setState({inputVal:e.target.value})
     }
 }
 // 类型检查，需要传入回调函数

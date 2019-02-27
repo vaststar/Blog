@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Route , Switch, Redirect} from 'react-router-dom'
 import { connect } from 'react-redux'
+import {Layout,BackTop} from 'antd'
 
 import routerMap from './routerMap'
 
@@ -18,6 +19,10 @@ class App extends Component {
               <Redirect to='/'/>
             </Switch>
           </BrowserRouter>
+          <Layout.Footer style={{ textAlign: 'center',background: 'rgba(255,255,255,0)'  }}>
+            大学士阁 ©2019 Created by Thomas Zhu
+          </Layout.Footer>
+          <BackTop />
         </div>
     );
   }

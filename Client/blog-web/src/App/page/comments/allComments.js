@@ -26,6 +26,7 @@ class Comments extends Component {
     render(){
         return (
             <div className='commentscomponent'>
+                <div className="commentsTitle"> {this.state.comments.length}条评论</div>
                 <div>{this.recursionNode(this.state.comments)}</div>
                 {this.props.valid?<hr className="commetnHline"/>:null}
                 {this.props.valid?<TextEdit submitfunc={this.submitComment}></TextEdit>:null}

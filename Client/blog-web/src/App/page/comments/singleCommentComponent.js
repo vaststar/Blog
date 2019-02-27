@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import moment from 'moment'
+import {Row,Col,Icon,Avatar} from 'antd'
 
 import {get,post} from '../../Common/RequestREST'
 import TextEdit from './textEdit'
@@ -9,21 +10,36 @@ import TextEdit from './textEdit'
 const COMMENT_PROPS = 'comment';
 const COMMENT_REFRESH_FUNC='refreshFunc';
 class CommentComponent extends Component {
-    state={username:"",replyshow:false}
+    state={username:"",replyshow:false,childNumber:0,likeNumber:0}
     render(){
-        // console.log('ccccccc',this.props[COMMENT_PROPS])
         return (
             <div className='singlecomment'>
             <hr className="commetnHline"/>
-                <span>{this.state.username}</span>
-                <span className="commentTime"> {moment(this.props[COMMENT_PROPS].uptime,'YYYY-MM-DD HH:mm:ss').fromNow()}</span>
-                <div className="commentDetail">
-                {this.props[COMMENT_PROPS].comments} 
-                </div>
-                {/* <span className="commentFoot"> 赞</span> */}
-                {this.props.valid?
-                <span className="commentFoot" onClick={this.clickReply}> {this.state.replyshow?"取消回复":"回复"}</span>:null}
+                <Row>
+                    <Col span={1}>
+                        <Avatar size="large" icon="user" /> 
+                    </Col>
+                    <Col span={23}>
+                        <Row>{this.state.username}</Row>
+                        <Row>{moment(this.props[COMMENT_PROPS].uptime,'YYYY-MM-DD HH:mm:ss').fromNow()}</Row>
+                    </Col>
+                </Row>
+                <Row>
+                    <div className="commentBody">{this.props[COMMENT_PROPS].comments} </div>
+                </Row>
+                <Row>
+                    <Col span={1}>
+                        {this.props.valid?
+                        <div className="commentFoot" onClick={this.clickReply}> <Icon type="message" /> {this.state.childNumber}</div>:null
+                        }
+                    </Col>
+                    <Col span={23}>
+                    <div className="commentFoot" onClick={this.likeIt}><Icon type="like" /> {this.state.likeNumber}</div>
+                    </Col>
+                </Row>
+                <Row>
                 {this.state.replyshow?<TextEdit submitfunc={this.submitComment}></TextEdit>:null}
+                </Row>
             </div>
         );
     }
@@ -40,6 +56,14 @@ class CommentComponent extends Component {
         }).catch(function (e) {
             console.log(e);
         });
+        //根据评论id，获取子评论数量
+        get(this.props.articleUrl+"/counts/childcomments/"+this.props[COMMENT_PROPS].commentid).then(response=>response.json()).then(result=>{
+            if(result.status){
+                this.setState({childNumber:result.data})
+            }
+        }).catch((e)=>{
+            console.log(e)
+        })
     }
     submitComment=(str)=>{
         //提交评论
@@ -49,10 +73,15 @@ class CommentComponent extends Component {
             {
                 this.clickReply();
                 this.props[COMMENT_REFRESH_FUNC]();
+                this.setState({childNumber:parseInt(this.state.childNumber)+1})
             }
         }).catch(function(e){
             console.log(e)
         });
+    }
+    likeIt=()=>{
+        //赞
+        this.setState({likeNumber:parseInt(this.state.likeNumber)+1})
     }
 }
 

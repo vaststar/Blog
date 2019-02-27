@@ -16,7 +16,7 @@ def get_file_Services(filePath):
         return jsonify(Common.falseReturn(None,'not find file'))
 
 @file_blue.route("/<fileName>",methods=["POST"])
-@Authority.login_required
+# @Authority.login_required
 def post_file_Services(fileName):
     '''上传功能'''
     refPath = Common.generateFilePath(fileName)
@@ -32,7 +32,7 @@ def post_file_Services(fileName):
     elif request.get_json() and 'file' in request.get_json():
         params = request.get_json()
         Common.makeSureFilePath(uploadPath)
-        with open(uploadPath,'w') as f:
+        with open(uploadPath,'w', encoding='utf-8') as f:
             try:
                 f.write(params['file'])
                 return jsonify(Common.trueReturn({'filepath':refPath},'up ok'))

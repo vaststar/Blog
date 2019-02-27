@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS user_info (
     realname     VARCHAR (32) ,
     idcard       VARCHAR (32) ,
     cellphone    VARCHAR (32) ,
-    email        VARCHAR (256) 
+    email        VARCHAR (256),
+    avatarurl    VARCHAR (256)
 );
 //
 CREATE TABLE IF NOT EXISTS user_class (
@@ -38,7 +39,7 @@ CREATE TABLE IF NOT EXISTS article_base (
     title        VARCHAR (256)          NOT NULL,
     breif        VARCHAR (2000)         NOT NULL,
     keywords     VARCHAR (2000)         NOT NULL,
-    coverurl        VARCHAR (256)          NOT NULL,
+    coverurl     VARCHAR (256)          NOT NULL,
     uptime       VARCHAR (256)          NOT NULL,
     bodyurl      VARCHAR (256)          NOT NULL
 );

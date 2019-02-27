@@ -27,13 +27,13 @@ def get_SelfUserBase(username):
 @user_blue.route("/",methods=["POST"])
 def register_Auths():
     '''注册一个账户，需要提供 post json 信息 
-    {"username":"???","password":"???","realname":???,"idcard":???,"cellphone":???,"email":???}'''
+    {"username":"???","password":"???","realname":???,"idcard":???,"cellphone":???,"email":???,"avatarurl":???}'''
     params = request.get_json()
     if not params.get('username') or not params.get('password'):
         return jsonify(Common.falseReturn(None,'username or password cannot be empty'))
     base = UserApi.registerUserBase(params.get('username'),params.get('password'))
     if base.get('status'):
-        info = UserApi.registerUserInfo(base.get('data').get('userid'),params.get('realname'),params.get('idcard'),params.get('cellphone'),params.get('email'))
+        info = UserApi.registerUserInfo(base.get('data').get('userid'),params.get('realname'),params.get('idcard'),params.get('cellphone'),params.get('email'),params.get('avatarurl'))
         return jsonify(info)
     return jsonify(base)
 

@@ -10,7 +10,7 @@ class Register extends Component {
     state = {registerok:false}
     handleSubmit =(form)=>{
       post(this.props.userUrl+"/",
-        {'username':form.nickname,'password':form.password,'realname':form.realname,'idcard':form.idcard,'cellphone':form.phone,'email':form.email}
+        {'username':form.nickname,'password':form.password,'realname':form.realname,'idcard':form.idcard,'cellphone':form.phone,'email':form.email,'avatarurl':form.avatarurl}
       ).then(response => response.json()).then(result => {
         // 在此处写获取数据之后的处理逻辑
       if(result.status){
