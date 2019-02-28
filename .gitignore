@@ -113,3 +113,6 @@ StaticFile/
 
 #vscode
 .vscode/
+
+*.log
+*.pid
