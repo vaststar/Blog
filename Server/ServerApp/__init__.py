@@ -1,3 +1,3 @@
 from Server.ServerApp.FlaskServerApp import FlaskServerApp
 
-app = FlaskServerApp()
+ServerApp = FlaskServerApp()
