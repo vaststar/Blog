@@ -3,11 +3,6 @@ sys.path.append('.')
 sys.path.append('..')
 
 from Server.ServerApp import ServerApp
-from Server.ServerView import BLUEPRINT
-
-# 注册蓝图
-for k, v in BLUEPRINT.items():
-    ServerApp.registerBluePrint(v, k)
 
 app = ServerApp.app
 
