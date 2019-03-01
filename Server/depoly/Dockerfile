@@ -14,6 +14,6 @@ RUN pip3 install -r requirements
 
 VOLUME /var/local/imgimg
 
-ENTRYPOINS["gunicorn","-c","gunicorn_config.py","server.main:app"]
+ENTRYPOINT["gunicorn","-c","gunicorn_config.py","server.main:app"]
 
 EXPOSE 5000
