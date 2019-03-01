@@ -15,7 +15,6 @@ class sqliteDB(OperateDB):
         # 判断文件路径是否存在，如果不存在，则创建，此处是创建多级目录
         if not os.path.isdir(file_dir):
             os.makedirs(file_dir)
-        print(dbname)
         OperateDB.__init__(self,sqlite3.connect(dbname,check_same_thread=False),sqlFiles)
 
 
