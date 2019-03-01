@@ -77,8 +77,8 @@ class BlogTest(object):
 
 if __name__=='__main__':
     test = BlogTest()
-    # test.register_user('aaa','uu','zhu','341125','176','47@qq.com')
-    # test.get_allAuthor(test.get_token('aaa','uu'))
+    test.register_user('aaa','uu','zhu','341125','176','47@qq.com')
+    test.get_allAuthor(test.get_token('aaa','uu'))
     # test.get_self('aaa','uu')
     # test.post_Article(test.get_token('aaa','uu'),"Kotlin指针指南","没什么讲的","key","coverurl","<p><span style='color: rgb(255, 0, 0);'><em><strong>1111</strong></em><em><strong><img src='http://localhost:4444/files/1.png' title='1.png' alt='1.png'/></strong></em></span></p>")
     # test.get_Article("")

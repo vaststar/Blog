@@ -1,5 +1,5 @@
+import pymysql,sqlite3,os
 from .OperateDB import OperateDB
-import pymysql,sqlite3
 
 class mysqlDB(OperateDB):
     '''mysql connection'''
@@ -10,6 +10,11 @@ class mysqlDB(OperateDB):
 class sqliteDB(OperateDB):
     '''sqlite connection'''
     def __init__(self,dbname,sqlFiles=None):
+        # 将文件路径分割出来
+        file_dir = os.path.split(dbname)[0]
+        # 判断文件路径是否存在，如果不存在，则创建，此处是创建多级目录
+        if not os.path.isdir(file_dir):
+            os.makedirs(file_dir)
         print(dbname)
         OperateDB.__init__(self,sqlite3.connect(dbname,check_same_thread=False),sqlFiles)
 
