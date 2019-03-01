@@ -2,9 +2,9 @@ from flask import request,send_from_directory,jsonify
 
 import os
 from . import file_blue
-from Server.ServerConfig import config
-from Server.ServerView.Common import Common
-from Server.ServerView.Authority import Authority
+from app.ServerConfig import config
+from app.ServerView.Common import Common
+from app.ServerView.Authority import Authority
 
 @file_blue.route("/<path:filePath>",methods=["GET"])
 def get_file_Services(filePath):

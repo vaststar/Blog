@@ -2,10 +2,10 @@ from flask import jsonify,request,send_from_directory
 import os
 from . import user_blue
 
-from Server.ServerView.Common import Common
-from Server.ServerView.Authority import Authority
-from Server.ServerView.user.userApi import UserApi
-from Server.ServerConfig import config
+from app.ServerView.Common import Common
+from app.ServerView.Authority import Authority
+from app.ServerView.user.userApi import UserApi
+from app.ServerConfig import config
 
 @user_blue.route("/tokens/",methods=['POST'])
 def get_token():

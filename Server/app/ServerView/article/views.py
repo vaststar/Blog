@@ -2,10 +2,10 @@ from flask import jsonify,request,send_from_directory
 import os
 from . import article_blue
 
-from Server.ServerView.Common import Common
-from Server.ServerView.article.articleApi import ArticleApi
-from Server.ServerView.Authority import Authority
-from Server.ServerConfig import config
+from app.ServerView.Common import Common
+from app.ServerView.article.articleApi import ArticleApi
+from app.ServerView.Authority import Authority
+from app.ServerConfig import config
 
 
 @article_blue.route("/bases/",methods=["GET"])

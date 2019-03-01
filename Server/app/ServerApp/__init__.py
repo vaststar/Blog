@@ -1,5 +1,5 @@
-from Server.ServerApp.FlaskServerApp import FlaskServerApp
-from Server.ServerView import BLUEPRINT
+from app.ServerApp.FlaskServerApp import FlaskServerApp
+from app.ServerView import BLUEPRINT
 
 ServerApp = FlaskServerApp()
 

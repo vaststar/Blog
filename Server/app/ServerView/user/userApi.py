@@ -1,6 +1,6 @@
-from Server.ServerDB import blogDB
-from Server.ServerView.Common import Common
-from Server.ServerView.Authority import Authority
+from app.ServerDB import blogDB
+from app.ServerView.Common import Common
+from app.ServerView.Authority import Authority
 
 class UserApi(object):
     '''定义一些用户相关的接口，给视图调用，减少视图工作量'''

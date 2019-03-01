@@ -2,10 +2,10 @@ import jwt,hashlib,datetime,time
 from flask import jsonify,request
 from functools import wraps
 
-from Server.ServerView.Common import Common
+from app.ServerView.Common import Common
 
-from Server.ServerConfig import config
-from Server.ServerDB import blogDB
+from app.ServerConfig import config
+from app.ServerDB import blogDB
 
 class Authority(object):
     @staticmethod#对数据库存入的密码加密，sault取config中的内容

@@ -2,7 +2,7 @@ import sys
 sys.path.append('.')
 sys.path.append('..')
 
-from Server.ServerApp import ServerApp
+from app.ServerApp import ServerApp
 
 app = ServerApp.app
 

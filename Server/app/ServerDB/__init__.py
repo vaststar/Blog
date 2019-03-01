@@ -1,4 +1,4 @@
-from Server.ServerConfig import config
+from app.ServerConfig import config
 from .serverDB import mysqlDB,sqliteDB
 
 blogDB = None
