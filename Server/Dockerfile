@@ -4,7 +4,7 @@ MAINTAINER ZZT
 RUN mkdir -p /blog/app
 RUN mkdir -p /blog/log
 
-COPY app /blog/server
+COPY app /blog/app
 COPY deploy/gunicorn_config.py /blog
 COPY requirements /blog
 COPY deploy/start_gunicorn.sh /blog
