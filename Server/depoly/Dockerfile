@@ -16,4 +16,4 @@ VOLUME /var/local/imgimg
 
 CMD ["gunicorn","-c","gunicorn_config.py","app.main:app"]
 
-EXPOSE 5000
+EXPOSE 4444
