@@ -13,6 +13,7 @@ WORKDIR /blog
 
 RUN pip3 install -r requirements
 
+RUN chmod 777 start_gunicorn.sh
 #CMD ["gunicorn","-c","gunicorn_config.py","app.main:app"]
 ENTRYPOINT ["./start_gunicorn.sh"]
 
