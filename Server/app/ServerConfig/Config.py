@@ -7,7 +7,7 @@ class Config(object):
                  "sqlFile":[]
                 }
     SQLITE_SET = {
-                  "DBPATH":os.path.join(os.getcwd(),'DB','blog_sqlite.db'),
+                  "DBPATH":os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))),'DB','blog_sqlite.db'),
                   "sqlFile":[
                              os.path.join(os.path.dirname(os.path.realpath(__file__)),'SqlFile','sqlite_sql')
                              # ,os.path.join(os.getcwd(), 'ServerDB/SqlFile', 'sqlite_test_data')
@@ -24,7 +24,7 @@ class Config(object):
                 "expiration":datetime.timedelta(days=1,minutes=1,seconds=0),"secret":"JWT_secret"
               }
     #静态文件路径
-    STATIC_FILE_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))),"StaticFile")
+    STATIC_FILE_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))),"StaticFile")
 
 class DevelopmentConfig(Config):
     '''开发环境配置'''
