@@ -1,0 +1,22 @@
+FROM python:3.7
+MAINTAINER ZZT
+
+RUN mkdir -p /blog/app
+RUN mkdir -p /blog/log
+
+COPY app /blog/app
+COPY deploy/gunicorn_config.py /blog
+COPY requirements /blog
+COPY deploy/start_gunicorn.sh /blog
+
+WORKDIR /blog
+
+RUN pip3 install -r requirements
+
+RUN chmod 777 start_gunicorn.sh
+
+#RUN ./start_gunicorn.sh &
+#RUN gunicorn -c gunicorn_config.py app.main:app &
+ENTRYPOINT ["./start_gunicorn.sh"]
+
+EXPOSE 4444

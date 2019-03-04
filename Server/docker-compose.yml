@@ -1,11 +1,13 @@
-version:'3.3'
+version: "3.3"
 services:
   python_web:
     build:
       context: .
-      dockerfile: Dockerfile
-    image:'app/app'
-    prots:
-      - '4444:4444'
+      dockerfile: Dockerfile_app
+    image: "app/app"
+    ports:
+      - "4444:4444"
     volumes:
-      app:/app
+      - ./app:/blog/Server/app
+      - ./DB:/blog/Server/DB
+      - ./StaticFile:/blog/Server/StaticFile
