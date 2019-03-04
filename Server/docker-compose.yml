@@ -11,3 +11,11 @@ services:
       - ./app:/blog/Server/app
       - ./DB:/blog/Server/DB
       - ./StaticFile:/blog/Server/StaticFile
+
+  python_nginx:
+    build:
+      context: ./deploy
+      dockerfile: Dockerfile_nginx
+    image: "app/nginx"
+    ports:
+      - "80:80"
