@@ -23,4 +23,5 @@ services:
       - "8080:8080"
     volumes:
       - ../Client/blog-web/build:/blog/Client/blog-web/build
-      - ./flask_nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx_default.conf:/etc/nginx/nginx.conf
+      - ./conf.d:/etc/nginx/conf.d
