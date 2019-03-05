@@ -1,8 +1,8 @@
 FROM nginx
 MAINTAINER ThomasZhu 47029316@qq.com
-
-COPY flask_nginx.conf /etc/nginx/nginx.conf
+RUN rm /etc/nginx/nginx.conf
+#COPY flask_nginx.conf /etc/nginx/nginx.conf
 
 ENTRYPOINT ["nginx","-g","daemon off;"]
-EXPOSE 80
+EXPOSE 8080
 EXPOSE 8088
