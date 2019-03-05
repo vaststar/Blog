@@ -1,0 +1,22 @@
+version: "3.3"
+services:
+  python_web:
+    build:
+      context: ../Server
+      dockerfile: Dockerfile_app
+    image: "app/app"
+    ports:
+      - "4444:4444"
+    volumes:
+      - ../Server/app:/blog/Server/app
+      - ../Server/DB:/blog/Server/DB
+      - ../Server/StaticFile:/blog/Server/StaticFile
+      - ../Server/log:/blog/Server/log
+
+  python_nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile_nginx
+    image: "app/nginx"
+    ports:
+      - "8088:8088"

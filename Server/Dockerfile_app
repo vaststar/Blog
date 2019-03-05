@@ -4,7 +4,6 @@ MAINTAINER ZZT
 RUN mkdir -p /blog/Server/app &&\
     mkdir -p /blog/Server/log
 
-COPY app /blog/Server/app
 COPY deploy /blog/Server/deploy
 COPY requirements /blog/Server/requirements
 
