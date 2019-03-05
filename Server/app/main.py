@@ -11,5 +11,5 @@ if __name__ == "__main__":
     #运行app
     # app.RunApp('0.0.0.0',4444,debug=True)
     #运行manager
-        ServerApp.RunManager()
+    ServerApp.RunManager()
 
