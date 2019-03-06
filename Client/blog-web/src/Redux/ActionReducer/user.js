@@ -1,4 +1,3 @@
-const serverAddr="http://192.168.44.131:8088";
 const UserData = {
     user:JSON.parse(window.localStorage.getItem('user'))||{
         username:'',
@@ -6,9 +5,9 @@ const UserData = {
         remember:false
     },
     token:window.localStorage.getItem('token'),
-    userUrl:"/users",
-    articleUrl:"/articles",
-    fileUrl:"/files",
+    userUrl:"/rest/users",
+    articleUrl:"/rest/articles",
+    fileUrl:"/rest/files",
     valid:window.sessionStorage.getItem('valid') ==='true'
 }
 
