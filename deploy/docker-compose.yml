@@ -20,9 +20,9 @@ services:
     image: "blog/nginx"
     ports:
       - "8088:8088"
-      - "8080:8080"
+      - "80:80"
     volumes:
-      - ./nginxlogs:/usr/local/nginx/logs
+      - ./logs_nginx:/usr/local/nginx/logs
       - ../Client/blog-web/build:/blog/Client/blog-web/build
       - ./nginx_default.conf:/etc/nginx/nginx.conf
-      - ./conf.d:/etc/nginx/conf.d
+      - ./conf_nginx.d:/etc/nginx/conf.d
