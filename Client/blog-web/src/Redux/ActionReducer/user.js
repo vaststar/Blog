@@ -6,9 +6,9 @@ const UserData = {
         remember:false
     },
     token:window.localStorage.getItem('token'),
-    userUrl:serverAddr+"/users",
-    articleUrl:serverAddr+"/articles",
-    fileUrl:serverAddr+"/files",
+    userUrl:"/users",
+    articleUrl:"/articles",
+    fileUrl:"/files",
     valid:window.sessionStorage.getItem('valid') ==='true'
 }
 
