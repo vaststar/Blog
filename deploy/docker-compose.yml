@@ -4,7 +4,7 @@ services:
     build:
       context: ../Server
       dockerfile: Dockerfile_app
-    image: "blog/app"
+    image: "blog/app:latest"
     ports:
       - "4444:4444"
     volumes:
@@ -17,7 +17,7 @@ services:
     build:
       context: ../nginx
       dockerfile: Dockerfile_nginx
-    image: "blog/nginx"
+    image: "blog/nginx:latest"
     ports:
       - "8088:8088"
       - "80:80"
