@@ -1,5 +1,5 @@
-FROM python:3.7
-MAINTAINER ZZT
+FROM python
+MAINTAINER ThomasZhu 47029316@qq.com
 
 RUN mkdir -p /blog/Server/app &&\
     mkdir -p /blog/Server/log
