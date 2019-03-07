@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {Divider} from 'antd'
 
 import SingleComment from './singleCommentComponent'
 import TextEdit from './textEdit'
@@ -28,7 +29,7 @@ class Comments extends Component {
             <div className='commentscomponent'>
                 <div className="commentsTitle"> {this.state.comments.length}条评论</div>
                 <div>{this.recursionNode(this.state.comments)}</div>
-                {this.props.valid?<hr className="commetnHline"/>:null}
+                {this.props.valid?<Divider/>:null}
                 {this.props.valid?<TextEdit submitfunc={this.submitComment}></TextEdit>:null}
             </div>
         );

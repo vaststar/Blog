@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import {Row,Col,Icon,Avatar} from 'antd'
+import {Row,Col,Icon,Avatar,Divider} from 'antd'
 
 import {get,post} from '../../Common/RequestREST'
 import TextEdit from './textEdit'
@@ -14,7 +14,8 @@ class CommentComponent extends Component {
     render(){
         return (
             <div className='singlecomment'>
-            <hr className="commetnHline"/>
+            {/* <hr className="commetnHline"/> */}
+            <Divider/>
                 <Row>
                     <Col span={1}>
                         <Avatar size="large" icon="user" /> 
