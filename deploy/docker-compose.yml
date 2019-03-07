@@ -15,14 +15,14 @@ services:
 
   blog_nginx:
     build:
-      context: .
+      context: ../nginx
       dockerfile: Dockerfile_nginx
     image: "blog/nginx"
     ports:
       - "8088:8088"
       - "80:80"
     volumes:
-      - ./logs_nginx:/usr/local/nginx/logs
+      - ../nginx/logs:/usr/local/nginx/logs
       - ../Client/blog-web/build:/blog/Client/blog-web/build
-      - ./nginx_default.conf:/etc/nginx/nginx.conf
-      - ./conf_nginx.d:/etc/nginx/conf.d
+      - ../nginx/nginx_default.conf:/etc/nginx/nginx.conf
+      - ../nginx/conf.d:/etc/nginx/conf.d

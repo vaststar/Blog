@@ -10,7 +10,7 @@ COPY requirements /blog/Server/requirements
 WORKDIR /blog/Server
 
 RUN pip3 install -r requirements &&\
-    chmod 777 ./deploy/start_gunicorn.sh
+    chmod +x ./deploy/start_gunicorn.sh
 
 ENTRYPOINT ["./deploy/start_gunicorn.sh"]
 
