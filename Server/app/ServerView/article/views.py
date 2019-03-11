@@ -1,5 +1,5 @@
-from flask import jsonify,request,send_from_directory
-import os
+from flask import jsonify,request
+import os, random, string
 from . import article_blue
 
 from app.ServerView.Common import Common
@@ -25,7 +25,7 @@ def post_Article():
     params = request.get_json()
     if 'title' in params and 'brief' in params and 'body' in params:
         #先将内容保存成文件，然后将地址等信息上传到数据库
-        filePath = Common.generateFilePath(params['title'])
+        filePath = Common.generateFilePath(''.join([random.choice(string.digits + string.ascii_letters) for i in range(5)])+'.md')
         absFilePath = os.path.join(config.STATIC_FILE_PATH,filePath)
         if Common.saveFile(absFilePath,params['body']):
             return jsonify(ArticleApi.postArticle(userid,params['title'],params['brief'],params["keywords"],params["coverurl"],filePath))

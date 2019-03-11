@@ -18,7 +18,7 @@ def falseReturn(data, msg):
 def generateFilePath(fileName):
     '''生成文件路径，年/月/日/带时间戳的文件名'''
     dayTimeDirPath = datetime.datetime.now().strftime('%Y/%m/%d')
-    timeFileName = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_')+secure_filename(fileName)
+    timeFileName = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%f_')+secure_filename(fileName)
     return os.path.join(dayTimeDirPath,timeFileName).replace("\\\\","/")
 
 def makeSureFilePath(filePath):
