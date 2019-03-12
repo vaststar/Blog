@@ -1,11 +1,9 @@
-from flask import jsonify,request,send_from_directory
-import os
+from flask import jsonify,request
 from . import user_blue
 
 from app.ServerView.Common import Common
 from app.ServerView.Authority import Authority
-from app.ServerView.user.userApi import UserApi
-from app.ServerConfig import config
+from app.ServerView.Common.userApi import UserApi
 
 @user_blue.route("/tokens/",methods=['POST'])
 def get_token():
@@ -19,7 +17,7 @@ def get_token():
 def get_AllUserBase():
     return jsonify(UserApi.getAllUserBase())
 
-@user_blue.route("/bases/<path:username>/",methods=["GET"])
+@user_blue.route("/bases/<username>/",methods=["GET"])
 @Authority.login_required
 def get_SelfUserBase(username):
     return jsonify(UserApi.getUserBaseByName(username))

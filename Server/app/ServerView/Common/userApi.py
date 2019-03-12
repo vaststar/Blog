@@ -15,6 +15,16 @@ class UserApi(object):
             return Common.trueReturn({'userid':userid},'register ok')
         else :
             return Common.falseReturn('unknown reason','register wrong')
+    @staticmethod
+    def updateUserBase(userid,username,password):
+        if not blogDB.getUserById(userid):
+            return Common.falseReturn(None, "{} doesn't exist in user_base".format(userid))
+        if not username or not password:
+            return Common.falseReturn(None, 'username or password cannot be empty')
+        if blogDB.updateUser(userid,username,password):
+            return Common.trueReturn({'userid':userid},'change ok')
+        else:
+            return Common.falseReturn(None,'change false')
 
     @staticmethod
     def registerUserInfo(userid,realname,phone,idcard,email,avatarurl):
@@ -23,11 +33,20 @@ class UserApi(object):
         if not realname or not phone or not idcard or not email:
             return Common.falseReturn(None,'params cannot be none')
         if not blogDB.getUserInfoById(userid) is None:
-            user = blogDB.getUserInfoById(userid)
-            print(user)
             return Common.falseReturn(None,"{} is already exists in user_info ".format(userid))
         if blogDB.addUserInfo(userid, realname, idcard, phone, email,avatarurl):
             return Common.trueReturn(userid,'register ok')
+        else:
+            return Common.falseReturn(None,'unknown reason')
+
+    @staticmethod
+    def updateUserInfo(userid,realname,phone,idcard,email,avatarurl):
+        if not realname or not phone or not idcard or not email:
+            return Common.falseReturn(None,'params cannot be none')
+        if not blogDB.getUserInfoById(userid) :
+            return Common.falseReturn(None,"{} doesn't exist in user_info".format(userid))
+        if blogDB.updateUserInfo(userid,realname,idcard,phone,email,avatarurl):
+            return Common.trueReturn(userid,'modify ok')
         else:
             return Common.falseReturn(None,'unknown reason')
 

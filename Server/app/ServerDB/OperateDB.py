@@ -31,6 +31,13 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
             return userid
         return None
 
+    def updateUser(self,userid,username,password):
+        if self._ExecuteSQL('UPDATE user_base SET username=\'{}\',password=\'{}\' WHERE userid=\'{}\''.
+                            format(username,password,userid)):
+            self._CommitChange()
+            return True
+        return False
+
     #检查用户密码
     def checkPassword(self,username,password):
         user =self.getUserByName(username)
@@ -55,6 +62,14 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
     def addUserInfo(self,userid,realname,idcard,cellphone,email,avatarurl):
         if self._ExecuteSQL('INSERT INTO user_info (userid,realname,idcard,cellphone,email,avatarurl) VALUES(\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\')'.
                          format(userid,realname,idcard,cellphone,email,avatarurl)):
+            self._CommitChange()
+            return True
+        return False
+
+    #修改用户信息
+    def updateUserInfo(self,userid,realname,idcard,cellphone,email,avatarurl):
+        if self._ExecuteSQL('UPDATE user_info SET realname=\'{}\',idcard=\'{}\',cellphone=\'{}\',email=\'{}\',avatarurl=\'{}\' WHERE userid=\'{}\')'.
+                         format(realname,idcard,cellphone,email,avatarurl,userid)):
             self._CommitChange()
             return True
         return False
@@ -84,6 +99,20 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
             self._CommitChange()
             return artid
         return None
+    #修改一个文章
+    def updateArticle(self,articleid,title,brief,keys,coverurl):
+        if self._ExecuteSQL('UPDATE article_base SET title=\'{}\',breif=\'{}\',keywords=\'{}\',coverurl=\'{}\') WHERE articleid=\'{}\')'.
+                         format(title,brief,keys,coverurl,articleid)):
+            self._CommitChange()
+            return True
+        return False
+    #删除一个文章
+    def delArticle(self,articleid):
+        if self._ExecuteSQL('DELETE FROM article_base WHERE articleid=\'{}\''.format(articleid)):
+            self._CommitChange()
+            return True
+        return False
+
     #添加一个评论
     def addComment(self,articleid,userid,uptime,comments,refid):
         commentid = BaseDB.GenerateUUID()
@@ -96,5 +125,11 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
     def getChildNumberByCommentId(self,commentid):
         self._ExecuteSQL('SELECT COUNT(*) FROM comments WHERE refid=\'{}\''.format(commentid))
         return self._FetchAll()
+    #删除一个评论
+    def delComment(self,commentid):
+        if self._ExecuteSQL('DELETE FROM comments WHERE commentid=\'{}\' and refid=\'{}\''.format(commentid,commentid)):
+            self._CommitChange()
+            return True
+        return False
 
 
