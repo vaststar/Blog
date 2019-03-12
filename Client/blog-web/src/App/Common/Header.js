@@ -23,7 +23,6 @@ class HeaderCom extends Component {
     }
 
     render() {
-        const {user,valid}=this.props
         return (
             <Layout.Header>
                 <Row gutter={24}>
@@ -38,23 +37,23 @@ class HeaderCom extends Component {
                   style={{ lineHeight: '64px' }}
                 >
                   <Menu.Item key="/"><Link to={'/'}/><Icon type="home" />首页</Menu.Item>
-                  <Menu.Item key="/video/" ><Link to={this.getLinkToUrl('/video/')}/><Icon type="fire" />热门</Menu.Item>
+                  {this.props.valid?<Menu.Item key="/video/" ><Link to={this.getLinkToUrl('/video/')}/><Icon type="fire" />我的</Menu.Item>:null}
                   {
-                    valid?
-                    <Menu.SubMenu title={<span><Icon type="user" />{user.username}</span>}>
+                    this.props.valid?
+                    <Menu.SubMenu title={<span><Icon type="user" />{this.props.user.username}</span>}>
                         <Menu.Item key="setting">个人中心</Menu.Item>
                         <Menu.Item key="/writes/"><Link to={this.getLinkToUrl('/writes/')}/>发布文章</Menu.Item>
                         <Menu.Item key="logout">退出登陆</Menu.Item>
                     </Menu.SubMenu>
                     :
-                    <Menu.Item key='login'><Link to={this.getLinkToUrl('/login/')}/>登陆</Menu.Item>
+                    <Menu.Item key='login'><Link to={this.getLinkToUrl('/login/')}/><Icon type="user" />登陆</Menu.Item>
                   }
+                  {this.props.valid?null:<Menu.Item key='login'><Link to={this.getLinkToUrl('/register/')}/><Icon type="user-add" />注册</Menu.Item>}
                 </Menu></Col>
                 </Row>
             </Layout.Header>
         );
     }
-    
     componentDidMount(){
         //通过获取自己的信息，判断是否进入验证
         get(this.props.userUrl+"/bases/"+this.props.user.username+"/").then(response => response.json()).then(result => {

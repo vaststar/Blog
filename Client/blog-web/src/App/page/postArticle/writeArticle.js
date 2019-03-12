@@ -7,11 +7,10 @@ import {
     Form, Icon, Input, Button, Modal
   } from 'antd';
 
-
-import Header from '../../Common/Header'
 import MarkDownEditor from './markDownEditor'
-import {postFile,post} from '../../Common/RequestREST'
+import {postFile,post,put} from '../../Common/RequestREST'
 
+const ARTICLE_ID='articleID'
 const ARTICLE_TITLE='articleTitle'
 const ARTICLE_CONTENT='articleContent'
 const ARTICLE_BRIEF='articleBrief'
@@ -20,24 +19,38 @@ const ARTICLE_COVER='articleCover'
 
 class WriteArticleComponent extends Component {
     state={previewVisible: false,coverurl:null}
-
+    fromPath = this.props.location.state || { from: "/" };
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
           if (!err) {
               //上传文章
-
             console.log('Received values of form: ', values);
-            post(this.props.articleUrl+"/bases/",{'title': values.articleTitle,'brief':values.articleBrief,'keywords':values.articleKeys,'coverurl':values.articleCover.replace("\\","/"),'body':values.articleContent})
-            .then(res=>res.json()).then(result=>{
-                if(result.status){
-                    //跳转到主页
-                    this.props.history.push("/");
-                }
-                console.log('post article',result)
-            }).catch(function(e){
-                console.log(e)
-            })
+            if( this.props.ARTICLE_ID === '')
+            {//说明是新文章
+                post(this.props.articleUrl+"/bases/",{'title': values.articleTitle,'brief':values.articleBrief,'keywords':values.articleKeys,'coverurl':values.articleCover.replace("\\","/"),'body':values.articleContent})
+                .then(res=>res.json()).then(result=>{
+                    if(result.status){
+                        //跳转到from页
+                        this.props.history.push(this.fromPath.from);
+                    }
+                    console.log('post article',result)
+                }).catch(function(e){
+                    console.log(e)
+                })
+            }
+            else{
+                put(this.props.articleUrl+"/bases/"+this.props.ARTICLE_ID,{'title': values.articleTitle,'brief':values.articleBrief,'keywords':values.articleKeys,'coverurl':values.articleCover.replace("\\","/"),'body':values.articleContent})
+                .then(res=>res.json()).then(result=>{
+                    if(result.status){
+                        //跳转到from页
+                        this.props.history.push(this.fromPath.from);
+                    }
+                    console.log('post article',result)
+                }).catch(function(e){
+                    console.log(e)
+                })
+            }
           }
         });
     }
@@ -155,6 +168,7 @@ class WriteArticleComponent extends Component {
 }
 
 WriteArticleComponent.propTypes={
+    [ARTICLE_ID]:PropTypes.string.isRequired,
     [ARTICLE_TITLE]:PropTypes.string.isRequired,
     [ARTICLE_CONTENT]:PropTypes.string.isRequired,
     [ARTICLE_BRIEF]:PropTypes.string.isRequired,

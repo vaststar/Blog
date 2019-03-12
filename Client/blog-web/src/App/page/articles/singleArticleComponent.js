@@ -80,7 +80,7 @@ class ArticleComponent extends Component {
     }
 }
 
-//类型检查，需要传入 userName,password,remember以及回调函数
+//类型检查，需要传入 article对象
 ArticleComponent.propTypes={
     [ARTICLE_PROPS]:PropTypes.object.isRequired
   };
