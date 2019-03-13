@@ -27,7 +27,7 @@ class Comments extends Component {
     render(){
         return (
             <div className='commentscomponent'>
-                <div className="commentsTitle"> {this.state.comments.length}条评论</div>
+                <div className="commentsTitle"> 共{this.state.totalNumber}条评论</div>
                 <div>{this.recursionNode(this.state.comments)}</div>
                 <div className="comment-pagination">
                     <Pagination showQuickJumper defaultCurrent={1} defaultPageSize={this.state.pageSize}
