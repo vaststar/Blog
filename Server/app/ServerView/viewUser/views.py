@@ -39,3 +39,13 @@ def register_Auths():
 def get_username(userid):
     return jsonify(UserApi.getUserNameById(userid))
 
+@user_blue.route("/useravatars/<userid>",methods=["GET"])
+def get_userAvatar(userid):
+    return jsonify(UserApi.getUserAvatarById(userid))
+
+
+@user_blue.route("/userinfos/<userid>",methods=["GET"])
+@Authority.login_required
+def get_userinfo(userid):
+    return jsonify(UserApi.getUserInfoByUserid(userid))
+

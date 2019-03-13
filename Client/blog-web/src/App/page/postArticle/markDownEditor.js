@@ -101,6 +101,7 @@ class MarkdownEditor extends Component {
         ).then(result=>result.json()).then(result=>{
             let url = `![](${this.props.fileUrl+"/"+result.data.filepath})` // 拼接成markdown语法
             editor.setValue(editor.getValue() + url + '\n') // 和编辑框之前的内容进行拼接
+            editor.setCursor(editor.lineCount())
         }).catch(function(e){
             console.log(e)
         })

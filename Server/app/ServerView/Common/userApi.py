@@ -84,4 +84,24 @@ class UserApi(object):
         else:
             return Common.falseReturn(None,'not found')
 
+    @staticmethod
+    def getUserAvatarById(userid):
+        if not userid:
+            return Common.falseReturn(None,'userid is required')
+        user = blogDB.getUserInfoById(userid)
+        if user:
+            return Common.trueReturn(user[-1],'query ok')
+        else:
+            return Common.falseReturn(None,'not found')
+
+    @staticmethod
+    def getUserInfoByUserid(userid):
+        if not userid:
+            return Common.falseReturn(None,'userid is required')
+        user = blogDB.getUserInfoById(userid)
+        if user:
+            return Common.trueReturn(dict(zip("userid,realname,idcard,cellphone,email,avatarurl"),user), 'query ok')
+        else:
+            return Common.falseReturn(None, 'cannot find {}'.format(userid))
+
 

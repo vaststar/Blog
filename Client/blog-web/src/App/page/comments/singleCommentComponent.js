@@ -10,7 +10,7 @@ import TextEdit from './textEdit'
 const COMMENT_PROPS = 'comment';
 const COMMENT_REFRESH_FUNC='refreshFunc';
 class CommentComponent extends Component {
-    state={username:"",replyshow:false,childNumber:0,likeNumber:0}
+    state={username:"",useravatar:"",replyshow:false,childNumber:0,likeNumber:0}
     render(){
         return (
             <div className='singlecomment'>
@@ -18,7 +18,7 @@ class CommentComponent extends Component {
             <Divider/>
                 <Row>
                     <Col span={1}>
-                        <Avatar size="large" icon="user" /> 
+                        <Avatar size="large" icon="user" src={this.state.useravatar} /> 
                     </Col>
                     <Col span={23}>
                         <Row>{this.state.username}</Row>
@@ -58,6 +58,14 @@ class CommentComponent extends Component {
             console.log(e);
         });
         //根据userid获取用户头像
+        get(this.props.userUrl+"/useravatars/"+this.props[COMMENT_PROPS].userid).then(response => response.json()).then(result=>{
+            if(result.status){
+                this.setState({useravatar:"/rest/files/"+result.data})
+            }
+        }).catch(function (e) {
+            console.log(e);
+        });
+
         //根据评论id，获取子评论数量
         get(this.props.articleUrl+"/counts/childcomments/"+this.props[COMMENT_PROPS].commentid).then(response=>response.json()).then(result=>{
             if(result.status){
