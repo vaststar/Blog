@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Route , Switch, Redirect} from 'react-router-dom'
 import { connect } from 'react-redux'
-import {Layout,BackTop,LocaleProvider} from 'antd'
+import {Layout,BackTop} from 'antd'
 import routerMap from './routerMap'
 
 class App extends Component {

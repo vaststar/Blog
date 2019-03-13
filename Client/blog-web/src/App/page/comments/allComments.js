@@ -9,7 +9,7 @@ import {get,post} from '../../Common/RequestREST'
 
 const ARTICLE_ID = 'articleid';
 class Comments extends Component {
-    state={comments:[],pageNumber:1,pageSize:2,totalNumber:1,isLoadingMore:false}
+    state={comments:[],pageNumber:1,pageSize:4,totalNumber:1,isLoadingMore:false}
     recursionNode=(data)=>{
         return <ul>
         {

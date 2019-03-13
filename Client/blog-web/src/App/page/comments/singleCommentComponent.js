@@ -57,6 +57,7 @@ class CommentComponent extends Component {
         }).catch(function (e) {
             console.log(e);
         });
+        //根据userid获取用户头像
         //根据评论id，获取子评论数量
         get(this.props.articleUrl+"/counts/childcomments/"+this.props[COMMENT_PROPS].commentid).then(response=>response.json()).then(result=>{
             if(result.status){
