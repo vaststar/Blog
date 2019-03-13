@@ -1,4 +1,4 @@
-from flask import jsonify,request
+from flask import jsonify,request,make_response
 import os, random, string
 from . import article_blue
 
@@ -9,7 +9,12 @@ from app.ServerConfig import config
 
 @article_blue.route("/bases/",methods=["GET"])
 def get_AllArticles():
-    return jsonify(ArticleApi.getAllArticle())
+    pageNumber = request.args.get('pageNumber')
+    pageSize = request.args.get('pageSize')
+    if pageNumber is None or pageSize is None:
+        return jsonify(Common.falseReturn(None,'please make pagenation'))
+    #分页查询
+    return jsonify(ArticleApi.getArticlePagnation(int(pageNumber),int(pageSize)))
 
 @article_blue.route("/bases/<articleid>",methods=["GET"])
 def get_ArticleByID(articleid):
@@ -69,6 +74,11 @@ def delete_Article(articleid):
 
 @article_blue.route("/comments/<articleid>",methods=["GET"])
 def get_Comments(articleid):
+    pageNumber = request.args.get('pageNumber')
+    pageSize = request.args.get('pageSize')
+    if pageNumber is None or pageSize is None:
+        return jsonify(Common.falseReturn(None,'please make pagenation'))
+
     comments = ArticleApi.getCommentByArticleId(articleid)
     if not comments['status']:
         return jsonify(comments)
@@ -83,7 +93,9 @@ def get_Comments(articleid):
             l.append(entitiy)
         else:
             entities[fid].setdefault('soncomment', []).append(entitiy)
-    return jsonify(Common.trueReturn(l,'query ok'))
+    #取前N个
+    print(pageNumber,pageSize)
+    return jsonify(Common.trueReturn(l[(int(pageNumber)-1)*int(pageSize):int(pageNumber)*int(pageSize)],'query ok'))
 
 @article_blue.route("/comments/",methods=["POST"])
 @Authority.login_required
@@ -103,6 +115,14 @@ def get_articleCommentCounts(articleid):
 @article_blue.route("/counts/childcomments/<commentid>",methods=["GET"])
 def get_childCommentCounts(commentid):
     return jsonify(ArticleApi.getChildCommentCountByCommentId(commentid))
+
+@article_blue.route("/counts/bases/",methods=["GET"])
+def get_allArticleCounts():
+    return jsonify(ArticleApi.getAllArticleCount())
+
+@article_blue.route("/counts/bases/<userid>",methods=["GET"])
+def get_UserArticleCounts(userid):
+    return jsonify(ArticleApi.getArticleCountByUserId(userid))
 
 
 

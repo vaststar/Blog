@@ -1,10 +1,11 @@
 import uuid,abc
 class BaseDB(object,metaclass=abc.ABCMeta):
     '''数据库基类，构建时可以传入sql文件进行执行，文件内以//分割表达式'''
-    def __init__(self,datebase,sqlfiles=None):
-        self.__db = datebase
+    def __init__(self,database,databaseType="sqlite",sqlfiles=None):
+        self.__db = database
         self.__cursor = self.__db.cursor()
         self.__InitSQLFile(sqlfiles)
+        self._dbType = databaseType
 
     def __InitSQLFile(self,sqlfilepaths):
         for v in sqlfilepaths:

@@ -24,3 +24,7 @@
 .commentFoot{
     cursor:pointer;
 }
+.comment-pagination{
+    margin: 0 20px 0 auto;
+    text-align: right;
+}

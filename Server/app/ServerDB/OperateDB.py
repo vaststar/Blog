@@ -3,8 +3,8 @@ from .BaseDB import BaseDB
 
 class OperateDB(BaseDB,metaclass=abc.ABCMeta):
     '''中间层业务相关的operate，可能变化的数据库相关操作放在这里'''
-    def __init__(self,datebase,sqlfiles=None):
-        BaseDB.__init__(self,datebase,sqlfiles)
+    def __init__(self,database,databaseType,sqlfiles=None):
+        BaseDB.__init__(self,database,databaseType,sqlfiles)
 
 #业务相关放在这之后，比如取数据，注册之类的
 #用户基本表
@@ -83,14 +83,23 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
     def getArticleById(self,artid):
         self._ExecuteSQL('SELECT * FROM article_base WHERE articleid=\'{}\''.format(artid))
         return self._FetchOne()
-    #根据文章id获取所有评论
-    def getCommentByArticleId(self,artid):
-        self._ExecuteSQL('SELECT * FROM comments WHERE articleid=\'{}\''.format(artid))
+    #获取文章数量
+    def getArticleCount(self):
+        self._ExecuteSQL('SELECT COUNT(*) FROM article_base')
         return self._FetchAll()
-    #根据文章id获取所有顶级评论数量
-    def getCommentNumberByArticleId(self,artid):
-        self._ExecuteSQL('SELECT COUNT(*) FROM comments WHERE articleid=\'{}\' AND refid=\'\''.format(artid))
+    #获取分页文章
+    def getArticleLimit(self,limit,offset):
+        self._ExecuteSQL('SELECT * FROM article_base ORDER BY ROWID DESC LIMIT \'{}\' OFFSET \'{}\''.format(limit,offset))
         return self._FetchAll()
+    #获取某个用户发表的文章数量
+    def getArticleCountByUserid(self,userid):
+        self._ExecuteSQL('SELECT COUNT(*) FROM article_base WHERE userid=\'{}\''.format(userid))
+        return self._FetchAll()
+    #获取用户文章分页
+    def getArticleByUseridLimit(self,userid,limit,offset):
+        self._ExecuteSQL('SELECT * FROM article_base WHERE userid=\'{}\' ORDER BY ROWID DESC LIMIT \'{}\' OFFSET \'{}\''.format(userid,limit,offset))
+        return self._FetchAll()
+
     #添加一个文章
     def addArticle(self,userid,title,brief,keys,coverurl,uptime,bodyurl):
         artid = BaseDB.GenerateUUID()
@@ -112,6 +121,19 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
             self._CommitChange()
             return True
         return False
+#评论表
+    #根据文章id获取所有评论
+    def getCommentByArticleId(self,artid):
+        self._ExecuteSQL('SELECT * FROM comments WHERE articleid=\'{}\''.format(artid))
+        return self._FetchAll()
+    #根据文章id获取所有顶级评论数量
+    def getCommentNumberByArticleId(self,artid):
+        self._ExecuteSQL('SELECT COUNT(*) FROM comments WHERE articleid=\'{}\' AND refid=\'\''.format(artid))
+        return self._FetchAll()
+    # #获取评论分页
+    # def getCommentByArticleIdLimit(self,artid,limit,offset):
+    #     self._ExecuteSQL('SELECT COUNT(*) FROM comments WHERE articleid=\'{}\' AND refid=\'\' ORDER BY ROWID DESC LIMIT \'{}\' OFFSET \'{}\''.format(artid,limit,offset))
+    #     return self._FetchAll()
 
     #添加一个评论
     def addComment(self,articleid,userid,uptime,comments,refid):
@@ -121,15 +143,22 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
             self._CommitChange()
             return commentid
         return None
-    #根据评论id。获取子评论数量
-    def getChildNumberByCommentId(self,commentid):
-        self._ExecuteSQL('SELECT COUNT(*) FROM comments WHERE refid=\'{}\''.format(commentid))
-        return self._FetchAll()
+    #修改评论
+    def updateComment(self,commentid,comments):
+        if self._ExecuteSQL('UPDATE comments SET comments=\'{}\' WHERE commentid=\'{}\''.
+                         format(comments,commentid)):
+            self._CommitChange()
+            return True
+        return False
     #删除一个评论
     def delComment(self,commentid):
         if self._ExecuteSQL('DELETE FROM comments WHERE commentid=\'{}\' and refid=\'{}\''.format(commentid,commentid)):
             self._CommitChange()
             return True
         return False
+    #根据评论id。获取子评论数量
+    def getChildNumberByCommentId(self,commentid):
+        self._ExecuteSQL('SELECT COUNT(*) FROM comments WHERE refid=\'{}\''.format(commentid))
+        return self._FetchAll()
 
 

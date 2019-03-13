@@ -5,6 +5,20 @@ from app.ServerView.Common import Common
 class ArticleApi(object):
     '''定义一些用户相关的接口，给视图调用，减少视图工作量'''
     @staticmethod
+    def getAllArticle():
+        result = []
+        for k, v in enumerate(blogDB.getAllArticle()):
+            result.append(dict(zip(("articleid", "userid", "title", "breif", "keywords","coverurl","uptime", "bodyurl"), v)))
+        return Common.trueReturn(result, 'query ok')
+
+    @staticmethod
+    def getArticlePagnation(pageNumber=1,pagesize=1):
+        result=[]
+        for k,v in enumerate(blogDB.getArticleLimit(pagesize,(pageNumber-1)*pagesize)):
+            result.append(dict(zip(("articleid", "userid", "title", "breif", "keywords","coverurl","uptime", "bodyurl"), v)))
+        return Common.trueReturn(result, 'query ok')
+
+    @staticmethod
     def getArticleBaseByID(artid):
         blogbase =blogDB.getArticleById(artid)
         if not blogbase is None:
@@ -45,13 +59,6 @@ class ArticleApi(object):
         return Common.falseReturn(None,'delete comment false')
 
     @staticmethod
-    def getAllArticle():
-        result = []
-        for k, v in enumerate(blogDB.getAllArticle()):
-            result.append(dict(zip(("articleid", "userid", "title", "breif", "keywords","coverurl","uptime", "bodyurl"), v)))
-        return Common.trueReturn(result, 'query ok')
-
-    @staticmethod
     def getCommentByArticleId(artid):
         comments = blogDB.getCommentByArticleId(artid)
         if not comments is None:
@@ -75,3 +82,16 @@ class ArticleApi(object):
         if res:
             return Common.trueReturn(res[0], 'query ok')
         return Common.falseReturn(None, 'query false')
+
+    @staticmethod
+    def getAllArticleCount():
+        res = blogDB.getArticleCount()
+        if res:
+            return Common.trueReturn(res[0],'query ok')
+        return Common.falseReturn(None,'query false')
+    @staticmethod
+    def getArticleCountByUserId(userid):
+        res = blogDB.getArticleCountByUserid(userid)
+        if res:
+            return Common.trueReturn(res[0],'query ok')
+        return Common.falseReturn(None,'query false')

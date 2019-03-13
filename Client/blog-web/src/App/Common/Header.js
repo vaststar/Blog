@@ -46,9 +46,9 @@ class HeaderCom extends Component {
                         <Menu.Item key="logout">退出登陆</Menu.Item>
                     </Menu.SubMenu>
                     :
-                    <Menu.Item key='login'><Link to={this.getLinkToUrl('/login/')}/><Icon type="user" />登陆</Menu.Item>
+                    <Menu.Item key='/login/'><Link to={this.getLinkToUrl('/login/')}/><Icon type="user" />登陆</Menu.Item>
                   }
-                  {this.props.valid?null:<Menu.Item key='login'><Link to={this.getLinkToUrl('/register/')}/><Icon type="user-add" />注册</Menu.Item>}
+                  {this.props.valid?null:<Menu.Item key='/register/'><Link to={this.getLinkToUrl('/register/')}/><Icon type="user-add" />注册</Menu.Item>}
                 </Menu></Col>
                 </Row>
             </Layout.Header>

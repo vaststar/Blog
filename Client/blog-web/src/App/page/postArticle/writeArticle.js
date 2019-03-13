@@ -26,7 +26,7 @@ class WriteArticleComponent extends Component {
           if (!err) {
               //上传文章
             console.log('Received values of form: ', values);
-            if( this.props.ARTICLE_ID === '')
+            if( this.props.ARTICLE_ID===undefined || this.props.ARTICLE_ID===null || this.props.ARTICLE_ID === '')
             {//说明是新文章
                 post(this.props.articleUrl+"/bases/",{'title': values.articleTitle,'brief':values.articleBrief,'keywords':values.articleKeys,'coverurl':values.articleCover.replace("\\","/"),'body':values.articleContent})
                 .then(res=>res.json()).then(result=>{
@@ -46,7 +46,7 @@ class WriteArticleComponent extends Component {
                         //跳转到from页
                         this.props.history.push(this.fromPath.from);
                     }
-                    console.log('post article',result)
+                    console.log('put article',this.props.ARTICLE_ID,result)
                 }).catch(function(e){
                     console.log(e)
                 })

@@ -43,3 +43,8 @@
     width:100%;
     height:90%;
 }
+.loadMore{
+    margin: 0 auto;
+    text-align: center;
+    cursor: pointer;
+}
