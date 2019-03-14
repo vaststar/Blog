@@ -110,7 +110,7 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
         return None
     #修改一个文章
     def updateArticle(self,articleid,title,brief,keys,coverurl):
-        if self._ExecuteSQL('UPDATE article_base SET title=\'{}\',breif=\'{}\',keywords=\'{}\',coverurl=\'{}\') WHERE articleid=\'{}\')'.
+        if self._ExecuteSQL('UPDATE article_base SET title=\'{}\',breif=\'{}\',keywords=\'{}\',coverurl=\'{}\' WHERE articleid=\'{}\''.
                          format(title,brief,keys,coverurl,articleid)):
             self._CommitChange()
             return True
