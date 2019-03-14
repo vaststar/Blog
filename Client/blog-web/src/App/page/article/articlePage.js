@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import ReactMarkdown from 'react-markdown'
 
 import Header from '../../Common/Header'
-import {get} from '../../Common/RequestREST'
+import {get,post} from '../../Common/RequestREST'
 import Comments from '../comments/allComments'
 
 class ArticlePage extends Component {
@@ -26,12 +26,18 @@ class ArticlePage extends Component {
                 let bodyurl = result.data.bodyurl.replace("\\","/");
                 get(this.props.fileUrl+"/"+bodyurl).then(result=>result.text()).then(result=>{
                     this.setState({content:result});
+                    this.browserHistory();
                 }).catch(function(e){
                     console.log( e);
                 })
             }else{
             }
         }).catch(function (e) {
+            console.log( e);
+        });
+    }
+    browserHistory=()=>{
+        post(this.props.browserUrl+"/articles/",{'articleid':this.props.location.pathname.split("/").pop()}).catch(function (e) {
             console.log( e);
         });
     }

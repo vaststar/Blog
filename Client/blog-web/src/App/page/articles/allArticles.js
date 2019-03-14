@@ -19,7 +19,7 @@ class AllArticles extends Component {
                     )
                 })}
                 {this.state.pageNumber<=this.state.totalPage?<div onClick={this.loadMore} className="loadMore">点击加载更多</div>:null}
-                {this.state.isLoadingMore?<Spin/>:null}
+                {this.state.isLoadingMore?<Spin className="loadMore"/>:null}
             </div>
         )
     }
@@ -43,7 +43,7 @@ class AllArticles extends Component {
             get(this.props.articleUrl+"/?pageNumber="+this.state.pageNumber+"&&pageSize="+this.state.pageSize).then(response=>response.json()).then(result=>{
                 if(result.status){
                     //读取所有文章基本信息
-                    this.setState({articles:this.state.articles.concat(result.data)});
+                    this.setState({articles:this.removeDuplicatedItem(this.state.articles.concat(result.data))});
                     this.setState({pageNumber:this.state.pageNumber+1});
                 }
                 this.setState({isLoadingMore:false});
@@ -63,6 +63,17 @@ class AllArticles extends Component {
             this.loadMore();
         }
     }
+    removeDuplicatedItem=(arr)=>{
+       for(var i = 0; i < arr.length-1; i++){
+           for(var j = i+1; j < arr.length; j++){
+               if(arr[i]['articleid']==arr[j]['articleid']){
+                 arr.splice(j,1);
+                  j--;
+                  }
+              }
+          }
+          return arr;
+       }
 }
 
 const  mapStateToProps =(state,props)=>{

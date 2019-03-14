@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter ,Redirect} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import moment from 'moment'
@@ -11,18 +11,10 @@ import {get, post,del} from '../../Common/RequestREST'
 const ARTICLE_PROPS = 'article';
 class ArticleComponent extends Component {
     state={commentsNumber:0,browseNumber:0,likeNumber:0,content:"",showComment:false,mouseIn:false,
-           personalArticle:false,personalLike:false,articleDeleted:false,articleEdit:false}
+           personalArticle:false,personalLike:false,articleDeleted:false}
     
     render(){
-        if(this.state.articleEdit){
-        return <Redirect to={{
-            pathname:/writes/,
-            state:{from:this.props.location.pathname,
-                   articleDetail:{articleID:this.props[ARTICLE_PROPS].articleid, articleTitle:this.props[ARTICLE_PROPS].title, articleContent:this.state.content, 
-                                  articleBrief:this.props[ARTICLE_PROPS].breif, articleCover:this.props[ARTICLE_PROPS].coverurl, articleKeys:this.props[ARTICLE_PROPS].keywords}
-                  }
-        }}></Redirect>
-        }
+        
         if(!this.state.articleDeleted){
         return (
             <div className='articlesingle' onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} >
@@ -206,8 +198,14 @@ class ArticleComponent extends Component {
     }
     //编辑文章
     editClick=()=>{
-        this.setState({articleEdit:true})
-        console.log('edi')
+        this.props.history.push({
+            pathname:/writes/,
+            state:{
+                    from:this.props.location.pathname,
+                    articleDetail:{articleID:this.props[ARTICLE_PROPS].articleid, articleTitle:this.props[ARTICLE_PROPS].title, articleContent:this.state.content, 
+                                  articleBrief:this.props[ARTICLE_PROPS].breif, articleCover:this.props[ARTICLE_PROPS].coverurl, articleKeys:this.props[ARTICLE_PROPS].keywords}
+                  }
+        })
     }
 }
 

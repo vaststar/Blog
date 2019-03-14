@@ -25,7 +25,7 @@ class WriteArticleComponent extends Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
           if (!err) {
               //上传文章
-            console.log('Received values of form: ', values,this.props[ARTICLE_ID]);
+            // console.log('Received values of form: ', values,this.props[ARTICLE_ID]);
             if( this.props[ARTICLE_ID]===undefined || this.props[ARTICLE_ID]===null || this.props[ARTICLE_ID] === '')
             {//说明是新文章
                 post(this.props.articleUrl+"/",{'title': values.articleTitle,'brief':values.articleBrief,'keywords':values.articleKeys,'coverurl':values.articleCover.replace("\\","/"),'body':values.articleContent})

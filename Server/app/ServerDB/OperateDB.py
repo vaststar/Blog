@@ -165,6 +165,10 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
     def getBrowserNumberByArticleId(self,articleid):
         self._ExecuteSQL('SELECT COUNT(*) FROM browsers_article WHERE articleid=\'{}\''.format(articleid))
         return self._FetchAll()
+    #获取某个文章在某个ip的浏览记录
+    def getBrowserArticleByIp(self,articleid,ip):
+        self._ExecuteSQL('SELECT * FROM browsers_article WHERE articleid=\'{}\' and ipaddr=\'{}\''.format(articleid,ip))
+        return self._FetchAll()
     #记录一条浏览记录
     def addBrowserArticle(self,articleid,userid,ip):
         browserid = BaseDB.GenerateUUID()

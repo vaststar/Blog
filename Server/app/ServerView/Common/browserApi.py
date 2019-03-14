@@ -11,6 +11,8 @@ class BrowserApi(object):
 
     @staticmethod
     def postArticleBrowser(articleid,userid,ip):
+        if BrowserApi.checkAlreadyBrowserArticle(articleid,userid,ip)['data']:
+            return Common.falseReturn(None,'already in')
         if blogDB.addBrowserArticle(articleid,userid,ip):
             return Common.trueReturn(True,'browser ok')
         return Common.falseReturn(None,'browser false')
@@ -20,3 +22,11 @@ class BrowserApi(object):
         if blogDB.delBroswerArticleHistoryByUser(articleid,userid):
             return Common.trueReturn(True,'del ok')
         return Common.falseReturn(None,'del false')
+
+    @staticmethod
+    def checkAlreadyBrowserArticle(articleid,userid,ip):
+        res = blogDB.getBrowserArticleByIp(articleid,ip)
+        for k,v in enumerate(res):
+            if v[2] == userid:
+                return Common.trueReturn(True,'already in')
+        return Common.falseReturn(None,'not in')

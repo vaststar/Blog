@@ -11,7 +11,6 @@ class ArticleWritePage extends Component{
         articleContent={this.state.articleContent} articleBrief={this.state.articleBrief} articleCover={this.state.articleCover} articleKeys={this.state.articleKeys}/>
     }
     componentDidMount(){
-        console.log(this.state)
         //查询bodyurl
     }
     // console.log(this.props.location)
