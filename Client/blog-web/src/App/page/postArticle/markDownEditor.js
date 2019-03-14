@@ -56,6 +56,7 @@ class MarkdownEditor extends Component {
         this.createSimpleMDE();
         if(value){
             this.simplemde.codemirror.setValue(value)
+            this.simplemde.codemirror.setCursor(this.simplemde.codemirror.lineCount())
         }
     }
     //拖拽

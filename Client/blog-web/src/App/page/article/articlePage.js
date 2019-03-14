@@ -7,7 +7,7 @@ import {get} from '../../Common/RequestREST'
 import Comments from '../comments/allComments'
 
 class ArticlePage extends Component {
-    state={articlebase:null,content:""}
+    state={content:""}
     render() {
         // const {token,user,valid}=this.props
         return (
@@ -20,15 +20,12 @@ class ArticlePage extends Component {
     }
     componentDidMount(){
         //获取文章基本信息
-        get(this.props.articleUrl+"/bases/"+this.props.location.pathname.split("/").pop()).then(response => response.json()).then(result=>{
+        get(this.props.articleUrl+"/"+this.props.location.pathname.split("/").pop()).then(response => response.json()).then(result=>{
             if(result.status){
-                //读取所有文章基本信息
-                this.setState({articlebase:result.data})
                 //读取文本内容
-                let bodyurl = this.state.articlebase.bodyurl.replace("\\","/");
+                let bodyurl = result.data.bodyurl.replace("\\","/");
                 get(this.props.fileUrl+"/"+bodyurl).then(result=>result.text()).then(result=>{
-                    console.log('dd',result)
-                        this.setState({content:result});
+                    this.setState({content:result});
                 }).catch(function(e){
                     console.log( e);
                 })

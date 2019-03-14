@@ -8,6 +8,9 @@ const UserData = {
     userUrl:"/rest/users",
     articleUrl:"/rest/articles",
     fileUrl:"/rest/files",
+    commentUrl:"/rest/comments",
+    likeUrl:"/rest/likes",
+    browserUrl:"/rest/browsers",
     valid:window.sessionStorage.getItem('valid') ==='true'
 }
 

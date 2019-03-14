@@ -59,7 +59,7 @@ class CommentComponent extends Component {
         });
         //根据userid获取用户头像
         get(this.props.userUrl+"/useravatars/"+this.props[COMMENT_PROPS].userid).then(response => response.json()).then(result=>{
-            if(result.status){
+            if(result.status && result.data){
                 this.setState({useravatar:"/rest/files/"+result.data})
             }
         }).catch(function (e) {
@@ -67,7 +67,7 @@ class CommentComponent extends Component {
         });
 
         //根据评论id，获取子评论数量
-        get(this.props.articleUrl+"/counts/childcomments/"+this.props[COMMENT_PROPS].commentid).then(response=>response.json()).then(result=>{
+        get(this.props.commentUrl+"/counts/childcomments/"+this.props[COMMENT_PROPS].commentid).then(response=>response.json()).then(result=>{
             if(result.status){
                 this.setState({childNumber:result.data})
             }
@@ -78,7 +78,7 @@ class CommentComponent extends Component {
     submitComment=(str)=>{
         //提交评论
         let body = {'articleid':this.props[COMMENT_PROPS].articleid,'comment':str,'refid':this.props[COMMENT_PROPS].commentid}
-        post(this.props.articleUrl+"/comments/",body).then(result=>{
+        post(this.props.commentUrl+"/",body).then(result=>{
             if(result.status)
             {
                 this.clickReply();

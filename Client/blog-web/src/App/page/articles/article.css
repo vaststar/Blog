@@ -48,3 +48,9 @@
     text-align: center;
     cursor: pointer;
 }
+.likes_article{
+    cursor: pointer;
+}
+.edit_article_com{
+    cursor: pointer;
+}

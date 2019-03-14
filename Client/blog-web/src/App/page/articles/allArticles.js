@@ -29,7 +29,7 @@ class AllArticles extends Component {
         this.loadMore();
     }
     updateTotalPage=()=>{
-        get(this.props.articleUrl+"/counts/bases/").then(response=>response.json()).then(result=>{
+        get(this.props.articleUrl+"/counts/").then(response=>response.json()).then(result=>{
             if(result.status){
                 this.setState({totalPage:parseInt(result.data)/this.state.pageSize})
             }else{
@@ -40,7 +40,7 @@ class AllArticles extends Component {
     loadMore=()=>{
         if(this.state.pageNumber<=this.state.totalPage){
             this.setState({isLoadingMore:true})
-            get(this.props.articleUrl+"/bases/?pageNumber="+this.state.pageNumber+"&&pageSize="+this.state.pageSize).then(response=>response.json()).then(result=>{
+            get(this.props.articleUrl+"/?pageNumber="+this.state.pageNumber+"&&pageSize="+this.state.pageSize).then(response=>response.json()).then(result=>{
                 if(result.status){
                     //读取所有文章基本信息
                     this.setState({articles:this.state.articles.concat(result.data)});

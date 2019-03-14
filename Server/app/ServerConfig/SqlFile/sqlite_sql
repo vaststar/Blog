@@ -58,3 +58,39 @@ CREATE TABLE IF NOT EXISTS comments (
     comments     VARCHAR (2000)         NOT NULL,
     refid        VARCHAR (32)
 );
+//
+CREATE TABLE IF NOT EXISTS browsers_article (
+    browserid    VARCHAR (32)           PRIMARY KEY
+                                        NOT NULL
+                                        UNIQUE,
+    articleid    VARCHAR (32)           NOT NULL
+                                        REFERENCES article_base (articleid) ON DELETE CASCADE
+                                                                            ON UPDATE CASCADE,
+    userid       VARCHAR (32)           REFERENCES user_base (userid) ON DELETE CASCADE
+                                                                   ON UPDATE CASCADE,
+    ipaddr       VARCHAR (32)
+);
+//
+CREATE TABLE IF NOT EXISTS likes_article (
+    likeid    VARCHAR (32)              PRIMARY KEY
+                                        NOT NULL
+                                        UNIQUE,
+    articleid    VARCHAR (32)           NOT NULL
+                                        REFERENCES article_base (articleid) ON DELETE CASCADE
+                                                                            ON UPDATE CASCADE,
+    userid       VARCHAR (32)           NOT NULL
+                                        REFERENCES user_base (userid) ON DELETE CASCADE
+                                                                   ON UPDATE CASCADE
+);
+//
+CREATE TABLE IF NOT EXISTS likes_comment (
+    likeid    VARCHAR (32)              PRIMARY KEY
+                                        NOT NULL
+                                        UNIQUE,
+    commentid    VARCHAR (32)           NOT NULL
+                                        REFERENCES comments (commentid) ON DELETE CASCADE
+                                                                            ON UPDATE CASCADE,
+    userid       VARCHAR (32)           NOT NULL
+                                        REFERENCES user_base (userid) ON DELETE CASCADE
+                                                                   ON UPDATE CASCADE
+);

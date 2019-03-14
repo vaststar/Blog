@@ -25,10 +25,10 @@ class WriteArticleComponent extends Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
           if (!err) {
               //上传文章
-            console.log('Received values of form: ', values);
-            if( this.props.ARTICLE_ID===undefined || this.props.ARTICLE_ID===null || this.props.ARTICLE_ID === '')
+            console.log('Received values of form: ', values,this.props[ARTICLE_ID]);
+            if( this.props[ARTICLE_ID]===undefined || this.props[ARTICLE_ID]===null || this.props[ARTICLE_ID] === '')
             {//说明是新文章
-                post(this.props.articleUrl+"/bases/",{'title': values.articleTitle,'brief':values.articleBrief,'keywords':values.articleKeys,'coverurl':values.articleCover.replace("\\","/"),'body':values.articleContent})
+                post(this.props.articleUrl+"/",{'title': values.articleTitle,'brief':values.articleBrief,'keywords':values.articleKeys,'coverurl':values.articleCover.replace("\\","/"),'body':values.articleContent})
                 .then(res=>res.json()).then(result=>{
                     if(result.status){
                         //跳转到from页
@@ -40,13 +40,13 @@ class WriteArticleComponent extends Component {
                 })
             }
             else{
-                put(this.props.articleUrl+"/bases/"+this.props.ARTICLE_ID,{'title': values.articleTitle,'brief':values.articleBrief,'keywords':values.articleKeys,'coverurl':values.articleCover.replace("\\","/"),'body':values.articleContent})
+                put(this.props.articleUrl+"/"+this.props[ARTICLE_ID],{'title': values.articleTitle,'brief':values.articleBrief,'keywords':values.articleKeys,'coverurl':values.articleCover.replace("\\","/"),'body':values.articleContent})
                 .then(res=>res.json()).then(result=>{
                     if(result.status){
                         //跳转到from页
                         this.props.history.push(this.fromPath.from);
                     }
-                    console.log('put article',this.props.ARTICLE_ID,result)
+                    console.log('put article',this.props[ARTICLE_ID],result)
                 }).catch(function(e){
                     console.log(e)
                 })
@@ -181,6 +181,7 @@ const mapPropsToFields = (props)=>{
       [ARTICLE_TITLE]:Form.createFormField({value:props[ARTICLE_TITLE]}),
       [ARTICLE_CONTENT]:Form.createFormField({value:props[ARTICLE_CONTENT]}),
       [ARTICLE_BRIEF]:Form.createFormField({value:props[ARTICLE_BRIEF]}),
+      [ARTICLE_KEYWORDS]:Form.createFormField({value:props[ARTICLE_KEYWORDS]}),
       [ARTICLE_COVER]:Form.createFormField({value:props[ARTICLE_COVER]})
     };
   };

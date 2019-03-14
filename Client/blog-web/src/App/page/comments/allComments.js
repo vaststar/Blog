@@ -14,7 +14,7 @@ class Comments extends Component {
         return <ul>
         {
             data.map((node,index)=>(
-                <div key={index}>
+                <div key={node.commentid}>
                     <SingleComment comment={node} refreshFunc={this.jumpToEndComments}/>
                     {
                         node.soncomment && node.soncomment.length>0?this.recursionNode(node.soncomment):null
@@ -30,7 +30,7 @@ class Comments extends Component {
                 <div className="commentsTitle"> 共{this.state.totalNumber}条评论</div>
                 <div>{this.recursionNode(this.state.comments)}</div>
                 <div className="comment-pagination">
-                    <Pagination showQuickJumper defaultCurrent={1} defaultPageSize={this.state.pageSize}
+                    <Pagination showQuickJumper defaultCurrent={1} defaultPageSize={this.state.pageSize} current={this.state.pageNumber}
                     pageSize={this.state.pageSize} total={this.state.totalNumber} 
                     onChange={this.pageJump}></Pagination>
                 </div>
@@ -41,47 +41,49 @@ class Comments extends Component {
         );
     }
     jumpToEndComments=()=>{
-        this.updateTotalPage();
-        this.loadComment(this.state.pageNumber,this.state.pageSize);
+        this.updateComment(-1);
     }
     componentDidMount(){
-        this.updateTotalPage();
-        this.loadComment(this.state.pageNumber,this.state.pageSize);
+        this.updateComment(0);
     }
-    updateTotalPage=()=>{
-        get(this.props.articleUrl+"/counts/topcomments/"+this.props[ARTICLE_ID]).then(response=>response.json()).then(result=>{
+    updateComment=(jumpTo)=>{//-1到最后一页，0到当前页，其他到指定页
+        this.setState({isLoadingMore:true})
+        get(this.props.commentUrl+"/counts/topcomments/"+this.props[ARTICLE_ID]).then(response=>response.json()).then(result=>{
             if(result.status){
                 this.setState({totalNumber:parseInt(result.data)})
+                let page=this.state.pageNumber
+                if(-1===jumpTo){
+                    page=Math.ceil(parseInt(result.data)/this.state.pageSize)
+                    this.setState({pageNumber:page})
+                }else if(0!==jumpTo){
+                    page=jumpTo
+                }
+                get(this.props.commentUrl+"/"+this.props[ARTICLE_ID]+"?pageNumber="+page+"&&pageSize="+this.state.pageSize).then(response=>response.json()).then(result=>{
+                    if(result.status){
+                        //读取所有文章基本信息
+                        this.setState({comments:result.data});
+                    }
+                    this.setState({isLoadingMore:false});
+                }).catch(function (e) {
+                    this.setState({isLoadingMore:false});
+                    console.log("fetch all comments fail", e);
+                });
             }else{
                 console.log("fetch comments counts fail")
             }
         }).catch(e=>console.log("fetch comments counts fail",e))
     }
-    loadComment=(pageNumber,pageSize)=>{
-        this.setState({isLoadingMore:true})
-        get(this.props.articleUrl+"/comments/"+this.props[ARTICLE_ID]+"?pageNumber="+pageNumber+"&&pageSize="+pageSize).then(response=>response.json()).then(result=>{
-            if(result.status){
-                //读取所有文章基本信息
-                this.setState({comments:result.data});
-            }
-            this.setState({isLoadingMore:false});
-        }).catch(function (e) {
-            this.setState({isLoadingMore:false});
-            console.log("fetch all comments fail", e);
-        });
-    }
     pageJump=(page, pageSize)=>{
         this.setState({pageNumber:page});
-        this.loadComment(page,pageSize);
+        this.updateComment(page);
     }
-
     submitComment=(str)=>{
         //提交评论
         let body = {'articleid':this.props[ARTICLE_ID],'comment':str,'refid':""}
-        post(this.props.articleUrl+"/comments/",body).then(result=>{
+        post(this.props.commentUrl+"/",body).then(result=>{
             if(result.status)
             {
-                this.jumpToEndComments();
+                this.jumpToEndComments()
             }
         }).catch(function(e){
             console.log(e)

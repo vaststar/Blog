@@ -160,5 +160,106 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
     def getChildNumberByCommentId(self,commentid):
         self._ExecuteSQL('SELECT COUNT(*) FROM comments WHERE refid=\'{}\''.format(commentid))
         return self._FetchAll()
+#文章浏览表
+    #获取某个文章的浏览数量
+    def getBrowserNumberByArticleId(self,articleid):
+        self._ExecuteSQL('SELECT COUNT(*) FROM browsers_article WHERE articleid=\'{}\''.format(articleid))
+        return self._FetchAll()
+    #记录一条浏览记录
+    def addBrowserArticle(self,articleid,userid,ip):
+        browserid = BaseDB.GenerateUUID()
+        if not userid is None:
+            if self._ExecuteSQL('INSERT INTO browsers_article (browserid,articleid,userid,ipaddr) VALUES(\'{}\',\'{}\',\'{}\',\'{}\')'.
+                         format(browserid,articleid,userid,ip)):
+                self._CommitChange()
+                return True
+        else:
+            if self._ExecuteSQL('INSERT INTO browsers_article (browserid,articleid,userid,ipaddr) VALUES(\'{}\',\'{}\',null,\'{}\')'.
+                         format(browserid,articleid,ip)):
+                self._CommitChange()
+                return True
+        return False
+    #删除某个文章的浏览记录
+    def delBroswerArticleHistory(self,articleid):
+        if self._ExecuteSQL('DELETE FROM browsers_article WHERE articleid=\'{}\''.format(articleid)):
+            self._CommitChange()
+            return True
+        return False
+    #删除某个用户的所有浏览记录
+    def delBrowserArticleByUserid(self,userid):
+        if self._ExecuteSQL('DELETE FROM browsers_article WHERE userid=\'{}\''.format(userid)):
+            self._CommitChange()
+            return True
+        return False
+    #删除某个ip的所有浏览记录
+    def delBrowserArticleByIp(self,ip):
+        if self._ExecuteSQL('DELETE FROM browsers_article WHERE ipaddr=\'{}\''.format(ip)):
+            self._CommitChange()
+            return True
+        return False
+    #删除某个文章内，某个用户的浏览记录
+    def delBroswerArticleHistoryByUser(self,articleid,userid):
+        if self._ExecuteSQL('DELETE FROM browsers_article WHERE articleid=\'{}\' and userid=\'{}\''.format(articleid,userid)):
+            self._CommitChange()
+            return True
+        return False
+    #删除某个文章内，某个ip的浏览记录
+    def delBroswerArticleHistoryByIp(self,articleid,ip):
+        if self._ExecuteSQL('DELETE FROM browsers_article WHERE articleid=\'{}\' and ipaddr=\'{}\''.format(articleid,ip)):
+            self._CommitChange()
+            return True
+        return False
+
+
+#文章喜爱表
+    #获取某个文章的喜爱数量
+    def getLikesNumberByArticleId(self,articleid):
+        self._ExecuteSQL('SELECT COUNT(*) FROM likes_article WHERE articleid=\'{}\''.format(articleid))
+        return self._FetchAll()
+    #添加一条喜爱文章的记录
+    def addLikesArticle(self,articleid,userid):
+        likeid = BaseDB.GenerateUUID()
+        if self._ExecuteSQL('INSERT INTO likes_article (likeid,articleid,userid) VALUES(\'{}\',\'{}\',\'{}\')'.
+                     format(likeid,articleid,userid)):
+            self._CommitChange()
+            return True
+        return False
+    #删除喜欢的记录
+    def delLikesArticle(self,articleid,userid):
+        if self._ExecuteSQL('DELETE FROM likes_article WHERE articleid=\'{}\' and userid=\'{}\''.format(articleid,userid)):
+            self._CommitChange()
+            return True
+        return False
+    #获取某个用户的喜爱的文章
+    def getLikesArticleByUser(self,userid):
+        self._ExecuteSQL('SELECT * FROM likes_article WHERE userid=\'{}\''.format(userid))
+        return self._FetchAll()
+#评论赞表
+    #获取某个评论的赞数量
+    def getLikesNumberByCommentId(self,commentid):
+        self._ExecuteSQL('SELECT COUNT(*) FROM likes_comment WHERE commentid=\'{}\''.format(commentid))
+        return self._FetchAll()
+    #添加一条喜爱文章的记录
+    def addLikesComment(self,commentid,userid):
+        likeid = BaseDB.GenerateUUID()
+        if self._ExecuteSQL('INSERT INTO likes_comment (likeid,commentid,userid) VALUES(\'{}\',\'{}\',\'{}\')'.
+                     format(likeid,commentid,userid)):
+            self._CommitChange()
+            return True
+        return False
+    #删除对某个评论的赞
+    def delLikesComment(self,commentid,userid):
+        if self._ExecuteSQL('DELETE FROM likes_comment WHERE commentid=\'{}\' and userid=\'{}\''.format(commentid,userid)):
+            self._CommitChange()
+            return True
+        return False
+    #获取某个用户对评论的所有的赞
+    def getLikesCommentByUser(self,userid):
+        self._ExecuteSQL('SELECT * FROM likes_comment WHERE userid=\'{}\''.format(userid))
+        return self._FetchAll()
+
+
+
+
 
 

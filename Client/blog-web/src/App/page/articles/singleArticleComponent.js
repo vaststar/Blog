@@ -1,22 +1,31 @@
 import React, { Component } from 'react'
+import { withRouter ,Redirect} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import moment from 'moment'
-import {Row,Col,Icon} from 'antd'
+import {Row,Col,Icon,Popconfirm} from 'antd'
 
 import Comment from '../comments/allComments'
-import {get} from '../../Common/RequestREST'
+import {get, post,del} from '../../Common/RequestREST'
 
 const ARTICLE_PROPS = 'article';
 class ArticleComponent extends Component {
-    state={commentsNumber:0,showComment:false}
-    //点击评论按钮
-    commentClick=()=>{
-        this.setState({showComment:!this.state.showComment})
-    }
+    state={commentsNumber:0,browseNumber:0,likeNumber:0,content:"",showComment:false,mouseIn:false,
+           personalArticle:false,personalLike:false,articleDeleted:false,articleEdit:false}
+    
     render(){
+        if(this.state.articleEdit){
+        return <Redirect to={{
+            pathname:/writes/,
+            state:{from:this.props.location.pathname,
+                   articleDetail:{articleID:this.props[ARTICLE_PROPS].articleid, articleTitle:this.props[ARTICLE_PROPS].title, articleContent:this.state.content, 
+                                  articleBrief:this.props[ARTICLE_PROPS].breif, articleCover:this.props[ARTICLE_PROPS].coverurl, articleKeys:this.props[ARTICLE_PROPS].keywords}
+                  }
+        }}></Redirect>
+        }
+        if(!this.state.articleDeleted){
         return (
-            <div className='articlesingle' >
+            <div className='articlesingle' onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} >
             <Row type="flex" justify="space-between" gutter={16} >
                 <Col span={20}>
                     <div className="article-title">
@@ -31,7 +40,7 @@ class ArticleComponent extends Component {
                         <Row gutter={10} >
                             <Col span={2} > 
                                 <div ><a className="article-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/articles/'+this.props[ARTICLE_PROPS].articleid}>
-                                    <Icon type="eye" /> 0 
+                                    <Icon type="eye" /> {this.state.browseNumber} 
                                 </a></div>
                             </Col>
                             <Col span={2} > 
@@ -40,16 +49,26 @@ class ArticleComponent extends Component {
                                 </div>
                             </Col>  
                             <Col span={2} > 
-                                <div >
-                                <Icon type="heart" /> 0 
+                                <div className="likes_article" onClick={this.likesClick}>
+                                {this.state.personalLike?<Icon type="heart" theme="twoTone" twoToneColor="#ff0000"/>:<Icon type="heart" />} {this.state.likeNumber} 
                                 </div>
                             </Col>  
-                            <Col span={8} >
+                            <Col span={6} >
                                 <div >
                                     {moment(this.props.article.uptime,'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')}
                                 </div>
                             </Col>
-                            <Col span={10}></Col>
+                            {
+                                this.state.personalArticle&&this.state.mouseIn?<Col span={2}>
+                                <div onClick={this.editClick} className="edit_article_com"><Icon type="edit" /></div>
+                                </Col>:null
+                            }
+                            {
+                                this.state.personalArticle&&this.state.mouseIn?<Col span={2}>
+                                <Popconfirm title="确定删除该文章么?" onConfirm={this.deleteClick} okText="是" cancelText="否"><Icon type="delete" /></Popconfirm>
+                                </Col>:null
+                            }
+                            <Col span={8}></Col>
                         </Row>
                     </div>
                 </Col>
@@ -65,18 +84,130 @@ class ArticleComponent extends Component {
                 {this.state.showComment?<Comment articleid={this.props[ARTICLE_PROPS].articleid}/>:null}
             </div> */}
             </div>
-        );
+        );}else{
+            return <div/>
+        }
+    }
+    componentDidMount(){
+        this.personalArticleJudge()
+        this.personalLikeArticleJudge()
+        this.refreshShows()
+    }
+    mouseEnter=()=>{
+        this.setState({mouseIn:true});
+    }
+    mouseLeave=()=>{
+        this.setState({mouseIn:false});
+    }
+    refreshShows=()=>{
+        this.refreshCommentNumbers()
+        this.resfreshLikesNumbers()
+        this.resfreshBrowserNumbers()
+        this.refreshArticleDetail()
     }
     refreshCommentNumbers=()=>{
         //根据文章id获取其所有评论，已经为树状结构，
-        get(this.props.articleUrl+"/counts/topcomments/"+this.props[ARTICLE_PROPS].articleid).then(response => response.json()).then(result=>{
-            this.setState({commentsNumber:result.data})
+        get(this.props.commentUrl+"/counts/topcomments/"+this.props[ARTICLE_PROPS].articleid).then(response => response.json()).then(result=>{
+            if(result.status){
+                this.setState({commentsNumber:result.data})
+            }else{
+                console.log('query comments number faile')
+            }
         }).catch(function (e){
             console.log(e)
         });
     }
-    componentDidMount(){
-        this.refreshCommentNumbers()
+    resfreshLikesNumbers=()=>{
+        //根据文章id获取喜欢的人的数量
+        get(this.props.likeUrl+"/articles/"+this.props[ARTICLE_PROPS].articleid).then(response => response.json()).then(result=>{
+            if(result.status){
+                this.setState({likeNumber:result.data})
+            }
+        }).catch(function (e){
+            console.log(e)
+        });
+    }
+    resfreshBrowserNumbers=()=>{
+        //获取浏览数量
+        get(this.props.browserUrl+"/articles/"+this.props[ARTICLE_PROPS].articleid).then(response => response.json()).then(result=>{
+            if(result.status){
+                this.setState({browseNumber:result.data})
+            }
+        }).catch(function (e){
+            console.log(e)
+        });
+
+    }
+    refreshArticleDetail=()=>{
+        //获取文章内容
+        let bodyurl = this.props[ARTICLE_PROPS].bodyurl.replace("\\","/");
+        get(this.props.fileUrl+"/"+bodyurl).then(result=>result.text()).then(result=>{
+            this.setState({content:result});
+        }).catch(function(e){
+            console.log( e);
+        })
+    }
+    personalLikeArticleJudge=()=>{
+        //判断是否是自己喜欢的
+        get(this.props.likeUrl+"/belongs/articles/"+this.props[ARTICLE_PROPS].articleid).then(response => response.json()).then(result=>{
+            if(result.status){
+                this.setState({personalLike:result.data})
+            }
+        }).catch(function (e){
+            console.log(e)
+        });
+    }
+    //判断是否是自己的文章
+    personalArticleJudge=()=>{
+        get(this.props.articleUrl+"/belongs/"+this.props[ARTICLE_PROPS].articleid).then(response => response.json()).then(result=>{
+            if(result.status){
+                this.setState({personalArticle:true})
+            }
+        }).catch(function (e){
+            console.log(e)
+        });
+    }
+    //点击评论按钮
+    commentClick=()=>{
+        this.setState({showComment:!this.state.showComment})
+    }
+    //单击喜欢按钮
+    likesClick=()=>{
+        if(this.state.personalLike){
+            //删除该文章的喜欢记录
+            del(this.props.likeUrl+"/articles/"+this.props[ARTICLE_PROPS].articleid).then(response => response.json()).then(result=>{
+                if(result.status){
+                    this.setState({personalLike:false})
+                    this.resfreshLikesNumbers()
+                }
+            }).catch(function (e){
+                console.log(e)
+            });
+        }else{
+            post(this.props.likeUrl+"/articles/",{'articleid':this.props[ARTICLE_PROPS].articleid}).then(response => response.json()).then(result=>{
+                if(result.status){
+                    this.setState({personalLike:true})
+                    this.resfreshLikesNumbers()
+                }
+            }).catch(function (e){
+                console.log(e)
+            });
+        }
+    }
+    //删除文章
+    deleteClick=()=>{
+        del(this.props.articleUrl+"/"+this.props[ARTICLE_PROPS].articleid).then(response => response.json()).then(result=>{
+            if(result.status){
+                this.setState({articleDeleted:true})
+            }
+        }).catch(function (e){
+            console.log(e)
+        });
+    }
+    //编辑文章
+    editClick=()=>{
+        this.setState({articleEdit:true})
+        console.log('edi')
     }
 }
 
@@ -90,4 +221,4 @@ const  mapStateToProps =(state,props)=>{
       ...state.userReducer
     }
 }
-export default connect(mapStateToProps)(ArticleComponent)
+export default withRouter(connect(mapStateToProps)(ArticleComponent))
