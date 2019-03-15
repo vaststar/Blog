@@ -4,7 +4,7 @@ import {Spin} from 'antd'
 
 import {get} from '../../Common/RequestREST'
 
-import Article from './singleArticleComponent'
+import Article from '../../Components/singleArticleBriefCom/singleArticleComponent'
 
 class AllArticles extends Component {
     state={articles:[],pageNumber:1,pageSize:10,totalPage:1,isLoadingMore:false}

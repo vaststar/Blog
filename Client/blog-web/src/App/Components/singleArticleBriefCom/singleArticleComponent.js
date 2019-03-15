@@ -19,7 +19,7 @@ class ArticleComponent extends Component {
         return (
             <div className='articlesingle' onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} >
             <Row type="flex" justify="space-between" gutter={16} >
-                <Col span={20}>
+                <Col span={18}>
                     <div className="article-title">
                         <a className="article-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/articles/'+this.props[ARTICLE_PROPS].articleid}>
                             {this.props[ARTICLE_PROPS].title}
@@ -45,7 +45,7 @@ class ArticleComponent extends Component {
                                 {this.state.personalLike?<Icon type="heart" theme="twoTone" twoToneColor="#ff0000"/>:<Icon type="heart" />} {this.state.likeNumber} 
                                 </div>
                             </Col>  
-                            <Col span={6} >
+                            <Col span={8} >
                                 <div >
                                     {moment(this.props.article.uptime,'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')}
                                 </div>
@@ -60,13 +60,13 @@ class ArticleComponent extends Component {
                                 <Popconfirm title="确定删除该文章么?" onConfirm={this.deleteClick} okText="是" cancelText="否"><Icon type="delete" /></Popconfirm>
                                 </Col></Tooltip>:null
                             }
-                            <Col span={8}></Col>
+                            <Col ></Col>
                         </Row>
                     </div>
                 </Col>
-                <Col span={4}>
+                <Col span={6}>
                     <a className="article-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/articles/'+this.props[ARTICLE_PROPS].articleid}>
-                        <img src={this.props.fileUrl+"/"+this.props[ARTICLE_PROPS].coverurl} className="articleCover" alt="封面丢失"></img>
+                        <img src={this.props.fileUrl+"/"+this.props[ARTICLE_PROPS].coverurl} alt="封面丢失" className="articleCover"></img>
                     </a>
                 </Col>
             </Row>

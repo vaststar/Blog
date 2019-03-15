@@ -193,7 +193,7 @@ class RegisterForm extends Component {
                 )}
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
-                <Button type="primary" htmlType="submit">Register</Button>
+                <Button type="primary" htmlType="submit" className="regiserCom_regButton">Register</Button>
             </Form.Item>
             <Modal visible={this.state.previewVisible} footer={null} onCancel={this.handleCancel}>
                 <img alt="example" style={{ width: '100%' }} src={this.state.avatarurl} />

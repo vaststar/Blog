@@ -44,7 +44,6 @@ export const userReducer = (state=UserData,action)=>{
             window.localStorage.setItem('token',action.data)
             return {...state,token:action.data};
         case UpdateLoginState:
-        console.log('sssss',action.data)
             window.sessionStorage.setItem('valid',action.data?'true':'false')
             return {...state,valid:action.data};
         default:

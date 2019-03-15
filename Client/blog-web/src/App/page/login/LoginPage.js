@@ -5,7 +5,9 @@ import LoginCom from '../../Components/login/login'
 class LoginPage extends Component {
   render() {
       return(
-        <LoginCom></LoginCom>
+        <div className="login_page_loginForm">
+          <LoginCom></LoginCom>
+        </div>
       )
 }
 }

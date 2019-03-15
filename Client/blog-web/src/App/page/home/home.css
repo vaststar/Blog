@@ -1,4 +1,8 @@
 .articlecom{
-    width:800px;;
+    width:45%;
     margin: 0 auto;
+}
+.article-info-div{
+    margin-top:1px;
+    margin-bottom: 10px;
 }

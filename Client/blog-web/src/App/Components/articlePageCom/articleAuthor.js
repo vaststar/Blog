@@ -62,7 +62,6 @@ class ArticleAutor extends Component{
     }
     getAuthorAvatar=()=>{
         get(this.props.userUrl+"/useravatars/"+this.props[ARTICLE_BASEOBJ].userid).then(result=>result.json()).then(result=>{
-            console.log('hhh',this.props.fileUrl+"/"+result.data)
             this.setState({avatar:this.props.fileUrl+"/"+result.data});
         }).catch(function(e){
             console.log( e);

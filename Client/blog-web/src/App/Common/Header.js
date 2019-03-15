@@ -37,7 +37,7 @@ class HeaderCom extends Component {
                   style={{ lineHeight: '64px' }}
                 >
                   <Menu.Item key="/"><Link to={'/'}/><Icon type="home" />首页</Menu.Item>
-                  {this.props.valid?<Menu.Item key="/video/" ><Link to={this.getLinkToUrl('/video/')}/><Icon type="fire" />我的</Menu.Item>:null}
+                  {this.props.valid?<Menu.Item key="/author/" ><Link to={this.getLinkToUrl('/author/')}/><Icon type="fire" />我的</Menu.Item>:null}
                   {
                     this.props.valid?
                     <Menu.SubMenu title={<span><Icon type="user" />{this.props.user.username}</span>}>

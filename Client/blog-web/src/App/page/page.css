@@ -1,3 +1,7 @@
 
+@import './login/loginPage.css';
 @import './article/articlePage.css';
+@import './register/registerPage.css';
+@import './writeArticle/writeArticlePage.css';
 @import './home/home.css';
+@import './author/authorPage.css';

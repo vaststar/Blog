@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Header from '../../Common/Header'
 
-import Articles from '../../Components/articles/allArticles'
+import Articles from './allArticles'
 
 class HomePage extends Component {
     render() {

@@ -5,7 +5,9 @@ import RegisterCom from '../../Components/register/register'
 class RegisterPage extends Component {
   render() {
       return(
-        <RegisterCom></RegisterCom>
+        <div className="register-page-regCom">
+        <RegisterCom ></RegisterCom>
+        </div>
       )
 }
 }

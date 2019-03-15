@@ -8,7 +8,9 @@ class WritePage extends Component {
       return(
           <div>
         <Header/>
+        <div className="write_article_Com">
         <WriteArticleCom></WriteArticleCom>
+        </div>
         </div>
       )
 }

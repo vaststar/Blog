@@ -1,31 +1,30 @@
-.article-info-div{
-    margin-top: 10px;
-    margin-bottom: 15px;
-}
 .articlesingle {
     border-radius:2px;
-    box-shadow: 0px 0px 10px #a3a2a2;
+    box-shadow: 0px 0px 8px #a3a2a2;
     background: rgb(255, 255, 255); 
-    padding:0px 5px 5px 5px; 
-    min-height: 80px;
+    padding:0 3px ; 
+    min-height: 130px;
+    max-height: 130px;
 }
 .articlesingle_comments{
     margin:10px 0 0 0 ;
 }
 .article-title{
-    height:30%;
+    height:25px;
     font-size: 18px;
     font-weight: 700;
     line-height: 1.5;
 }
 .article-breif{
-    height:55%;
+    height:75px;
+    padding: 2px auto 4px auto;
     text-align: justify;
     text-justify:inter-ideograph;
-
+    overflow:hidden;
+    text-overflow: ellipsis;
 }
 .article-note{
-    height:15%;
+    height:10px;
 }
 .article-url-link{
     text-decoration:none;
@@ -44,9 +43,10 @@
     color: black;
 }
 .articleCover{
-    margin: 5% auto;
-    width:100%;
-    height:90%;
+    margin:5px 5px 5px auto;
+    height: 120px;
+    max-width:100%;
+    max-height:90%;
 }
 .loadMore{
     margin: 0 auto;
