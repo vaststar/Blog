@@ -8,7 +8,9 @@ class ArticlePage extends Component {
         return (
             <div>
                 <Header/>
+                <div className="article_page_detail">
                 <PureArticle articleid={this.props.location.pathname.split("/").pop()}/>
+                </div>
             </div>
            
         )

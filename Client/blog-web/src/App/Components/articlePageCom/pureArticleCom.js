@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import ReactMarkdown from 'react-markdown'
 import PropTypes from 'prop-types'
+import {Divider} from 'antd'
 
 import {get,post} from '../../Common/RequestREST'
 import Comments from '../comments/allComments'
@@ -21,12 +22,14 @@ class PureArticleCom extends Component {
                     <ArticleAutor articleBase={this.state.articleBase}></ArticleAutor>
                 </div>:null
                 }
+                <Divider/>
                 <div>
                     <h3 className="article_page_brief">摘要: {this.state.articleBase.breif}</h3>
                 </div>
                 <div>
                     <h3 className="article_page_keys">关键词: {this.state.articleBase.keywords}</h3>
                 </div>
+                <Divider/>
                 <div className="article_page_body">
                     <ReactMarkdown source={this.state.content} />
                 </div>

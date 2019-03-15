@@ -1,28 +1,7 @@
-.article_page_div{
-    margin: 0 auto;
-    max-width: 1000px;
-}
+
 .article_page_title{
     text-align: center;
 }
-.article_page_body{
-    /* text-align: center; */
-}
-.article_page_comment{
-    /* text-align: center; */
-}
-.article_page_brief{
-    /* text-align: center; */
-}
-.article_page_keys{
-    /* text-align: center; */
-}
-/* .article_page_author{
-    margin: 0 auto;
-    position: absolute;
-    left: 0;
-    right: 0;
-} */
 .article_page_author_name{
     font-weight: bold;
 }
