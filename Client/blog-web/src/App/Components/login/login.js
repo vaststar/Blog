@@ -69,5 +69,4 @@ const mapDispatch =(dispatch,ownProps)=>{
   }
 }
 
-const  LoginPage =  withRouter(connect(mapStateToProps,mapDispatch)(Login))
-export default LoginPage
+export default withRouter(connect(mapStateToProps,mapDispatch)(Login))

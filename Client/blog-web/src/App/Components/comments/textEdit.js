@@ -7,9 +7,10 @@ class TextEdit extends Component{
     state={inputVal:null}
     render(){
         return (<div className="commentTextEdit">
-        <Row gutter={16} type="flex" justify="space-around">
+        <Row gutter={1} type="flex" justify="space-around">
             <Col span={22}><Input id="comment-input-area" onPressEnter={this.clickButton} onChange={this.inputChange} value={this.state.inputVal}/></Col>
-            <Col span={1}><Button type="primary" onClick={this.clickButton}>评论</Button> </Col>
+            <Col span={2}><Button type="primary" onClick={this.clickButton}>评论</Button> </Col>
+            <Col/>
         </Row>
         </div>)
     }

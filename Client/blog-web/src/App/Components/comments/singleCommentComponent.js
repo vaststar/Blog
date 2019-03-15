@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import {Row,Col,Icon,Avatar,Divider} from 'antd'
+import {Row,Col,Icon,Avatar,Divider,Tooltip} from 'antd'
 
 import {get,post} from '../../Common/RequestREST'
 import TextEdit from './textEdit'
@@ -17,13 +17,14 @@ class CommentComponent extends Component {
             {/* <hr className="commetnHline"/> */}
             <Divider/>
                 <Row>
-                    <Col span={1}>
+                    <Col span={2}>
                         <Avatar size="large" icon="user" src={this.state.useravatar} /> 
                     </Col>
-                    <Col span={23}>
+                    <Col span={10}>
                         <Row>{this.state.username}</Row>
                         <Row>{moment(this.props[COMMENT_PROPS].uptime,'YYYY-MM-DD HH:mm:ss').fromNow()}</Row>
                     </Col>
+                    <Col/>
                 </Row>
                 <Row>
                     <div className="commentBody">{this.props[COMMENT_PROPS].comments} </div>

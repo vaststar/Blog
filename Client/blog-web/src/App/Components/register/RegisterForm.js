@@ -252,7 +252,7 @@ class RegisterForm extends Component {
     }
     //上传图片
     postImage=(formData,filename)=>{
-        postFile(this.props.fileUrl+"/"+filename, formData
+        postFile(this.props.fileUrl+"/avatars/"+filename, formData
         ).then(result=>result.json()).then(result=>{
             this.props.form.setFieldsValue({avatarurl:result.data.filepath}) 
         }).catch(function(e){

@@ -52,5 +52,4 @@ const mapDispatch =(dispatch,ownProps)=>{
   }
 }
 
-const  RegisterPage =  withRouter(connect(mapStateToProps,mapDispatch)(Register))
-export default RegisterPage
+export default withRouter(connect(mapStateToProps,mapDispatch)(Register))

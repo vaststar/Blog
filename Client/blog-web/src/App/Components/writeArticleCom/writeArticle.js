@@ -158,7 +158,7 @@ class WriteArticleComponent extends Component {
     }
     //上传图片
     postImage=(formData,filename)=>{
-        postFile(this.props.fileUrl+"/"+filename, formData
+        postFile(this.props.fileUrl+"/articles/pictures/"+filename, formData
         ).then(result=>result.json()).then(result=>{
             this.props.form.setFieldsValue({[ARTICLE_COVER]:result.data.filepath}) 
         }).catch(function(e){

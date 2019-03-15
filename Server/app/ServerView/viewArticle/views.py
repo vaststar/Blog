@@ -4,6 +4,7 @@ from . import article_blue
 
 from app.ServerView.Common import Common
 from app.ServerView.Common.articleApi import ArticleApi
+from app.ServerView.Common.fileApi import FileApi
 from app.ServerView.Authority import Authority
 from app.ServerConfig import config
 
@@ -29,9 +30,9 @@ def post_Article():
     params = request.get_json()
     if 'title' in params and 'brief' in params and 'body' in params:
         #先将内容保存成文件，然后将地址等信息上传到数据库
-        filePath = Common.generateFilePath(''.join([random.choice(string.digits + string.ascii_letters) for i in range(5)])+'.md')
+        filePath = FileApi.generateFilePath(''.join([random.choice(string.digits + string.ascii_letters) for i in range(5)])+'.md',"articles/bodys/"+userid)
         absFilePath = os.path.join(config.STATIC_FILE_PATH,filePath)
-        if Common.saveFile(absFilePath,params['body']):
+        if FileApi.saveFile(absFilePath,params['body'])['status']:
             return jsonify(ArticleApi.postArticle(userid,params['title'],params['brief'],params["keywords"],params["coverurl"],filePath))
         else:
             return jsonify(Common.falseReturn(None,'file save failure!'))
@@ -53,7 +54,7 @@ def update_Article(articleid):
     #开始修改文章
     params = request.get_json()
     absFilePath = os.path.join(config.STATIC_FILE_PATH,articleBase['data']['bodyurl'])
-    if Common.saveFile(absFilePath,params['body']):
+    if FileApi.saveFile(absFilePath,params['body']):
         return jsonify(ArticleApi.updateArticle(articleid,params['title'],params['brief'],params["keywords"],params["coverurl"]))
     return jsonify(Common.falseReturn(None,'save article file wrong'))
 

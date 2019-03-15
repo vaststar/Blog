@@ -98,7 +98,7 @@ class MarkdownEditor extends Component {
     }
     //上传图片
     postImage=(editor,formData,filename)=>{
-        postFile(this.props.fileUrl+"/"+filename, formData
+        postFile(this.props.fileUrl+"/articles/pictures/"+filename, formData
         ).then(result=>result.json()).then(result=>{
             let url = `![](${this.props.fileUrl+"/"+result.data.filepath})` // 拼接成markdown语法
             editor.setValue(editor.getValue() + url + '\n') // 和编辑框之前的内容进行拼接

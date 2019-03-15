@@ -29,6 +29,7 @@ class Comments extends Component {
             <div className='commentscomponent'>
                 <div className="commentsTitle"> 共{this.state.totalNumber}条评论</div>
                 <div>{this.recursionNode(this.state.comments)}</div>
+                <Divider/>
                 <div className="comment-pagination">
                     <Pagination showQuickJumper defaultCurrent={1} defaultPageSize={this.state.pageSize} current={this.state.pageNumber}
                     pageSize={this.state.pageSize} total={this.state.totalNumber} 

@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import moment from 'moment'
-import {Row,Col,Icon,Popconfirm} from 'antd'
+import {Row,Col,Icon,Popconfirm,Tooltip} from 'antd'
 
 import Comment from '../comments/allComments'
 import {get, post,del} from '../../Common/RequestREST'
@@ -26,7 +26,7 @@ class ArticleComponent extends Component {
                         </a>
                     </div>
                     <div className="article-breif">
-                        {this.props.article.breif}
+                        {this.props.article.breif.length>150?this.props.article.breif.slice(0,150)+ "  ......":this.props.article.breif}
                     </div>
                     <div className="article-note">
                         <Row gutter={10} >
@@ -36,7 +36,7 @@ class ArticleComponent extends Component {
                                 </a></div>
                             </Col>
                             <Col span={2} > 
-                                <div  onClick={this.commentClick} >
+                                <div className="comment_article" onClick={this.commentClick} >
                                     <Icon type="message" /> {this.state.commentsNumber} 
                                 </div>
                             </Col>  
@@ -51,14 +51,14 @@ class ArticleComponent extends Component {
                                 </div>
                             </Col>
                             {
-                                this.state.personalArticle&&this.state.mouseIn?<Col span={2}>
+                                this.state.personalArticle&&this.state.mouseIn?<Tooltip placement="bottom" title="编辑文章"><Col span={2}>
                                 <div onClick={this.editClick} className="edit_article_com"><Icon type="edit" /></div>
-                                </Col>:null
+                                </Col></Tooltip>:null
                             }
                             {
-                                this.state.personalArticle&&this.state.mouseIn?<Col span={2}>
+                                this.state.personalArticle&&this.state.mouseIn?<Tooltip placement="bottom" title="删除文章"><Col span={2}>
                                 <Popconfirm title="确定删除该文章么?" onConfirm={this.deleteClick} okText="是" cancelText="否"><Icon type="delete" /></Popconfirm>
-                                </Col>:null
+                                </Col></Tooltip>:null
                             }
                             <Col span={8}></Col>
                         </Row>
@@ -70,11 +70,9 @@ class ArticleComponent extends Component {
                     </a>
                 </Col>
             </Row>
-            <Row>
-            </Row>
-            {/* <div>
+            <Row className='articlesingle_comments'>
                 {this.state.showComment?<Comment articleid={this.props[ARTICLE_PROPS].articleid}/>:null}
-            </div> */}
+            </Row>
             </div>
         );}else{
             return <div/>
@@ -98,7 +96,7 @@ class ArticleComponent extends Component {
         this.refreshArticleDetail()
     }
     refreshCommentNumbers=()=>{
-        //根据文章id获取其所有评论，已经为树状结构，
+        //根据文章id获取评论数量
         get(this.props.commentUrl+"/counts/topcomments/"+this.props[ARTICLE_PROPS].articleid).then(response => response.json()).then(result=>{
             if(result.status){
                 this.setState({commentsNumber:result.data})
