@@ -55,6 +55,7 @@ class ArticleAutor extends Component{
     //获取作者信息
     getAuthorName=()=>{
         get(this.props.userUrl+"/usernames/"+this.props[ARTICLE_BASEOBJ].userid).then(result=>result.json()).then(result=>{
+            
             this.setState({username:result.data});
         }).catch(function(e){
             console.log( e);

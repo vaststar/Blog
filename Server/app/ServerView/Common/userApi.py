@@ -100,7 +100,7 @@ class UserApi(object):
             return Common.falseReturn(None,'userid is required')
         user = blogDB.getUserInfoById(userid)
         if user:
-            return Common.trueReturn(dict(zip("userid,realname,idcard,cellphone,email,avatarurl"),user), 'query ok')
+            return Common.trueReturn(dict(zip(("userid","realname","idcard","cellphone","email","avatarurl"),user)), 'query ok')
         else:
             return Common.falseReturn(None, 'cannot find {}'.format(userid))
 

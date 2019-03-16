@@ -17,6 +17,24 @@ def get_AllArticles():
     #分页查询
     return jsonify(ArticleApi.getArticlePagnation(int(pageNumber),int(pageSize)))
 
+@article_blue.route("/withuserids/<userid>/",methods=["GET"])
+def get_AllArticlesByUserid(userid):
+    pageNumber = request.args.get('pageNumber')
+    pageSize = request.args.get('pageSize')
+    if pageNumber is None or pageSize is None:
+        return jsonify(Common.falseReturn(None,'please make pagenation'))
+    #分页查询
+    return jsonify(ArticleApi.getArticlePagnationByUserid(userid,int(pageNumber),int(pageSize)))
+
+@article_blue.route("/withusernames/<username>/",methods=["GET"])
+def get_AllArticlesByUsername(username):
+    pageNumber = request.args.get('pageNumber')
+    pageSize = request.args.get('pageSize')
+    if pageNumber is None or pageSize is None:
+        return jsonify(Common.falseReturn(None,'please make pagenation'))
+    #分页查询
+    return jsonify(ArticleApi.getArticlePagnationByUsername(username,int(pageNumber),int(pageSize)))
+
 @article_blue.route("/<articleid>",methods=["GET"])
 def get_ArticleByID(articleid):
     return jsonify(ArticleApi.getArticleBaseByID(articleid))
@@ -77,9 +95,13 @@ def delete_Article(articleid):
 def get_allArticleCounts():
     return jsonify(ArticleApi.getAllArticleCount())
 
-@article_blue.route("/counts/<userid>",methods=["GET"])
-def get_UserArticleCounts(userid):
+@article_blue.route("/counts/withuserids/<userid>",methods=["GET"])
+def get_UserArticleCountsByid(userid):
     return jsonify(ArticleApi.getArticleCountByUserId(userid))
+
+@article_blue.route("/counts/withusernames/<username>",methods=["GET"])
+def get_UserArticleCountsByname(username):
+    return jsonify(ArticleApi.getArticleCountByUsername(username))
 
 @article_blue.route("/belongs/<articleid>",methods=["GET"])
 @Authority.login_required

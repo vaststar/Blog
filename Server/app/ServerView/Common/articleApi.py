@@ -19,6 +19,20 @@ class ArticleApi(object):
         return Common.trueReturn(result, 'query ok')
 
     @staticmethod
+    def getArticlePagnationByUserid(userid,pageNumber=1,pageSize=1):
+        result=[]
+        for k,v in enumerate(blogDB.getArticleLimitByUserid(userid,pageSize,(pageNumber-1)*pageSize)):
+            result.append(dict(zip(("articleid", "userid", "title", "breif", "keywords","coverurl","uptime", "bodyurl"), v)))
+        return Common.trueReturn(result, 'query ok')
+
+    @staticmethod
+    def getArticlePagnationByUsername(username,pageNumber=1,pageSize=1):
+        result=[]
+        for k,v in enumerate(blogDB.getArticleLimitByUsername(username,pageSize,(pageNumber-1)*pageSize)):
+            result.append(dict(zip(("articleid", "userid", "title", "breif", "keywords","coverurl","uptime", "bodyurl"), v)))
+        return Common.trueReturn(result, 'query ok')
+
+    @staticmethod
     def getArticleBaseByID(artid):
         blogbase =blogDB.getArticleById(artid)
         if not blogbase is None:
@@ -54,6 +68,12 @@ class ArticleApi(object):
     @staticmethod
     def getArticleCountByUserId(userid):
         res = blogDB.getArticleCountByUserid(userid)
+        if not res is None:
+            return Common.trueReturn(res[0],'query ok')
+        return Common.falseReturn(None,'query false')
+    @staticmethod
+    def getArticleCountByUsername(username):
+        res = blogDB.getArticleCountByUsername(username)
         if not res is None:
             return Common.trueReturn(res[0],'query ok')
         return Common.falseReturn(None,'query false')

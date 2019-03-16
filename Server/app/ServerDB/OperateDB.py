@@ -91,9 +91,23 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
     def getArticleLimit(self,limit,offset):
         self._ExecuteSQL('SELECT * FROM article_base ORDER BY ROWID DESC LIMIT \'{}\' OFFSET \'{}\''.format(limit,offset))
         return self._FetchAll()
+    #获取某个用户的分页文章
+    def getArticleLimitByUserid(self, userid, limit, offset):
+        self._ExecuteSQL(
+            'SELECT * FROM article_base WHERE userid=\'{}\' ORDER BY ROWID DESC LIMIT \'{}\' OFFSET \'{}\''.format(userid,limit, offset))
+        return self._FetchAll()
+    #获取某个用户的分页文章
+    def getArticleLimitByUsername(self, username, limit, offset):
+        self._ExecuteSQL(
+            'SELECT * FROM article_base WHERE username=\'{}\' ORDER BY ROWID DESC LIMIT \'{}\' OFFSET \'{}\''.format(username,limit, offset))
+        return self._FetchAll()
     #获取某个用户发表的文章数量
     def getArticleCountByUserid(self,userid):
         self._ExecuteSQL('SELECT COUNT(*) FROM article_base WHERE userid=\'{}\''.format(userid))
+        return self._FetchAll()
+    #获取某个用户发表的文章数量
+    def getArticleCountByUsername(self,username):
+        self._ExecuteSQL('SELECT COUNT(*) FROM article_base WHERE username=\'{}\''.format(username))
         return self._FetchAll()
     #获取用户文章分页
     def getArticleByUseridLimit(self,userid,limit,offset):

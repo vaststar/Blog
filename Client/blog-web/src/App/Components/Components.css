@@ -1,6 +1,6 @@
 @import './articlePageCom/article.css';
 @import './comments/comments.css';
-@import './articles/article.css';
+@import './singleArticleBriefCom/article.css';
 @import './login/login.css';
 @import './register/register.css';
 @import "~antd/dist/antd.css"; 
