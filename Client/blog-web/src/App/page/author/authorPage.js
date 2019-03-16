@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
+import {Row,Col} from 'antd'
 
 import {get} from '../../Common/RequestREST'
 import Header from '../../Common/Header'
@@ -10,20 +11,23 @@ import AuthorArticlesCom from '../../Components/authorPageCom/authorArticles'
 class AuthorPage extends Component {
     state={}
     render() {
-        return (
+        return (<div className="author_main_page">{this.state.userid?
             <div>
                 <Header/>
-                {this.state.userid?
-                <div className='author_page_Com'>
-                    <AuthorCom userid={this.state.userid}></AuthorCom>
-                </div>:null}  
-                {this.state.userid?
+                <Row type="flex" justify="center" align="top">
+                    <Col span={14}>
                 <div className='author_page_Article_Com'>
                     <AuthorArticlesCom userid={this.state.userid}></AuthorArticlesCom>
-                </div>:null}  
-
+                </div>
+                    </Col>
+                    <Col span={10}>
+                <div className='author_page_Com'>
+                    <AuthorCom userid={this.state.userid}></AuthorCom>
+                </div>
+                    </Col>
+                </Row>  
             </div>
-        )
+        :null}</div>)
     }
     componentDidMount(){
         if (typeof this.props.location.pathname.split("/").pop() == "undefined" || 

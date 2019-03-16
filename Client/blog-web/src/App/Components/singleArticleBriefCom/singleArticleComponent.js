@@ -18,7 +18,7 @@ class ArticleComponent extends Component {
         if(!this.state.articleDeleted){
         return (
             <div className='articlesingle' onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} >
-            <Row type="flex" justify="space-between" gutter={16} >
+            <Row type="flex" justify="space-between" gutter={16} align="middle">
                 <Col span={18}>
                     <div className="article-title">
                         <a className="article-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/articles/'+this.props[ARTICLE_PROPS].articleid}>
