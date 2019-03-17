@@ -1,13 +1,15 @@
 #!/bin/bash
+systemctl stop firewalld
+systemctl restart network
 yum install -y
-yum emove docke docke-common docke-engine
-yum install -y yum-utils device-mappe-pesistent-data lvm2
-yum-config-manage --add-epo https://download.docke.com/linux/centos/docke-ce.epo
-yum install -y docke-ce
-systemctl stat docke
-systemctl enable docke
-cul -L https://github.com/docke/compose/eleases/download/1.24.0-c1/docke-compose-`uname -s`-`uname -m` -o /us/local/bin/docke-compose
-chmod +x /us/local/bin/docke-compose
-chmod +x docke-pull.sh
-./docke-pull.sh
-docke-compose up -d
+yum remove docker docker-common docker-engine
+yum install -y yum-utils device-mapper-pesistent-data lvm2
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum install -y docker-ce
+systemctl stat docker
+systemctl enable docker
+cul -L https://github.com/docker/compose/releases/download/1.24.0-c1/docker-compose-`uname -s`-`uname -m` -o /us/local/bin/docker-compose
+chmod +x /us/local/bin/docker-compose
+chmod +x docker-pull.sh
+./docker-pull.sh
+docker-compose up -d
