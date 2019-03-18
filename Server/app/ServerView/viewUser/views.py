@@ -12,6 +12,14 @@ def get_token():
     a = Authority.Authority.authenticate(params.get('username'), Authority.Authority.hash_secret(params.get('password')))
     return a
 
+@user_blue.route("/selfid/",methods=["GET"])
+@Authority.login_required
+def get_selfId():
+    userid = Authority.get_user_id()
+    if not userid :
+        return jsonify(Common.falseReturn(None,'user not find'))
+    return jsonify(Common.trueReturn(userid,'query ok'))
+
 @user_blue.route("/bases/",methods=["GET"])
 @Authority.login_required
 def get_AllUserBase():
@@ -43,9 +51,10 @@ def get_username(userid):
 def get_userAvatar(userid):
     return jsonify(UserApi.getUserAvatarById(userid))
 
-
 @user_blue.route("/userinfos/<userid>",methods=["GET"])
 @Authority.login_required
 def get_userinfo(userid):
     return jsonify(UserApi.getUserInfoByUserid(userid))
+
+
 

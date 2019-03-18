@@ -41,7 +41,7 @@ class HeaderCom extends Component {
                   {
                     this.props.valid?
                     <Menu.SubMenu title={<span><Icon type="user" />{this.props.user.username}</span>}>
-                        <Menu.Item key="setting">个人中心</Menu.Item>
+                        <Menu.Item key="/personal/"><Link to={this.getLinkToUrl('/personal/')}/>个人中心</Menu.Item>
                         <Menu.Item key="/writes/"><Link to={this.getLinkToUrl('/writes/')}/>发布文章</Menu.Item>
                         <Menu.Item key="logout">退出登陆</Menu.Item>
                     </Menu.SubMenu>
@@ -56,7 +56,7 @@ class HeaderCom extends Component {
     }
     componentDidMount(){
         //通过获取自己的信息，判断是否进入验证
-        get(this.props.userUrl+"/bases/"+this.props.user.username+"/").then(response => response.json()).then(result => {
+        get(this.props.userUrl+"/selfid/").then(response => response.json()).then(result => {
             // console.log(result);
             if(result.status){
                 this.props.ChangeValid(true);

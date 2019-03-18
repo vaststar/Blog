@@ -74,6 +74,43 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
             return True
         return False
 
+#用户简介表
+    #获取某个用户的简介
+    def getUserIntroduce(self,userid):
+        self._ExecuteSQL('SELECT * FROM user_introduce WHERE userid=\'{}\''.format(userid))
+        return self._FetchOne()
+    #添加某个用户的简介
+    def addUserIntroduce(self,userid,resume,tags):
+        if self._ExecuteSQL('INSERT INTO user_introduce (userid,resume,tags) VALUES(\'{}\',\'{}\',\'{}\')'.format(userid,resume,tags)):
+            self._CommitChange()
+            return True
+        return False
+    #修改某个用户的简介
+    def updateUserIntroduce(self,userid,resume,tags):
+        if self._ExecuteSQL('UPDATE user_introduce SET resume=\'{}\',tags=\'{}\' WHERE userid=\'{}\''.format(resume,tags,userid)):
+            self._CommitChange()
+            return True
+        return False
+    #修改标签
+    def updateUserIntroduceTags(self,userid,tags):
+        if self._ExecuteSQL('UPDATE user_introduce SET tags=\'{}\' WHERE userid=\'{}\''.format(tags,userid)):
+            self._CommitChange()
+            return True
+        return False
+    #修改简介内容
+    def updateUserIntroduceResume(self,userid,resume):
+        if self._ExecuteSQL('UPDATE user_introduce SET resume=\'{}\' WHERE userid=\'{}\''.format(resume,userid)):
+            self._CommitChange()
+            return True
+        return False
+
+    #删除某个用户的简介
+    def deleteUserIntroduce(self,userid):
+        if self._ExecuteSQL('DELETE FROM user_introduce WHERE userid=\'{}\''.format(userid)):
+            self._CommitChange()
+            return True
+        return False
+
 #文章表
     #获取所有文章
     def getAllArticle(self):

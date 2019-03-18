@@ -4,3 +4,4 @@
 @import './login/login.css';
 @import './register/register.css';
 @import "~antd/dist/antd.css"; 
+@import './authorPageCom/authorPageCom.css';

@@ -12,7 +12,7 @@ class ArticleAutor extends Component{
         return (<div>
             <Row type="flex" justify="space-around" align="middle">
                 <Col span={1} >
-                    <Avatar size="large" icon="user" src={this.state.avatar} /> 
+                    <Avatar className="article_author_avatar"  size="large" icon="user" src={this.state.avatar} /> 
                 </Col>
                 <Col span={12}>
                     <Row>
