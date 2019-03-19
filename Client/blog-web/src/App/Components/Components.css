@@ -5,3 +5,4 @@
 @import './register/register.css';
 @import "~antd/dist/antd.css"; 
 @import './authorPageCom/authorPageCom.css';
+@import './personalPageCom/personalPageCom.css';

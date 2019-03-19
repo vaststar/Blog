@@ -3,11 +3,11 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {Row, Col, Avatar, Icon} from 'antd'
 import moment from 'moment'
-import {get} from '../../Common/RequestREST'
+import {get,post,del} from '../../Common/RequestREST'
 
 const ARTICLE_BASEOBJ="articleBase"
 class ArticleAutor extends Component{
-    state={}
+    state={personalLike:false}
     render(){
         return (<div>
             <Row type="flex" justify="space-around" align="middle">
@@ -26,7 +26,9 @@ class ArticleAutor extends Component{
                             <Icon type="message" /> {this.state.commentsNumber} 
                         </Col>  
                         <Col span={2} > 
-                            <Icon type="heart" /> {this.state.likeNumber} 
+                            <div className="likes_article" onClick={this.likesClick}>
+                            {this.state.personalLike?<Icon type="heart" theme="twoTone" twoToneColor="#ff0000"/>:<Icon type="heart" />} {this.state.likeNumber} 
+                            </div>
                         </Col> 
                         <Col span={8} >
                             {moment(this.props[ARTICLE_BASEOBJ].uptime,'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')}
@@ -51,6 +53,7 @@ class ArticleAutor extends Component{
         this.resfreshBrowserNumbers();
         this.resfreshLikesNumbers();
         this.refreshCommentNumbers();
+        this.personalLikeArticleJudge();
     }
     //获取作者信息
     getAuthorName=()=>{
@@ -61,8 +64,9 @@ class ArticleAutor extends Component{
             console.log( e);
         })
     }
+    //获取头像
     getAuthorAvatar=()=>{
-        get(this.props.userUrl+"/useravatars/"+this.props[ARTICLE_BASEOBJ].userid).then(result=>result.json()).then(result=>{
+        get(this.props.userUrl+"/avatars/"+this.props[ARTICLE_BASEOBJ].userid).then(result=>result.json()).then(result=>{
             this.setState({avatar:this.props.fileUrl+"/"+result.data});
         }).catch(function(e){
             console.log( e);
@@ -79,8 +83,8 @@ class ArticleAutor extends Component{
             console.log(e)
         });
     }
+    //根据文章id获取喜欢的人的数量
     resfreshLikesNumbers=()=>{
-        //根据文章id获取喜欢的人的数量
         get(this.props.likeUrl+"/articles/"+this.props[ARTICLE_BASEOBJ].articleid).then(response => response.json()).then(result=>{
             if(result.status){
                 this.setState({likeNumber:result.data})
@@ -89,8 +93,8 @@ class ArticleAutor extends Component{
             console.log(e)
         });
     }
+    //根据文章id获取评论数量
     refreshCommentNumbers=()=>{
-        //根据文章id获取评论数量
         get(this.props.commentUrl+"/counts/topcomments/"+this.props[ARTICLE_BASEOBJ].articleid).then(response => response.json()).then(result=>{
             if(result.status){
                 this.setState({commentsNumber:result.data})
@@ -100,6 +104,40 @@ class ArticleAutor extends Component{
         }).catch(function (e){
             console.log(e)
         });
+    }
+    //判断是否是自己喜欢的
+    personalLikeArticleJudge=()=>{
+        //判断是否是自己喜欢的
+        get(this.props.likeUrl+"/belongs/articles/"+this.props[ARTICLE_BASEOBJ].articleid).then(response => response.json()).then(result=>{
+            if(result.status){
+                this.setState({personalLike:result.data})
+            }
+        }).catch(function (e){
+            console.log(e)
+        });
+    }
+    //单击喜欢按钮
+    likesClick=()=>{
+        if(this.state.personalLike){
+            //删除该文章的喜欢记录
+            del(this.props.likeUrl+"/articles/"+this.props[ARTICLE_BASEOBJ].articleid).then(response => response.json()).then(result=>{
+                if(result.status){
+                    this.setState({personalLike:false})
+                    this.resfreshLikesNumbers()
+                }
+            }).catch(function (e){
+                console.log(e)
+            });
+        }else{
+            post(this.props.likeUrl+"/articles/",{'articleid':this.props[ARTICLE_BASEOBJ].articleid}).then(response => response.json()).then(result=>{
+                if(result.status){
+                    this.setState({personalLike:true})
+                    this.resfreshLikesNumbers()
+                }
+            }).catch(function (e){
+                console.log(e)
+            });
+        }
     }
 }
 

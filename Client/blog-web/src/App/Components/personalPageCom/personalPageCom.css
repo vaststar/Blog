@@ -1,0 +1,27 @@
+.personal_Com{
+    margin:0 auto;
+    background-color: white;
+}
+
+/* .personal_Menu{
+    border-right: 1px solid red;
+} */
+
+.userbaseCom_username{
+    margin-left: 10px;
+}
+
+.userbaseCom_changeavatar_label{
+    background: rgb(64,169,255);
+    border-radius: 2px;
+    color: white;
+    padding: 2px 3px;
+    cursor: pointer;
+}
+.userbaseCom_changeavatar{
+    display:none;
+}
+
+.userbase_info{
+    margin:2px auto;
+}

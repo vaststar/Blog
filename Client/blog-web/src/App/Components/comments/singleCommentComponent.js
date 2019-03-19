@@ -4,13 +4,13 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import {Row,Col,Icon,Avatar,Divider,Tooltip} from 'antd'
 
-import {get,post} from '../../Common/RequestREST'
+import {get,post,del} from '../../Common/RequestREST'
 import TextEdit from './textEdit'
 
 const COMMENT_PROPS = 'comment';
 const COMMENT_REFRESH_FUNC='refreshFunc';
 class CommentComponent extends Component {
-    state={username:"",useravatar:"",replyshow:false,childNumber:0,likeNumber:0}
+    state={username:"",useravatar:"",replyshow:false,childNumber:0,likeNumber:0,personalLike:false}
     render(){
         return (
             <div className='singlecomment'>
@@ -36,7 +36,8 @@ class CommentComponent extends Component {
                         }
                     </Col>
                     <Col span={23}>
-                    <div className="commentFoot" onClick={this.likeIt}><Icon type="like" /> {this.state.likeNumber}</div>
+                    <div className="commentFoot" onClick={this.likeItClick}>
+                    {this.state.personalLike?<Icon type="like" theme="twoTone" twoToneColor="#ff0000"/>: <Icon type="like" />} {this.state.likeNumber}</div>
                     </Col>
                 </Row>
                 <Row>
@@ -59,7 +60,7 @@ class CommentComponent extends Component {
             console.log(e);
         });
         //根据userid获取用户头像
-        get(this.props.userUrl+"/useravatars/"+this.props[COMMENT_PROPS].userid).then(response => response.json()).then(result=>{
+        get(this.props.userUrl+"/avatars/"+this.props[COMMENT_PROPS].userid).then(response => response.json()).then(result=>{
             if(result.status && result.data){
                 this.setState({useravatar:"/rest/files/"+result.data})
             }
@@ -75,6 +76,10 @@ class CommentComponent extends Component {
         }).catch((e)=>{
             console.log(e)
         })
+        //判断是否是自己喜欢的
+        this.personalLikeCommentJudge()
+        this.resfreshLikesNumbers()
+
     }
     submitComment=(str)=>{
         //提交评论
@@ -90,9 +95,49 @@ class CommentComponent extends Component {
             console.log(e)
         });
     }
-    likeIt=()=>{
-        //赞
-        this.setState({likeNumber:parseInt(this.state.likeNumber)+1})
+    //判断是否是自己喜欢的
+    personalLikeCommentJudge=()=>{
+        //判断是否是自己喜欢的
+        get(this.props.likeUrl+"/belongs/comments/"+this.props[COMMENT_PROPS].commentid).then(response => response.json()).then(result=>{
+            if(result.status){
+                this.setState({personalLike:result.data})
+            }
+        }).catch(function (e){
+            console.log(e)
+        });
+    }
+    //获取喜欢数量
+    resfreshLikesNumbers=()=>{
+        get(this.props.likeUrl+"/comments/"+this.props[COMMENT_PROPS].commentid).then(response => response.json()).then(result=>{
+            if(result.status){
+                this.setState({likeNumber:result.data})
+            }
+        }).catch(function (e){
+            console.log(e)
+        });
+    }
+    //点击喜欢按钮
+    likeItClick=()=>{
+        if(this.state.personalLike){
+            //删除该文章的喜欢记录
+            del(this.props.likeUrl+"/comments/"+this.props[COMMENT_PROPS].commentid).then(response => response.json()).then(result=>{
+                if(result.status){
+                    this.setState({personalLike:false})
+                    this.resfreshLikesNumbers()
+                }
+            }).catch(function (e){
+                console.log(e)
+            });
+        }else{
+            post(this.props.likeUrl+"/comments/",{'commentid':this.props[COMMENT_PROPS].commentid}).then(response => response.json()).then(result=>{
+                if(result.status){
+                    this.setState({personalLike:true})
+                    this.resfreshLikesNumbers()
+                }
+            }).catch(function (e){
+                console.log(e)
+            });
+        }
     }
 }
 

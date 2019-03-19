@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {Divider,Row,Col,Tag,Tooltip,Input,Icon,Button} from 'antd'
 
-import {get,put} from '../../Common/RequestREST'
+import {get,put,post} from '../../Common/RequestREST'
 
 const COLOR_ARR=["magenta","red","volcano","orange","gold","lime","green","cyan","blue","geekblue","purple"]
 class IntroduceCom extends Component{
-    state={userid:'',tagsOP:{tags: null,
+    state={userid:'',tagsOP:{tags: [],
                      inputVisible: false,
                      inputValue: ''},
             resumeOP:{resume:null,
@@ -37,7 +37,7 @@ class IntroduceCom extends Component{
     handleTagInputChange = (e) => {
         let state = this.state;
         state.tagsOP.inputValue = e.target.value;
-      this.setState(state);
+        this.setState(state);
     }
     
     handleTagInputConfirm = () => {
@@ -50,14 +50,26 @@ class IntroduceCom extends Component{
       state.tagsOP.tags = tags;
       state.tagsOP.inputValue="";
       state.tagsOP.inputVisible=false;
-      put(this.props.introduceUrl+"/tags/",{'tags':tags.join(" ")}).then(response => response.json()).then(result => {
-          // 在此处写获取数据之后的处理逻辑
-          if(result.status){
-              this.setState(state);              
-          }
-        }).catch(function (e) {
-            console.log("update tags fail", e);
-        });  
+      if(state.hasUserIntroduce){
+        put(this.props.introduceUrl+"/tags/",{'tags':tags.join(" ")}).then(response => response.json()).then(result => {
+            // 在此处写获取数据之后的处理逻辑
+            if(result.status){
+                this.setState(state);              
+            }
+          }).catch(function (e) {
+              console.log("update tags fail", e);
+          });  
+      }else{
+        post(this.props.introduceUrl+"/",{'resume':'','tags':tags.join(" ")}).then(response => response.json()).then(result => {
+            // 在此处写获取数据之后的处理逻辑
+            if(result.status){
+                state.hasUserIntroduce=true;
+                this.setState(state);              
+            }
+          }).catch(function (e) {
+              console.log("update tags fail", e);
+          }); 
+      }
     }
     saveTagInputRef= input => this.tagsInput = input
 //简介操作
@@ -80,48 +92,53 @@ class IntroduceCom extends Component{
       state.resumeOP.resume = inputValue;
       state.resumeOP.inputValue="";
       state.resumeOP.inputVisible=false;
-      put(this.props.introduceUrl+"/resumes/",{'resume':inputValue}).then(response => response.json()).then(result => {
-          // 在此处写获取数据之后的处理逻辑
-          if(result.status){
-              this.setState(state);              
-          }
-        }).catch(function (e) {
-            console.log("update tags fail", e);
-        });  
+      if(state.hasUserIntroduce){
+        put(this.props.introduceUrl+"/resumes/",{'resume':inputValue}).then(response => response.json()).then(result => {
+            // 在此处写获取数据之后的处理逻辑
+            if(result.status){
+                this.setState(state);              
+            }
+          }).catch(function (e) {
+              console.log("update tags fail", e);
+          });  
+      }else{
+        post(this.props.introduceUrl+"/",{'resume':inputValue,'tags':''}).then(response => response.json()).then(result => {
+            // 在此处写获取数据之后的处理逻辑
+            if(result.status){
+                state.hasUserIntroduce=true;
+                this.setState(state);              
+            }
+          }).catch(function (e) {
+              console.log("update tags fail", e);
+          });  
+      }
+      
     }
     saveResumeInputRef= input => this.resumeInput = input
     render(){return (<div>
-        <Row type="flex" justify="center" align="middle" >
-            <Col span={2}>
-            <h2>简介：</h2>
-            </Col>
-            <Col span={22}>
-            <Button type="primary" size={'small'} onClick={this.showResumeInput}>编辑</Button>
-            </Col>
-        </Row>
+        <Divider orientation="left">简介</Divider>
         <Row>
             {!this.state.resumeOP.inputVisible &&<h3>{this.state.resumeOP.resume}</h3>}
             {this.state.resumeOP.inputVisible && (
               <Input
                 ref={this.saveResumeInputRef}
                 type="text"
-                value={this.state.resumeOP.resume}
+                value={this.state.resumeOP.inputValue}
                 onChange={this.handleResumeInputChange}
                 onBlur={this.handleResumeInputConfirm}
                 onPressEnter={this.handleResumeInputConfirm}
               />
             )}
-            
+            {!this.state.resumeOP.inputVisible &&<Button type="primary" size={'small'} onClick={this.showResumeInput}>编辑</Button>}
         </Row>
-        <Divider/>
+        <Divider orientation="left">标签</Divider>
         <div>
             
             <Row>
-        <h2>标签：</h2>
             {this.state.tagsOP.tags&&
                 this.state.tagsOP.tags.map((item,index)=>{
                     const isLongTag = item.length > 20;
-                    const tagElem = <Tag key={item} closable={this.state.mouseInTags} afterClose={() => this.handleClose(item)}
+                    const tagElem = <Tag key={item} closable={true} afterClose={() => this.handleClose(item)}
                                      color={COLOR_ARR[Math.floor(Math.random()*COLOR_ARR.length)]} className="author_introduce_tag">
                             {isLongTag ? `${item.slice(0, 20)}...` : item}</Tag>
                     return isLongTag ? <Tooltip title={item} key={item}>{tagElem}</Tooltip> : tagElem;
@@ -150,6 +167,7 @@ class IntroduceCom extends Component{
                   </Tag>
                 )}
             </Row>
+        <Divider></Divider>
         </div>
     </div>)}
     componentDidMount(){
@@ -159,7 +177,6 @@ class IntroduceCom extends Component{
         get(this.props.userUrl+"/selfid/").then(result=>result.json()).then(result=>{
             if(result.status)
             {
-
                 this.setState({userid:result.data})
                 this.getIntroduce(result.data)
             }
@@ -175,7 +192,11 @@ class IntroduceCom extends Component{
                 let state = this.state;
                 state.resumeOP.resume = result.data.resume;
                 state.tagsOP.tags=result.data.tags.split(" ");
+                state.hasUserIntroduce=true;
                 this.setState(state)
+            }
+            else{
+                this.setState({hasUserIntroduce:false})
             }
         }).catch(function(e){
             console.log( e);
