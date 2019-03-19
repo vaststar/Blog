@@ -2,5 +2,9 @@ from flask import jsonify,request
 from . import code_blue
 
 from app.ServerView.Common import Common
-from app.ServerView.Authority import Authority
-# from app.ServerView.Common.userApi import UserApi
+from app.ServerView.Common.validCode import ValidCode
+
+@code_blue.route("/validcodes/",methods=["GET"])
+def get_validcodes():
+    code = ValidCode.getBase64Code()
+    return jsonify(Common.trueReturn({'base64':code[0].decode(encoding="utf-8"),'code':code[1]},'ok'))

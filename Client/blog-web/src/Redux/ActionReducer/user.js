@@ -12,6 +12,7 @@ const UserData = {
     likeUrl:"/rest/likes",
     browserUrl:"/rest/browsers",
     introduceUrl:"/rest/introduces",
+    validcodeUrl:"/rest/validcodes",
     valid:window.sessionStorage.getItem('valid') ==='true'
 }
 
