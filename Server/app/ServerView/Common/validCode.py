@@ -104,3 +104,4 @@ if __name__=='__main__':
     img = validate_code[0]
     img.save(mstream, "JPEG")
     print(base64.b64encode(mstream.getvalue()))
+    print(validate_code)
