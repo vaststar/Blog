@@ -30,18 +30,18 @@ class LoginForm extends Component {
         <Form onSubmit={this.handleSubmit} className="login-form">
           <Form.Item>
             {getFieldDecorator(USER_NAME, {
-              rules: [{ required: true, message: 'Please input your username!' }],
+              rules: [{ required: true, message: '请输入用户名!' }],
               initialValue:getFieldValue(USER_NAME)
             })(
-              <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+              <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="用户名" />
             )}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator(PASSWORD, {
-              rules: [{ required: true, message: 'Please input your Password!' }],
+              rules: [{ required: true, message: '请输入密码!' }],
               initialValue:getFieldValue(PASSWORD)
             })(
-              <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+              <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="密码" />
             )}
           </Form.Item>
           <Form.Item>
@@ -49,13 +49,13 @@ class LoginForm extends Component {
               valuePropName: 'checked',
               initialValue: getFieldValue(REMEMBER)
             })(
-              <Checkbox>Remember me</Checkbox>
+              <Checkbox>记住密码</Checkbox>
             )}
-            <a className="login-form-forgot" href={this.props[FORGOT_URL]}>Forgot password</a>
+            <a className="login-form-forgot" href={this.props[FORGOT_URL]}>忘记密码</a>
             <Button type="primary" htmlType="submit" className="login-form-button">
-              Log in
+              登陆
             </Button>
-            Or <a href={this.props[REGISTER_URL]}>register now!</a>
+            <a href={this.props[REGISTER_URL]}>注册!</a>
           </Form.Item>
         </Form>
       );

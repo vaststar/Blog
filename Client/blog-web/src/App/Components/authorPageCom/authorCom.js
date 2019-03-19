@@ -13,7 +13,7 @@ class AuthorCom extends Component{
         return(<div>
             <Row type="flex" justify="center" align="middle">
             <Col span={8}>
-        {this.state.avatarUrl&&<Avatar className="author_avatar" size="large" icon="user" src={this.props.fileUrl+"/"+this.state.avatarUrl} />} 
+                 {this.state.avatarUrl&&<Avatar className="author_avatar" size="large" icon="user" src={this.props.fileUrl+"/"+this.state.avatarUrl} />} 
             </Col>
             <Col span={16}>
             {this.state.username}
@@ -22,6 +22,7 @@ class AuthorCom extends Component{
             <Divider orientation="left">简介</Divider>
             <Row>
               <h3>{this.state.introduces&&this.state.introduces.resume}</h3>
+
             </Row>
             <Divider orientation="left">标签</Divider>
             <Row>

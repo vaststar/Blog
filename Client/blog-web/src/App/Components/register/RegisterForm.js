@@ -6,12 +6,12 @@ import {
     Form, Icon, Input, Button, Checkbox, Select, Tooltip, Modal
   } from 'antd';
 
-import {postFile,post} from '../../Common/RequestREST'
+import {postFile,post,get} from '../../Common/RequestREST'
 
 const SUBMIT_FORM = 'submitForm';
 const AGREEMENT_URL = 'agreementUrl';
 class RegisterForm extends Component {
-    state={previewVisible: false,avatarrurl:null}
+    state={previewVisible: false,avatarrurl:null,validcode:{}}
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -35,6 +35,14 @@ class RegisterForm extends Component {
           callback('Please agree!');
         } else {
           callback();
+        }
+    }
+    validCodeCorrect=(rule, value, callback)=>{
+        const form=this.props.form;
+        if(value && value !== this.state.validcode.code){
+            callback('验证码不正确!');
+        }else{
+            callback();
         }
     }
 
@@ -78,35 +86,35 @@ class RegisterForm extends Component {
                 {...formItemLayout}
                 label={(
                 <span>
-                    Nick Name&nbsp;
-                    <Tooltip title="What do you want others to call you?">
+                    昵称&nbsp;
+                    <Tooltip title="账户名，不可修改?">
                     <Icon type="question-circle-o" />
                     </Tooltip>
                 </span>
                 )}
             >
                 {getFieldDecorator('nickname', {
-                    rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+                    rules: [{ required: true, message: '请输入账户名称!', whitespace: true }],
                 })(
                     <Input />
                 )}
             </Form.Item>
             <Form.Item
                 {...formItemLayout}
-                label="Real Name"
+                label="真实姓名"
             >
                 {getFieldDecorator('realname', {
-                    rules: [{ required: true, message: 'Please input your realname!', whitespace: true }],
+                    rules: [{ required: true, message: '请输入真实姓名!', whitespace: true }],
                 })(
                 <Input />
             )}
             </Form.Item>
             <Form.Item
                 {...formItemLayout}
-                label="ID Card"
+                label="身份证号"
             >
                 {getFieldDecorator('idcard', {
-                    rules: [{ required: true, message: 'Please input your social id number!' }],
+                    rules: [{ required: true, message: '请输入身份证号!' }],
                 })(
                     <Input />
                 )}
@@ -114,10 +122,10 @@ class RegisterForm extends Component {
 
             <Form.Item
                 {...formItemLayout}
-                label="Phone Number"
+                label="手机号"
             >
                 {getFieldDecorator('phone', {
-                    rules: [{ required: true, message: 'Please input your phone number!' }],
+                    rules: [{ required: true, message: '请输入联系电话!' }],
                 })(
                     <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
                 )}
@@ -125,13 +133,13 @@ class RegisterForm extends Component {
 
             <Form.Item
                 {...formItemLayout}
-                label="E-mail"
+                label="邮箱"
             >
                 {getFieldDecorator('email', {
                     rules: [{
                         type: 'email', message: 'The input is not valid E-mail!',
                     }, {
-                        required: true, message: 'Please input your E-mail!',
+                        required: true, message: '请输入联系邮箱!',
                     }],
                     validateTrigger: 'onBlur'
                 })(
@@ -140,10 +148,10 @@ class RegisterForm extends Component {
             </Form.Item>
             <Form.Item
                 {...formItemLayout}
-                label="Avatar"
+                label="用户头像"
             >
                 {getFieldDecorator('avatarurl', {
-                  rules: [{ required: false, message: 'Please paste or drag cover image!' }],
+                  rules: [{ required: false, message: '请添加用户头像!' }],
                   normalize:this.normalAll
                 })(
                 <Input addonAfter={<Icon type="eye" onClick={this.viewAvatar}/>} 
@@ -153,11 +161,11 @@ class RegisterForm extends Component {
             </Form.Item>
             <Form.Item
                 {...formItemLayout}
-                label="Password"
+                label="密码"
             >
                 {getFieldDecorator('password', {
                     rules: [{
-                        required: true, message: 'Please input your password!',
+                        required: true, message: '请输入密码!',
                     }],
                 })(
                     <Input type="password" />
@@ -165,11 +173,11 @@ class RegisterForm extends Component {
             </Form.Item>
             <Form.Item
                 {...formItemLayout}
-                label="Confirm Password"
+                label="确认密码"
             >
                 {getFieldDecorator('confirm', {
                     rules: [{
-                        required: true, message: 'Please confirm your password!',
+                        required: true, message: '请确认密码!',
                         }, {
                         validator: this.compareToFirstPassword,
                     }],
@@ -178,10 +186,24 @@ class RegisterForm extends Component {
                     <Input type="password" onBlur={this.handleConfirmBlur} />
                 )}
             </Form.Item>
+            <Form.Item
+                {...formItemLayout}
+                label="验证码"
+            >
+                {getFieldDecorator('validcode', {
+                  rules: [{ required: true, message: '请输入正确的验证码（大小写敏感）!' },
+                          {validator: this.validCodeCorrect}
+                        ],
+                  validateTrigger: 'onBlur'
+                })(
+                <Input addonAfter={<img src={this.state.validcode.base64} onClick={this.refreshValidCode}/>} 
+                  placeholder="请输入验证码（大小写敏感）" allowClear />
+                )}
+            </Form.Item>
             <Form.Item {...tailFormItemLayout}>
                 {getFieldDecorator('agreement', {
                     rules: [{
-                        required: true, message: 'Please check agreement!',
+                        required: true, message: '请阅读并勾选用户协议!',
                         },{
                         validator:this.agreeChecked,
                         }
@@ -189,11 +211,11 @@ class RegisterForm extends Component {
                     validateTrigger:"onChange",
                     valuePropName: 'checked',
                 })(
-                    <Checkbox>I have read the <a href={this.props[AGREEMENT_URL]}>agreement</a></Checkbox>
+                    <Checkbox>我已阅读 <a href={this.props[AGREEMENT_URL]}>用户协议</a></Checkbox>
                 )}
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
-                <Button type="primary" htmlType="submit" className="regiserCom_regButton">Register</Button>
+                <Button type="primary" htmlType="submit" className="regiserCom_regButton">注册</Button>
             </Form.Item>
             <Modal visible={this.state.previewVisible} footer={null} onCancel={this.handleCancel}>
                 <img alt="example" style={{ width: '100%' }} src={this.state.avatarurl} />
@@ -258,6 +280,22 @@ class RegisterForm extends Component {
         }).catch(function(e){
             console.log(e)
         })
+    }
+    //加载控件，获取验证码
+    componentDidMount(){
+        this.refreshValidCode();
+    }
+    refreshValidCode=()=>{
+        get(this.props.validcodeUrl+'/validcodes/').then(response=>response.json()).then(result=>{
+            if(result.status){
+                let state=this.state;
+                state.validcode={'code':result.data.code,'base64':'data:image/png;base64,'+result.data.base64};
+                this.setState(state)
+            }
+        }).catch(function (e) {
+            this.setState({isLoadingMore:false});
+            console.log("fetch all article bases fail", e);
+        });
     }
 }
 
