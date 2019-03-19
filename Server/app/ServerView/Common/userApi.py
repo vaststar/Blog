@@ -5,6 +5,13 @@ from app.ServerView.Authority import Authority
 class UserApi(object):
     '''定义一些用户相关的接口，给视图调用，减少视图工作量'''
     @staticmethod
+    def getUserBase(userid):
+        user = blogDB.getUserById(userid)
+        if not user is None:
+            return Common.trueReturn(dict(zip(("id", "name", "password"), user)),'query ok')
+        return Common.falseReturn(None,'cannot find userid:{}'.format(userid))
+
+    @staticmethod
     def registerUserBase(username,password):
         if not username or not password:
             return Common.falseReturn(None, 'username or password cannot be empty')
@@ -21,10 +28,32 @@ class UserApi(object):
             return Common.falseReturn(None, "{} doesn't exist in user_base".format(userid))
         if not username or not password:
             return Common.falseReturn(None, 'username or password cannot be empty')
-        if blogDB.updateUser(userid,username,password):
+        if blogDB.updateUser(userid,username,Authority.Authority.hash_secret(password)):
             return Common.trueReturn({'userid':userid},'change ok')
         else:
             return Common.falseReturn(None,'change false')
+
+    @staticmethod
+    def updateUserName(userid,username):
+        if blogDB.updateUserName(userid,username):
+            return Common.trueReturn(userid,'change name ok')
+        return Common.falseReturn(None,"change name error")
+
+    @staticmethod
+    def updateUserPassword(userid,password):
+        if blogDB.updateUserName(userid,Authority.Authority.hash_secret(password)):
+            return Common.trueReturn(userid,'change password ok')
+        return Common.falseReturn(None,"change password error")
+
+    @staticmethod
+    def getUserInfoByUserid(userid):
+        if not userid:
+            return Common.falseReturn(None,'userid is required')
+        user = blogDB.getUserInfoById(userid)
+        if user:
+            return Common.trueReturn(dict(zip(("userid","realname","idcard","cellphone","email","avatarurl"),user)), 'query ok')
+        else:
+            return Common.falseReturn(None, 'cannot find {}'.format(userid))
 
     @staticmethod
     def registerUserInfo(userid,realname,phone,idcard,email,avatarurl):
@@ -49,6 +78,32 @@ class UserApi(object):
             return Common.trueReturn(userid,'modify ok')
         else:
             return Common.falseReturn(None,'unknown reason')
+
+    @staticmethod
+    def updateRealName(userid,realname):
+        if blogDB.updateUserRealName(userid,realname):
+            return Common.trueReturn(userid,'change realname ok')
+        return Common.falseReturn(None,'change realname error')
+    @staticmethod
+    def updatePhone(userid,phone):
+        if blogDB.updateUserCellphone(userid,phone):
+            return Common.trueReturn(userid,'change phone ok')
+        return Common.falseReturn(None,'change phone error')
+    @staticmethod
+    def updateIDCard(userid,idcard):
+        if blogDB.updateUserIDCard(userid,idcard):
+            return Common.trueReturn(userid,'change idcard ok')
+        return Common.falseReturn(None,'change idcard error')
+    @staticmethod
+    def updateEmail(userid,email):
+        if blogDB.updateUserEmail(userid,email):
+            return Common.trueReturn(userid,'change email ok')
+        return Common.falseReturn(None,'change email error')
+    @staticmethod
+    def updateAvatar(userid,avatarurl):
+        if blogDB.updateUserAvatar(userid,avatarurl):
+            return Common.trueReturn(userid,'change avatar ok')
+        return Common.falseReturn(None,'change avatar error')
 
     @staticmethod
     def getAllUserBase():
@@ -94,14 +149,5 @@ class UserApi(object):
         else:
             return Common.falseReturn(None,'not found')
 
-    @staticmethod
-    def getUserInfoByUserid(userid):
-        if not userid:
-            return Common.falseReturn(None,'userid is required')
-        user = blogDB.getUserInfoById(userid)
-        if user:
-            return Common.trueReturn(dict(zip(("userid","realname","idcard","cellphone","email","avatarurl"),user)), 'query ok')
-        else:
-            return Common.falseReturn(None, 'cannot find {}'.format(userid))
 
 

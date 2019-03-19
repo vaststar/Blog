@@ -30,18 +30,31 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
             self._CommitChange()
             return userid
         return None
-
+    #修改用户信息
     def updateUser(self,userid,username,password):
         if self._ExecuteSQL('UPDATE user_base SET username=\'{}\',password=\'{}\' WHERE userid=\'{}\''.
                             format(username,password,userid)):
             self._CommitChange()
             return True
         return False
+    #修改用户名称
+    def updateUserName(self,userid,username):
+        if self._ExecuteSQL('UPDATE user_base SET username=\'{}\' WHERE userid=\'{}\''.
+                            format(username,userid)):
+            self._CommitChange()
+            return True
+        return False
+    #修改用户密码
+    def updateUserPassword(self,userid,password):
+        if self._ExecuteSQL('UPDATE user_base SET password=\'{}\' WHERE userid=\'{}\''.
+                            format(password,userid)):
+            self._CommitChange()
+            return True
+        return False
 
-    #检查用户密码
+    #检查用户密码,返回用户id
     def checkPassword(self,username,password):
         user =self.getUserByName(username)
-        print(user)
         if not user is None:
             if password == user[2]:
                 return user[0]
@@ -68,8 +81,43 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
 
     #修改用户信息
     def updateUserInfo(self,userid,realname,idcard,cellphone,email,avatarurl):
-        if self._ExecuteSQL('UPDATE user_info SET realname=\'{}\',idcard=\'{}\',cellphone=\'{}\',email=\'{}\',avatarurl=\'{}\' WHERE userid=\'{}\')'.
+        if self._ExecuteSQL('UPDATE user_info SET realname=\'{}\',idcard=\'{}\',cellphone=\'{}\',email=\'{}\',avatarurl=\'{}\' WHERE userid=\'{}\''.
                          format(realname,idcard,cellphone,email,avatarurl,userid)):
+            self._CommitChange()
+            return True
+        return False
+    #修改用户真实姓名
+    def updateUserRealName(self,userid,realname):
+        if self._ExecuteSQL('UPDATE user_info SET realname=\'{}\' WHERE userid=\'{}\''.
+                         format(realname,userid)):
+            self._CommitChange()
+            return True
+        return False
+    #修改用户身份证号
+    def updateUserIDCard(self,userid,idcard):
+        if self._ExecuteSQL('UPDATE user_info SET idcard=\'{}\' WHERE userid=\'{}\''.
+                         format(idcard,userid)):
+            self._CommitChange()
+            return True
+        return False
+    #修改用户手机号
+    def updateUserCellphone(self,userid,cellphone):
+        if self._ExecuteSQL('UPDATE user_info SET cellphone=\'{}\' WHERE userid=\'{}\''.
+                         format(cellphone,userid)):
+            self._CommitChange()
+            return True
+        return False
+    #修改用户邮箱
+    def updateUserEmail(self,userid,email):
+        if self._ExecuteSQL('UPDATE user_info SET email=\'{}\' WHERE userid=\'{}\''.
+                         format(email,userid)):
+            self._CommitChange()
+            return True
+        return False
+    #修改用户头像
+    def updateUserAvatar(self,userid,avatarurl):
+        if self._ExecuteSQL('UPDATE user_info SET avatarurl=\'{}\' WHERE userid=\'{}\''.
+                         format(avatarurl,userid)):
             self._CommitChange()
             return True
         return False
