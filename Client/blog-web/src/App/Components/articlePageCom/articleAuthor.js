@@ -12,7 +12,7 @@ class ArticleAutor extends Component{
         return (<div>
             <Row type="flex" justify="space-around" align="middle">
                 <Col span={1} >
-                    <Avatar className="article_author_avatar"  size="large" icon="user" src={this.state.avatar} /> 
+        {this.state.avatar&&<Avatar className="article_author_avatar"  size="large" icon="user" src={this.state.avatar} /> }
                 </Col>
                 <Col span={12}>
                     <Row>
@@ -62,7 +62,7 @@ class ArticleAutor extends Component{
         })
     }
     getAuthorAvatar=()=>{
-        get(this.props.userUrl+"/useravatars/"+this.props[ARTICLE_BASEOBJ].userid).then(result=>result.json()).then(result=>{
+        get(this.props.userUrl+"/avatars/"+this.props[ARTICLE_BASEOBJ].userid).then(result=>result.json()).then(result=>{
             this.setState({avatar:this.props.fileUrl+"/"+result.data});
         }).catch(function(e){
             console.log( e);

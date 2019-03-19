@@ -8,12 +8,12 @@ import {get} from '../../Common/RequestREST'
 const USER_ID="userid"
 const COLOR_ARR=["magenta","red","volcano","orange","gold","lime","green","cyan","blue","geekblue","purple"]
 class AuthorCom extends Component{
-    state={userinfo:null}
+    state={}
     render(){
-        return(<div>{this.state.userinfo&&<div>
+        return(<div>
             <Row type="flex" justify="center" align="middle">
             <Col span={8}>
-            <Avatar className="author_avatar" size="large" icon="user" src={this.props.fileUrl+"/"+this.state.userinfo.avatarurl} /> 
+            {this.state.avatarurl&&<Avatar className="author_avatar" size="large" icon="user" src={this.props.fileUrl+"/"+this.state.avatarurl} /> }
             </Col>
             <Col span={16}>
             {this.state.username}
@@ -21,7 +21,7 @@ class AuthorCom extends Component{
             </Row>
             <Divider orientation="left">简介</Divider>
             <Row>
-              <h2>{this.state.introduces?this.state.introduces.resume:null}</h2>
+              <h2>{this.state.introduces&&this.state.introduces.resume}</h2>
             </Row>
             <Divider orientation="left">标签</Divider>
             <Row>
@@ -31,7 +31,7 @@ class AuthorCom extends Component{
                 })
                 }
             </Row>
-        </div>}</div>)
+        </div>)
     }
     componentDidMount(){
         this.refreshAuthorInfo(this.props[USER_ID])
@@ -39,10 +39,11 @@ class AuthorCom extends Component{
         this.refreshAuthorIntroduce(this.props[USER_ID])
     }
     refreshAuthorInfo=(userid)=>{
-        get(this.props.userUrl+"/userinfos/"+userid).then(result=>result.json()).then(result=>{
+        get(this.props.userUrl+"/avatars/"+userid).then(result=>result.json()).then(result=>{
+            
             if(result.status)
             {
-                this.setState({userinfo:result.data})
+                this.setState({avatarurl:result.data})
             }
         }).catch(function(e){
             console.log( e);
