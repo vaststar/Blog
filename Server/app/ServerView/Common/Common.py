@@ -1,5 +1,3 @@
-
-
 def trueReturn(data, msg):
     return {
         "status": True,

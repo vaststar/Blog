@@ -26,6 +26,9 @@ class Config(object):
     #静态文件路径
     STATIC_FILE_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))),"StaticFile")
 
+    #验证邮箱信息
+    SEND_EMAIL_CONF = {"user":"47029316@qq.com","key":"rvueixdphgjdbjeb"}
+
 class DevelopmentConfig(Config):
     '''开发环境配置'''
     DB_TYPE = "Sqlite"

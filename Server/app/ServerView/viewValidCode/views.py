@@ -8,3 +8,9 @@ from app.ServerView.Common.validCode import ValidCode
 def get_validcodes():
     code = ValidCode.getBase64Code()
     return jsonify(Common.trueReturn({'base64':code[0].decode(encoding="utf-8"),'code':code[1]},'ok'))
+
+@code_blue.route("/validemails/",methods=["POST"])
+def post_validemail():
+    params = request.get_json()
+    username=params.get('username')
+    

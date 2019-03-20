@@ -361,6 +361,20 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
         self._ExecuteSQL('SELECT * FROM likes_comment WHERE userid=\'{}\''.format(userid))
         return self._FetchAll()
 
+#邮箱验证表
+    def addEmailValid(self,email,code):
+        if self._ExecuteSQL('DELETE FROM email_valid WHERE email=\'{}\''.format(email)):
+            self._CommitChange()
+            validid = BaseDB.GenerateUUID()
+            if self._ExecuteSQL('INSERT INTO email_valid (validid,email,code) VALUES(\'{}\',\'{}\',\'{}\')'.format(validid,email,code)):
+                self._CommitChange()
+                return validid
+        return None
+
+    def getEmailCode(self,email):
+        self._ExecuteSQL('SELECT * FROM email_valid WHERE email=\'{}\''.format(email))
+        return self._FetchOne()
+
 
 
 

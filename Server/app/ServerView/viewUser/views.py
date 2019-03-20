@@ -4,6 +4,7 @@ from . import user_blue
 from app.ServerView.Common import Common
 from app.ServerView.Authority import Authority
 from app.ServerView.Common.userApi import UserApi
+from app.ServerView.Common.validCode import ValidEmail
 
 @user_blue.route("/tokens/",methods=['POST'])
 def get_token():
@@ -66,7 +67,7 @@ def change_userpassword():
     if not userid :
         return jsonify(Common.falseReturn(None,'user not find'))
     params=request.get_json()
-    if not params.get('oldpassword') and not params.get('newpassword'):
+    if not params.get('oldpassword') or not params.get('newpassword'):
         return jsonify(Common.falseReturn(None,'newpassword or oldpassword cannot be empty'))
     user = UserApi.getUserBase(userid)
     if user['status'] and user['data'].get('password')==Authority.Authority.hash_secret(params.get('oldpassword')):
@@ -135,3 +136,31 @@ def get_username(userid):
 @user_blue.route("/avatars/<userid>",methods=["GET"])
 def get_userAvatar(userid):
     return jsonify(UserApi.getUserAvatarById(userid))
+
+@user_blue.route("/userids/<username>",method=["GET"])
+def get_UserIdByName(username):
+    res = UserApi.getUserBaseByName(username)
+    if res['status']:
+        return jsonify(Common.trueReturn(res['data']['id']))
+    else:
+        return jsonify(Common.falseReturn(None,'no user'))
+
+@user_blue.route("/resets/passwords/",methods=["GET"])
+def reset_password():
+    params = request.get_json()
+    if not params.get('emailcode') or params.get('userid') or params.get('password'):
+        return jsonify(Common.falseReturn(None,'emailcode and userid and password should not empty'))
+    userbase = UserApi.getUserBase(params.get('userid'))
+    if userbase['status']:
+        userinfo = UserApi.getUserInfoByUserid(userbase['data']['id'])
+        if userinfo['status']:
+            res = ValidEmail.check_changePassword_email(userinfo['data']['email'],params.get('emailcode'))
+            if res['status']:
+                return jsonify(UserApi.updateUserPassword(params.get('userid'),params.get('password')))
+            else:
+                return jsonify(Common.falseReturn(None,'check code wrong'))
+        else:
+            return jsonify(Common.falseReturn(None,'get email wrong'))
+    else:
+        return jsonify(Common.falseReturn(None,'user not exist'))
+

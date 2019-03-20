@@ -14,9 +14,12 @@ CREATE TABLE IF NOT EXISTS user_info (
                                         NOT NULL
                                         UNIQUE,
     realname     VARCHAR (32) ,
-    idcard       VARCHAR (32) ,
-    cellphone    VARCHAR (32) ,
-    email        VARCHAR (256),
+    idcard       VARCHAR (32) ,         NOT NULL
+                                        UNIQUE
+    cellphone    VARCHAR (32) ,         NOT NULL
+                                        UNIQUE
+    email        VARCHAR (256),         NOT NULL
+                                        UNIQUE
     avatarurl    VARCHAR (256)
 );
 //
@@ -103,4 +106,14 @@ CREATE TABLE IF NOT EXISTS likes_comment (
     userid       VARCHAR (32)           NOT NULL
                                         REFERENCES user_base (userid) ON DELETE CASCADE
                                                                    ON UPDATE CASCADE
+);
+//
+CREATE TABLE IF NOT EXISTS email_valid (
+    validid    VARCHAR (32)             PRIMARY KEY
+                                        NOT NULL
+                                        UNIQUE,
+    email      VARCHAR (256)            NOT NULL
+                                        REFERENCES user_info (email) ON DELETE CASCADE
+                                                                            ON UPDATE CASCADE,
+    code       VARCHAR (32)
 );

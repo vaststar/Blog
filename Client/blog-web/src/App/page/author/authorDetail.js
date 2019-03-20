@@ -14,7 +14,7 @@ class AuthorDetail extends Component {
         return (<div className="author_main_page">{this.state.userid?
             <div>
                 <Row type="flex" justify="space-around" align="top">
-                    <Col span={16}>
+                    <Col span={19}>
                         <AuthorArticlesCom userid={this.state.userid}></AuthorArticlesCom>
                     </Col>
                     <Col span={4}>

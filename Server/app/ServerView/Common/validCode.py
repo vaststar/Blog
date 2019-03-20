@@ -1,5 +1,6 @@
 import random,os
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
+from app.ServerConfig import config
 
 class ValidCode(object):
     @staticmethod
@@ -107,6 +108,46 @@ class ValidCode(object):
         img = img.filter(ImageFilter.EDGE_ENHANCE_MORE)  # 滤镜，边界加强（阈值更大）
 
         return img, strs
+
+from app.ServerView.Common.emailOperate import EmailOperate
+from app.ServerDB import blogDB
+from app.ServerView.Common import Common
+class ValidEmail(object):
+    #发送验证码
+    @staticmethod
+    def send_valid_email(toaddr):
+        code = ValidCode.create_validate_code()[1]
+        if EmailOperate().sendEmail(config.SEND_EMAIL_CONF['user'],config.SEND_EMAIL_CONF['key'],[toaddr],
+                                 "大学士阁密码重置","验证码为{}".format(code)):
+            return code
+        return None
+    #写入修改邮箱的验证码
+    @staticmethod
+    def post_changePassword_email(email):
+        code =  ValidEmail.send_valid_email(email)
+        if code is not None:
+            id = blogDB.addEmailValid(email,code)
+            if id is not None:
+                return Common.trueReturn(id,'ok')
+            else:
+                return Common.falseReturn(None,'add code error')
+        else:
+            return Common.falseReturn(None,'send email error')
+
+    #验证邮箱验证码
+    @staticmethod
+    def check_changePassword_email(email,code):
+        emailCode = blogDB.getEmailCode(email)
+        if emailCode is None:
+            return Common.falseReturn(None,'no code of {}'.format(email))
+        elif emailCode[2]!=code:
+            return Common.falseReturn(None, 'wrong code of {}'.format(email))
+        else:
+            return Common.trueReturn(emailCode[0],'ok')
+
+
+
+
 
 # if __name__=='__main__':
 #     print(ValidCode.getBase64Code())
