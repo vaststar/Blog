@@ -145,9 +145,5 @@ class ValidEmail(object):
         else:
             return Common.trueReturn(emailCode[0],'ok')
 
-
-
-
-
 # if __name__=='__main__':
 #     print(ValidCode.getBase64Code())

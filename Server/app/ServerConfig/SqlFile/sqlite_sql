@@ -13,13 +13,13 @@ CREATE TABLE IF NOT EXISTS user_info (
                                                                       ON UPDATE CASCADE
                                         NOT NULL
                                         UNIQUE,
-    realname     VARCHAR (32) ,
-    idcard       VARCHAR (32) ,         NOT NULL
-                                        UNIQUE
-    cellphone    VARCHAR (32) ,         NOT NULL
-                                        UNIQUE
-    email        VARCHAR (256),         NOT NULL
-                                        UNIQUE
+    realname     VARCHAR (32)           NOT NULL,
+    idcard       VARCHAR (32)           NOT NULL
+                                        UNIQUE,
+    cellphone    VARCHAR (32)           NOT NULL
+                                        UNIQUE,
+    email        VARCHAR (256)          NOT NULL
+                                        UNIQUE,
     avatarurl    VARCHAR (256)
 );
 //

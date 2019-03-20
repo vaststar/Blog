@@ -137,7 +137,7 @@ def get_username(userid):
 def get_userAvatar(userid):
     return jsonify(UserApi.getUserAvatarById(userid))
 
-@user_blue.route("/userids/<username>",method=["GET"])
+@user_blue.route("/userids/<username>",methods=["GET"])
 def get_UserIdByName(username):
     res = UserApi.getUserBaseByName(username)
     if res['status']:
