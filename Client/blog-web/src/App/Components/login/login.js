@@ -3,9 +3,10 @@ import {connect} from 'react-redux'
 import { withRouter ,Redirect} from 'react-router-dom'
 import {Modal} from 'antd'
 
-import {post} from '../../Common/RequestREST'
+import {post, get} from '../../Common/RequestREST'
 import BlogLoginForm from './LoginForm'
 import {changeUser,changeToken, changeValid} from '../../../Redux/ActionReducer/user'
+import ForgetPassCom from './forgetPassword'
 
 class Login extends Component {
   state = {redirectToReferrer: false,forgetVisiable:false}
@@ -23,13 +24,20 @@ class Login extends Component {
       <BlogLoginForm userName={username} password={password} remember={remember} submitForm={this.handleSubmit} 
        forgetClick={this.clickForget} registerUrl='/register/' wrappedComponentRef={(form) => {this.formRef = form}}></BlogLoginForm>
       <Modal visible={this.state.forgetVisiable} footer={null} onCancel={()=>{this.setState({ forgetVisiable: false })}}>
-      {this.state.userName}
+      {this.state.userid&&<ForgetPassCom userid={this.state.userid}></ForgetPassCom>}
       </Modal>
       </div>
     );
   }
   clickForget=()=>{
-    this.setState({ forgetVisiable: true ,userName:this.formRef.getUserName()})
+    get(this.props.userUrl+"/userids/"+this.formRef.getUserName()).then(respones=>respones.json()).then(result=>{
+        if(result.status){
+          this.setState({userid:result.data});
+          this.setState({ forgetVisiable: true})
+        }
+    }).catch((e)=>{
+      console.log(e)
+    });
   }
   handleSubmit =(form)=>{
     //请求token

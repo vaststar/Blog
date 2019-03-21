@@ -146,9 +146,17 @@ def get_userAvatar(userid):
 def get_UserIdByName(username):
     res = UserApi.getUserBaseByName(username)
     if res['status']:
-        return jsonify(Common.trueReturn(res['data']['id']))
+        return jsonify(Common.trueReturn(res['data']['id'],'ok'))
     else:
         return jsonify(Common.falseReturn(None,'no user'))
+
+@user_blue.route("/emails/<userid>",methods=["GET"])
+def get_UserEmail(userid):
+    res = UserApi.getUserInfoByUserid(userid)
+    if res['status']:
+        return jsonify(Common.trueReturn(res['data']['email'],'ok'))
+    return jsonify(Common.falseReturn(None,'no user'))
+
 
 @user_blue.route("/resets/passwords/",methods=["POST"])
 def reset_password():
