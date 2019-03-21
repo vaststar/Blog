@@ -109,11 +109,11 @@ CREATE TABLE IF NOT EXISTS likes_comment (
 );
 //
 CREATE TABLE IF NOT EXISTS email_valid (
-    validid    VARCHAR (32)             PRIMARY KEY
-                                        NOT NULL
-                                        UNIQUE,
-    email      VARCHAR (256)            NOT NULL
-                                        REFERENCES user_info (email) ON DELETE CASCADE
-                                                                            ON UPDATE CASCADE,
-    code       VARCHAR (32)
+    validid     VARCHAR (32)             PRIMARY KEY
+                                         NOT NULL
+                                         UNIQUE,
+    email       VARCHAR (256)            NOT NULL,
+    expiretime  VARCHAR (256)            NOT NULL,
+    code        VARCHAR (32)
+
 );

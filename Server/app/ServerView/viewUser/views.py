@@ -41,6 +41,11 @@ def register_Auths():
     '''注册一个账户，需要提供 post json 信息 
     {"username":"???","password":"???","realname":???,"idcard":???,"cellphone":???,"email":???,"avatarurl":???}'''
     params = request.get_json()
+    if not params.get('emailcode') or not params.get('email'):
+        return jsonify(Common.falseReturn(None,'emailcode if needed'))
+
+    elif not ValidEmail.check_validcode_email(params.get('email'),params.get('emailcode'))['status']:
+        return jsonify(Common.falseReturn(None,'please make sure email and code is matched'))
     if not params.get('username') or not params.get('password'):
         return jsonify(Common.falseReturn(None,'username or password cannot be empty'))
     base = UserApi.registerUserBase(params.get('username'),params.get('password'))
@@ -145,7 +150,7 @@ def get_UserIdByName(username):
     else:
         return jsonify(Common.falseReturn(None,'no user'))
 
-@user_blue.route("/resets/passwords/",methods=["GET"])
+@user_blue.route("/resets/passwords/",methods=["POST"])
 def reset_password():
     params = request.get_json()
     if not params.get('emailcode') or params.get('userid') or params.get('password'):
@@ -154,7 +159,7 @@ def reset_password():
     if userbase['status']:
         userinfo = UserApi.getUserInfoByUserid(userbase['data']['id'])
         if userinfo['status']:
-            res = ValidEmail.check_changePassword_email(userinfo['data']['email'],params.get('emailcode'))
+            res = ValidEmail.check_validcode_email(userinfo['data']['email'],params.get('emailcode'))
             if res['status']:
                 return jsonify(UserApi.updateUserPassword(params.get('userid'),params.get('password')))
             else:

@@ -11,7 +11,7 @@ import {postFile,post,get} from '../../Common/RequestREST'
 const SUBMIT_FORM = 'submitForm';
 const AGREEMENT_URL = 'agreementUrl';
 class RegisterForm extends Component {
-    state={previewVisible: false,avatarrurl:null,validcode:{}}
+    state={previewVisible: false,avatarrurl:null,validcode:{},startCount:false,seconds:60}
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -143,7 +143,18 @@ class RegisterForm extends Component {
                     }],
                     validateTrigger: 'onBlur'
                 })(
-                    <Input />
+                    <Input addonAfter={<label onClick={this.getEmailCode} className="get_email_code_label" style={this.state.startCount?{"color":"red"}:null}>
+                                        {this.state.startCount?this.state.seconds+"S":"获取验证码"}</label>}/>
+                )}
+            </Form.Item>
+            <Form.Item
+                {...formItemLayout}
+                label="邮箱验证码"
+            >
+                {getFieldDecorator('emailcode', {
+                    rules: [{required: true, message: '请输入邮箱验证码!'}]
+                })(
+                <Input  placeholder="请输入验证码（大小写敏感）" allowClear/>
                 )}
             </Form.Item>
             <Form.Item
@@ -196,7 +207,7 @@ class RegisterForm extends Component {
                         ],
                   validateTrigger: 'onBlur'
                 })(
-                <Input addonAfter={<img src={this.state.validcode.base64} onClick={this.refreshValidCode}/>} 
+                <Input addonAfter={<img src={this.state.validcode.base64} onClick={this.refreshValidCode} alt="None"/>} 
                   placeholder="请输入验证码（大小写敏感）" allowClear />
                 )}
             </Form.Item>
@@ -286,16 +297,42 @@ class RegisterForm extends Component {
         this.refreshValidCode();
     }
     refreshValidCode=()=>{
-        get(this.props.validcodeUrl+'/validcodes/').then(response=>response.json()).then(result=>{
+        get(this.props.validcodeUrl+'/codes/').then(response=>response.json()).then(result=>{
             if(result.status){
                 let state=this.state;
                 state.validcode={'code':result.data.code,'base64':'data:image/png;base64,'+result.data.base64};
                 this.setState(state)
             }
         }).catch(function (e) {
-            this.setState({isLoadingMore:false});
-            console.log("fetch all article bases fail", e);
+            console.log( e);
         });
+    }
+    //获取邮箱验证码
+    getEmailCode=()=>{
+        if(!this.state.startCount)
+        {
+            this.startCountTime()
+            post(this.props.validcodeUrl+'/emails/registers/',{'email':this.props.form.getFieldValue('email')}).then(response=>response.json()).then(result=>{
+                console.log(result)
+            }).catch(function (e) {
+                console.log( e);
+            });
+        }
+    }
+    //开始邮箱按钮计时
+    startCountTime=()=>{
+        let timer = setInterval(() => {
+            this.setState((preState) =>({
+              seconds: preState.seconds - 1,
+              startCount:true
+            }),() => {
+              if(this.state.seconds === 0){
+                clearInterval(timer);
+                this.setState({startCount:false,seconds:60})
+                
+              }
+            });
+        }, 1000)
     }
 }
 

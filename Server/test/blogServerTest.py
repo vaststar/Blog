@@ -85,3 +85,5 @@ if __name__=='__main__':
     # test.post_comments(test.get_token('aaa','uu'),"3a2ee930359d11e993291831bfb80f05",'讲得好','')
     # test.get_comments("ea5602b834b711e98eda1831bfb80f05")
     # test.get_file("2019/02/21/2019_02_21_13_55_01_C")
+    import datetime
+    print(datetime.datetime.strptime(datetime.datetime.strftime(datetime.datetime.utcnow() + datetime.timedelta(days=0, minutes=0, seconds=0),"%Y %m"),"%Y %m"))

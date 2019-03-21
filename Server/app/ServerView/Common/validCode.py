@@ -112,23 +112,25 @@ class ValidCode(object):
 from app.ServerView.Common.emailOperate import EmailOperate
 from app.ServerDB import blogDB
 from app.ServerView.Common import Common
+import datetime
+
 class ValidEmail(object):
     #发送验证码
     @staticmethod
-    def send_valid_email(toaddr):
+    def send_valid_email(toaddr,tip=None):
         code = ValidCode.create_validate_code()[1]
         if EmailOperate().sendEmail(config.SEND_EMAIL_CONF['user'],config.SEND_EMAIL_CONF['key'],[toaddr],
-                                 "大学士阁密码重置","验证码为{}".format(code)):
+                                 "大学士阁","{},验证码为{},请尽快验证,失效时间10分钟。".format(tip,code)):
             return code
         return None
     #写入修改邮箱的验证码
     @staticmethod
-    def post_changePassword_email(email):
-        code =  ValidEmail.send_valid_email(email)
+    def post_validcode_email(email,tip=None,exptime=datetime.timedelta(days=0, minutes=10, seconds=0)):
+        code =  ValidEmail.send_valid_email(email,tip)
         if code is not None:
-            id = blogDB.addEmailValid(email,code)
-            if id is not None:
-                return Common.trueReturn(id,'ok')
+            validid = blogDB.addEmailValid(email,code,datetime.datetime.strftime(datetime.datetime.utcnow()+ exptime,"%Y-%m-%d %H:%M:%S"))
+            if validid is not None:
+                return Common.trueReturn(validid,'ok')
             else:
                 return Common.falseReturn(None,'add code error')
         else:
@@ -136,14 +138,15 @@ class ValidEmail(object):
 
     #验证邮箱验证码
     @staticmethod
-    def check_changePassword_email(email,code):
+    def check_validcode_email(email,code):
         emailCode = blogDB.getEmailCode(email)
         if emailCode is None:
             return Common.falseReturn(None,'no code of {}'.format(email))
-        elif emailCode[2]!=code:
+        elif emailCode[3]!=code:
             return Common.falseReturn(None, 'wrong code of {}'.format(email))
-        else:
-            return Common.trueReturn(emailCode[0],'ok')
+        elif datetime.datetime.utcnow() > datetime.datetime.strptime(emailCode[2],"%Y-%m-%d %H:%M:%S"):
+            return Common.falseReturn(None,'out of time')
+        return Common.trueReturn(True,'ok')
 
 # if __name__=='__main__':
 #     print(ValidCode.getBase64Code())

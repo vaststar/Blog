@@ -1,3 +1,7 @@
 .regiserCom_regButton{
   width: 100%;
 }
+
+.get_email_code_label{
+  cursor: pointer;
+}

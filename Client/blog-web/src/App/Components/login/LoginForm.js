@@ -10,7 +10,7 @@ const USER_NAME = 'userName';
 const PASSWORD = 'password';
 const REMEMBER = 'remember';
 const SUBMIT_FORM = 'submitForm';
-const FORGOT_URL = 'forgetUrl';
+const FORGOT_FUNC = 'forgetClick';
 const REGISTER_URL = 'registerUrl';
 
 class LoginForm extends Component {
@@ -24,6 +24,9 @@ class LoginForm extends Component {
       });
     }
   
+    getUserName=()=>{
+      return this.props.form.getFieldValue(USER_NAME)
+    }
     render() {
       const { getFieldDecorator ,getFieldValue} = this.props.form;
       return (
@@ -51,7 +54,7 @@ class LoginForm extends Component {
             })(
               <Checkbox>记住密码</Checkbox>
             )}
-            <a className="login-form-forgot" href={this.props[FORGOT_URL]}>忘记密码</a>
+            <div className="login-form-forgot"  onClick={this.props[FORGOT_FUNC]}>忘记密码</div>
             <Button type="primary" htmlType="submit" className="login-form-button">
               登陆
             </Button>
@@ -68,7 +71,7 @@ LoginForm.propTypes={
   [PASSWORD]:PropTypes.string.isRequired,
   [REMEMBER]:PropTypes.bool.isRequired,
   [SUBMIT_FORM]:PropTypes.func.isRequired,
-  [FORGOT_URL]:PropTypes.string.isRequired,
+  [FORGOT_FUNC]:PropTypes.func.isRequired,
   [REGISTER_URL]:PropTypes.string.isRequired
 };
 
@@ -81,8 +84,9 @@ const mapPropsToFields = (props)=>{
 };
 
 const onFieldsChange = (props, fields)=>{
-  //  console.log('ccc',props,fields)
+  // console.log(props.form,fields)
 };
+
 
 export default Form.create({mapPropsToFields:mapPropsToFields,onFieldsChange:onFieldsChange})(LoginForm);
 

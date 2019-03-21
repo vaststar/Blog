@@ -1,13 +1,14 @@
 import React,{ Component } from 'react'
 import {connect} from 'react-redux'
 import { withRouter ,Redirect} from 'react-router-dom'
+import {Modal} from 'antd'
 
 import {post} from '../../Common/RequestREST'
 import BlogLoginForm from './LoginForm'
 import {changeUser,changeToken, changeValid} from '../../../Redux/ActionReducer/user'
 
 class Login extends Component {
-  state = {redirectToReferrer: false}
+  state = {redirectToReferrer: false,forgetVisiable:false}
   render() {
     const {username,password,remember} = this.props;
     let { from } = this.props.location.state || { from: "/" };
@@ -19,9 +20,16 @@ class Login extends Component {
     } 
     return (
       <div>
-      <BlogLoginForm userName={username} password={password} remember={remember} submitForm={this.handleSubmit} forgetUrl='http://www.baidu.com' registerUrl='/register/'></BlogLoginForm>
+      <BlogLoginForm userName={username} password={password} remember={remember} submitForm={this.handleSubmit} 
+       forgetClick={this.clickForget} registerUrl='/register/' wrappedComponentRef={(form) => {this.formRef = form}}></BlogLoginForm>
+      <Modal visible={this.state.forgetVisiable} footer={null} onCancel={()=>{this.setState({ forgetVisiable: false })}}>
+      {this.state.userName}
+      </Modal>
       </div>
     );
+  }
+  clickForget=()=>{
+    this.setState({ forgetVisiable: true ,userName:this.formRef.getUserName()})
   }
   handleSubmit =(form)=>{
     //请求token

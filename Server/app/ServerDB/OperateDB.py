@@ -362,11 +362,11 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
         return self._FetchAll()
 
 #邮箱验证表
-    def addEmailValid(self,email,code):
+    def addEmailValid(self,email,code,expiretime):
         if self._ExecuteSQL('DELETE FROM email_valid WHERE email=\'{}\''.format(email)):
             self._CommitChange()
             validid = BaseDB.GenerateUUID()
-            if self._ExecuteSQL('INSERT INTO email_valid (validid,email,code) VALUES(\'{}\',\'{}\',\'{}\')'.format(validid,email,code)):
+            if self._ExecuteSQL('INSERT INTO email_valid (validid,email,code,expiretime) VALUES(\'{}\',\'{}\',\'{}\',\'{}\')'.format(validid,email,code,expiretime)):
                 self._CommitChange()
                 return validid
         return None
