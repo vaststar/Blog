@@ -19,26 +19,26 @@ class RegisterForm extends Component {
           if (!err) {
             // console.log('Received values of form: ', values);
             this.props[SUBMIT_FORM](values);
+            this.refreshValidCode();
           }
         });
     }
     compareToFirstPassword = (rule, value, callback) => {
         const form = this.props.form;
         if (value && value !== form.getFieldValue('password')) {
-          callback('Two passwords that you enter is inconsistent!');
+          callback('两次密码不一致!');
         } else {
           callback();
         }
     }
     agreeChecked=(rule,value,callback)=>{
         if (!value ) {
-          callback('Please agree!');
+          callback('请阅读并同意条款!');
         } else {
           callback();
         }
     }
     validCodeCorrect=(rule, value, callback)=>{
-        const form=this.props.form;
         if(value && value !== this.state.validcode.code){
             callback('验证码不正确!');
         }else{
@@ -87,7 +87,7 @@ class RegisterForm extends Component {
                 label={(
                 <span>
                     昵称&nbsp;
-                    <Tooltip title="账户名，不可修改?">
+                    <Tooltip title="账户登陆名，不可修改">
                     <Icon type="question-circle-o" />
                     </Tooltip>
                 </span>
@@ -313,7 +313,7 @@ class RegisterForm extends Component {
         {
             this.startCountTime()
             post(this.props.validcodeUrl+'/emails/registers/',{'email':this.props.form.getFieldValue('email')}).then(response=>response.json()).then(result=>{
-                console.log(result)
+                // console.log(result)
             }).catch(function (e) {
                 console.log( e);
             });
@@ -321,18 +321,21 @@ class RegisterForm extends Component {
     }
     //开始邮箱按钮计时
     startCountTime=()=>{
-        let timer = setInterval(() => {
+        this.timer = setInterval(() => {
             this.setState((preState) =>({
               seconds: preState.seconds - 1,
               startCount:true
             }),() => {
               if(this.state.seconds === 0){
-                clearInterval(timer);
+                clearInterval(this.timer);
                 this.setState({startCount:false,seconds:60})
                 
               }
             });
         }, 1000)
+    }
+    componentWillUnmount(){
+        clearInterval(this.timer)
     }
 }
 

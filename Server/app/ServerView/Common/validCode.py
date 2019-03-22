@@ -125,10 +125,10 @@ class ValidEmail(object):
         return None
     #写入修改邮箱的验证码
     @staticmethod
-    def post_validcode_email(email,tip=None,exptime=datetime.timedelta(days=0, minutes=10, seconds=0)):
+    def post_validcode_email(email,tip=None,emailtype=0,exptime=datetime.timedelta(days=0, minutes=10, seconds=0)):
         code =  ValidEmail.send_valid_email(email,tip)
         if code is not None:
-            validid = blogDB.addEmailValid(email,code,datetime.datetime.strftime(datetime.datetime.utcnow()+ exptime,"%Y-%m-%d %H:%M:%S"))
+            validid = blogDB.addEmailValid(email,code,datetime.datetime.strftime(datetime.datetime.utcnow()+ exptime,"%Y-%m-%d %H:%M:%S"),emailtype)
             if validid is not None:
                 return Common.trueReturn(validid,'ok')
             else:
@@ -138,8 +138,8 @@ class ValidEmail(object):
 
     #验证邮箱验证码
     @staticmethod
-    def check_validcode_email(email,code):
-        emailCode = blogDB.getEmailCode(email)
+    def check_validcode_email(email,code,emailtype):
+        emailCode = blogDB.getEmailCode(email,emailtype)
         if emailCode is None:
             return Common.falseReturn(None,'no code of {}'.format(email))
         elif emailCode[3]!=code:

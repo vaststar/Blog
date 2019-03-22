@@ -41,7 +41,7 @@ class UserApi(object):
 
     @staticmethod
     def updateUserPassword(userid,password):
-        if blogDB.updateUserName(userid,Authority.Authority.hash_secret(password)):
+        if blogDB.updateUserPassword(userid,Authority.Authority.hash_secret(password)):
             return Common.trueReturn(userid,'change password ok')
         return Common.falseReturn(None,"change password error")
 

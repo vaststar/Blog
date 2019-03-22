@@ -19,7 +19,7 @@ def post_validPasswordEmail():
     #根据id获取email
     userinfo = UserApi.getUserInfoByUserid(params.get('userid'))
     if userinfo['status']:
-        return jsonify(ValidEmail.post_validcode_email(userinfo['data']['email'],"修改密码"))
+        return jsonify(ValidEmail.post_validcode_email(userinfo['data']['email'],"修改密码",1))
     else:
         return jsonify(Common.falseReturn(None,'no user'))
 
@@ -28,4 +28,4 @@ def post_validRegisterEmail():
     params = request.get_json()
     if 'email' not in params:
         return jsonify(Common.falseReturn(None, 'please input email'))
-    return jsonify(ValidEmail.post_validcode_email(params['email'],"注册账户"))
+    return jsonify(ValidEmail.post_validcode_email(params['email'],"注册账户",0))

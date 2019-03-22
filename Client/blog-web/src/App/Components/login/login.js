@@ -1,7 +1,7 @@
 import React,{ Component } from 'react'
 import {connect} from 'react-redux'
 import { withRouter ,Redirect} from 'react-router-dom'
-import {Modal} from 'antd'
+import {Modal,message} from 'antd'
 
 import {post, get} from '../../Common/RequestREST'
 import BlogLoginForm from './LoginForm'
@@ -21,10 +21,12 @@ class Login extends Component {
     } 
     return (
       <div>
-      <BlogLoginForm userName={username} password={password} remember={remember} submitForm={this.handleSubmit} 
+      <BlogLoginForm userName={username} password={remember?password:null} remember={remember} submitForm={this.handleSubmit} 
        forgetClick={this.clickForget} registerUrl='/register/' wrappedComponentRef={(form) => {this.formRef = form}}></BlogLoginForm>
       <Modal visible={this.state.forgetVisiable} footer={null} onCancel={()=>{this.setState({ forgetVisiable: false })}}>
-      {this.state.userid&&<ForgetPassCom userid={this.state.userid}></ForgetPassCom>}
+      <div className="popForgetCom">
+      {this.state.userid&&<ForgetPassCom userid={this.state.userid} okFunc={()=>{this.setState({ forgetVisiable: false });message.info('密码重置成功');}}></ForgetPassCom>}
+      </div>
       </Modal>
       </div>
     );
@@ -34,6 +36,9 @@ class Login extends Component {
         if(result.status){
           this.setState({userid:result.data});
           this.setState({ forgetVisiable: true})
+        }
+        else{
+          message.error('该账户不存在');
         }
     }).catch((e)=>{
       console.log(e)
@@ -52,7 +57,7 @@ class Login extends Component {
       else{
         this.setState({ redirectToReferrer: false });
         this.props.ChangeToken(null);
-        alert(JSON.stringify(result));
+        message.error('用户名或者密码错误');
         this.props.ChangeValid(false);
         console.log('用户名或者密码错误',result);
       }

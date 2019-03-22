@@ -68,7 +68,6 @@ class LoginForm extends Component {
 //类型检查，需要传入 userName,password,remember以及回调函数
 LoginForm.propTypes={
   [USER_NAME]:PropTypes.string.isRequired,
-  [PASSWORD]:PropTypes.string.isRequired,
   [REMEMBER]:PropTypes.bool.isRequired,
   [SUBMIT_FORM]:PropTypes.func.isRequired,
   [FORGOT_FUNC]:PropTypes.func.isRequired,

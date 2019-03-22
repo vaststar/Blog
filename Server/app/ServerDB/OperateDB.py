@@ -352,7 +352,7 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
         return False
     #删除对某个评论的赞
     def delLikesComment(self,commentid,userid):
-        if self._ExecuteSQL('DELETE FROM likes_comment WHERE commentid=\'{}\' and userid=\'{}\''.format(commentid,userid)):
+        if self._ExecuteSQL('DELETE FROM likes_comment WHERE commentid=\'{}\' AND userid=\'{}\''.format(commentid,userid)):
             self._CommitChange()
             return True
         return False
@@ -362,17 +362,17 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
         return self._FetchAll()
 
 #邮箱验证表
-    def addEmailValid(self,email,code,expiretime):
+    def addEmailValid(self,email,code,expiretime,emailtype):
         if self._ExecuteSQL('DELETE FROM email_valid WHERE email=\'{}\''.format(email)):
             self._CommitChange()
             validid = BaseDB.GenerateUUID()
-            if self._ExecuteSQL('INSERT INTO email_valid (validid,email,code,expiretime) VALUES(\'{}\',\'{}\',\'{}\',\'{}\')'.format(validid,email,code,expiretime)):
+            if self._ExecuteSQL('INSERT INTO email_valid (validid,email,code,expiretime,type) VALUES(\'{}\',\'{}\',\'{}\',\'{}\',\'{}\')'.format(validid,email,code,expiretime,emailtype)):
                 self._CommitChange()
                 return validid
         return None
 
-    def getEmailCode(self,email):
-        self._ExecuteSQL('SELECT * FROM email_valid WHERE email=\'{}\''.format(email))
+    def getEmailCode(self,email,emailtype):
+        self._ExecuteSQL('SELECT * FROM email_valid WHERE email=\'{}\' AND type=\'{}\''.format(email,emailtype))
         return self._FetchOne()
 
 
