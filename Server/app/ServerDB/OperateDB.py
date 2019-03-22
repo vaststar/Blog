@@ -363,7 +363,7 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
 
 #邮箱验证表
     def addEmailValid(self,email,code,expiretime,emailtype):
-        if self._ExecuteSQL('DELETE FROM email_valid WHERE email=\'{}\''.format(email)):
+        if self._ExecuteSQL('DELETE FROM email_valid WHERE email=\'{}\' AND type=\'{}\''.format(email,emailtype)):
             self._CommitChange()
             validid = BaseDB.GenerateUUID()
             if self._ExecuteSQL('INSERT INTO email_valid (validid,email,code,expiretime,type) VALUES(\'{}\',\'{}\',\'{}\',\'{}\',\'{}\')'.format(validid,email,code,expiretime,emailtype)):
