@@ -23,6 +23,7 @@ def get_file_Services(filePath):
 
 @file_blue.route("/articles/pictures/<fileName>",methods=["POST"])
 @IdentifyUtil.login_required
+@IdentifyUtil.robot_defend
 def post_article_file_Services(fileName):
     userid = IdentifyUtil.get_user_id()
     if not userid :
@@ -38,6 +39,7 @@ def post_article_file_Services(fileName):
         return jsonify(saveResult)
 
 @file_blue.route("/avatars/<fileName>",methods=["POST"])
+@IdentifyUtil.robot_defend
 def post_avatar_file_Services(fileName):
     '''上传功能'''
     refPath = FileApi.generateFilePath(fileName,"avatars")
