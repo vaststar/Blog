@@ -20,7 +20,6 @@ class UserBaseCom extends Component{
             if(result.status){
                 this.updateAvatar(result.data.filepath)
             }
-            console.log(result)
         }).catch(function(e){
             console.log(e)
         })
@@ -31,7 +30,6 @@ class UserBaseCom extends Component{
             if(result.status){
                 this.setState({avatarUrl:avatarUrl})
             }
-            console.log(result)
         }).catch(function(e){
             console.log(e)
         })
@@ -169,7 +167,7 @@ class UserBaseCom extends Component{
         {this.state.userinfo&&
         <Row className="userbase_info">
             <Col span={2}>姓名</Col>
-            <Col span={20}>
+            <Col span={19}>
                 {!this.state.realNameInputVisible&&<div>{this.state.userinfo.realname}</div>}
                 {this.state.realNameInputVisible && (
                     <Input
@@ -186,7 +184,7 @@ class UserBaseCom extends Component{
         {this.state.userinfo&&
         <Row className="userbase_info">
             <Col span={2}>身份证</Col>
-            <Col span={20}>
+            <Col span={19}>
                 {!this.state.idcardInputVisible&&<div>{this.state.userinfo.idcard}</div>}
                 {this.state.idcardInputVisible && (
                     <Input
@@ -203,7 +201,7 @@ class UserBaseCom extends Component{
         {this.state.userinfo&&
         <Row className="userbase_info">
             <Col span={2}>手机号</Col>
-            <Col span={20}>
+            <Col span={19}>
                 {!this.state.cellphoneInputVisible&&<div>{this.state.userinfo.cellphone}</div>}
                 {this.state.cellphoneInputVisible && (
                     <Input
@@ -220,7 +218,7 @@ class UserBaseCom extends Component{
         {this.state.userinfo&&
         <Row className="userbase_info">
             <Col span={2}>邮箱</Col>
-            <Col span={20}>
+            <Col span={19}>
                 {!this.state.emailInputVisible&&<div>{this.state.userinfo.email}</div>}</Col>
                 {this.state.emailInputVisible && (
                     <Input

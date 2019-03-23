@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Header from '../../Common/Header'
 
 import Articles from './allArticles'
-
 class HomePage extends Component {
     render() {
         return (
@@ -15,7 +14,6 @@ class HomePage extends Component {
             </div>
         )
     }
-
 }
   
 export default HomePage

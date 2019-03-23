@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import { withRouter} from 'react-router-dom'
 
 import {
-    Form, Icon, Input, Button, Modal
+    Form, Icon, Input, Button, Modal,message
   } from 'antd';
 
 import MarkDownEditor from './markDownEditor'
@@ -34,7 +34,9 @@ class WriteArticleComponent extends Component {
                         //跳转到from页
                         this.props.history.push(this.fromPath.from);
                     }
-                    console.log('post article',result)
+                    else{
+                        message.error(result)
+                    }
                 }).catch(function(e){
                     console.log(e)
                 })
@@ -46,7 +48,9 @@ class WriteArticleComponent extends Component {
                         //跳转到from页
                         this.props.history.push(this.fromPath.from);
                     }
-                    console.log('put article',this.props[ARTICLE_ID],result)
+                    else{
+                        message.error(result)
+                    }
                 }).catch(function(e){
                     console.log(e)
                 })

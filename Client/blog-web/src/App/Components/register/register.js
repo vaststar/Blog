@@ -1,6 +1,7 @@
 import React,{ Component } from 'react'
 import {connect} from 'react-redux'
 import { withRouter ,Redirect} from 'react-router-dom'
+import {message} from 'antd';
 
 import {post} from '../../Common/RequestREST'
 import BlogRegisterForm from './RegisterForm'
@@ -18,7 +19,7 @@ class Register extends Component {
         this.setState({registerok:true})
       }
       else{
-        alert(JSON.stringify(result))
+        message.error(result)
         console.log(result)
       }
       }).catch(function (e) {

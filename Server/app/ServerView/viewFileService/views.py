@@ -6,7 +6,7 @@ from app.ServerConfig import config
 from app.ServerView.Common import Common
 from app.ServerView.Common.fileApi import FileApi
 
-from app.ServerView.Authority import Authority
+from app.ServerView.Common.Identify import IdentifyUtil
 
 @file_blue.route("/<path:filePath>",methods=["GET"])
 def get_file_Services(filePath):
@@ -22,9 +22,9 @@ def get_file_Services(filePath):
         return jsonify(Common.falseReturn(None,'not find file'))
 
 @file_blue.route("/articles/pictures/<fileName>",methods=["POST"])
-@Authority.login_required
+@IdentifyUtil.login_required
 def post_article_file_Services(fileName):
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'user not find'))
     '''上传功能'''

@@ -18,8 +18,8 @@ class RegisterForm extends Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
           if (!err) {
             // console.log('Received values of form: ', values);
-            this.props[SUBMIT_FORM](values);
             this.refreshValidCode();
+            this.props[SUBMIT_FORM](values);
           }
         });
     }
@@ -299,9 +299,7 @@ class RegisterForm extends Component {
     refreshValidCode=()=>{
         get(this.props.validcodeUrl+'/codes/').then(response=>response.json()).then(result=>{
             if(result.status){
-                let state=this.state;
-                state.validcode={'code':result.data.code,'base64':'data:image/png;base64,'+result.data.base64};
-                this.setState(state)
+                this.setState((prestate)=>({validcode:{'code':result.data.code,'base64':'data:image/png;base64,'+result.data.base64}}))
             }
         }).catch(function (e) {
             console.log( e);
@@ -313,7 +311,6 @@ class RegisterForm extends Component {
         {
             this.startCountTime()
             post(this.props.validcodeUrl+'/emails/registers/',{'email':this.props.form.getFieldValue('email')}).then(response=>response.json()).then(result=>{
-                // console.log(result)
             }).catch(function (e) {
                 console.log( e);
             });

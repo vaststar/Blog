@@ -1,6 +1,6 @@
 from app.ServerDB import blogDB
 from app.ServerView.Common import Common
-from app.ServerView.Authority import Authority
+from app.ServerView.Common.Identify import IdentifyUtil
 
 class UserApi(object):
     '''定义一些用户相关的接口，给视图调用，减少视图工作量'''
@@ -17,7 +17,7 @@ class UserApi(object):
             return Common.falseReturn(None, 'username or password cannot be empty')
         if not blogDB.getUserByName(username) is None:
             return Common.falseReturn(None,'{} is already exists'.format(username))
-        userid = blogDB.addUser(username, Authority.Authority.hash_secret(password))
+        userid = blogDB.addUser(username, IdentifyUtil.hash_secret(password))
         if not userid is None:
             return Common.trueReturn({'userid':userid},'register ok')
         else :
@@ -28,7 +28,7 @@ class UserApi(object):
             return Common.falseReturn(None, "{} doesn't exist in user_base".format(userid))
         if not username or not password:
             return Common.falseReturn(None, 'username or password cannot be empty')
-        if blogDB.updateUser(userid,username,Authority.Authority.hash_secret(password)):
+        if blogDB.updateUser(userid,username,IdentifyUtil.hash_secret(password)):
             return Common.trueReturn({'userid':userid},'change ok')
         else:
             return Common.falseReturn(None,'change false')
@@ -41,7 +41,7 @@ class UserApi(object):
 
     @staticmethod
     def updateUserPassword(userid,password):
-        if blogDB.updateUserPassword(userid,Authority.Authority.hash_secret(password)):
+        if blogDB.updateUserPassword(userid,IdentifyUtil.hash_secret(password)):
             return Common.trueReturn(userid,'change password ok')
         return Common.falseReturn(None,"change password error")
 

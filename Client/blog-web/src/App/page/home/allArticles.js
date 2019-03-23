@@ -33,6 +33,7 @@ class AllArticles extends Component {
             if(result.status){
                 this.setState({totalPage:parseInt(result.data)/this.state.pageSize})
             }else{
+                console.log(result)
                 console.log("fetch article counts fail")
             }
         }).catch(e=>console.log("fetch article counts fail",e))

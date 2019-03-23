@@ -2,7 +2,7 @@ from flask import jsonify,request
 from . import browser_blue
 
 from app.ServerView.Common import Common
-from app.ServerView.Authority import Authority
+from app.ServerView.Common.Identify import IdentifyUtil
 from app.ServerView.Common.browserApi import BrowserApi
 
 @browser_blue.route("/articles/<articleid>",methods=["GET"])
@@ -17,5 +17,5 @@ def add_ArticleBrowser():
         articleid=params['articleid']
     else:
         return jsonify(Common.falseReturn(None,'articleid is required'))
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     return jsonify(BrowserApi.postArticleBrowser(articleid,userid,request.remote_addr))

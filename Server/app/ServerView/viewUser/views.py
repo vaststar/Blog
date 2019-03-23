@@ -2,7 +2,7 @@ from flask import jsonify,request
 from . import user_blue
 
 from app.ServerView.Common import Common
-from app.ServerView.Authority import Authority
+from app.ServerView.Common.Identify import IdentifyUtil
 from app.ServerView.Common.userApi import UserApi
 from app.ServerView.Common.validCode import ValidEmail
 
@@ -10,28 +10,28 @@ from app.ServerView.Common.validCode import ValidEmail
 def get_token():
     '''获取一个口令，用于保持登陆'''
     params = request.get_json()
-    return Authority.Authority.authenticate(params.get('username'), Authority.Authority.hash_secret(params.get('password')))
+    return jsonify(IdentifyUtil.authenticate(params.get('username'), IdentifyUtil.hash_secret(params.get('password'))))
 
 @user_blue.route("/selfid/",methods=["GET"])
-@Authority.login_required
+@IdentifyUtil.login_required
 def get_selfId():
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'user not find'))
     return jsonify(Common.trueReturn(userid,'query ok'))
 
 @user_blue.route("/selfbases/",methods=["GET"])
-@Authority.login_required
+@IdentifyUtil.login_required
 def get_AllUserBase():
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'user not find'))
     return jsonify(UserApi.getUserBase(userid))
 
 @user_blue.route("/selfinfos/",methods=["GET"])
-@Authority.login_required
+@IdentifyUtil.login_required
 def get_userinfo():
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'user not find'))
     return jsonify(UserApi.getUserInfoByUserid(userid))
@@ -55,9 +55,9 @@ def register_Auths():
     return jsonify(base)
 
 @user_blue.route("/usernames/",methods=["PUT"])
-@Authority.login_required
+@IdentifyUtil.login_required
 def change_username():
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'user not find'))
     params=request.get_json()
@@ -66,23 +66,23 @@ def change_username():
     return jsonify(UserApi.updateUserName(userid,params.get('username')))
 
 @user_blue.route("/passwords/",methods=["PUT"])
-@Authority.login_required
+@IdentifyUtil.login_required
 def change_userpassword():
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'user not find'))
     params=request.get_json()
     if not params.get('oldpassword') or not params.get('newpassword'):
         return jsonify(Common.falseReturn(None,'newpassword or oldpassword cannot be empty'))
     user = UserApi.getUserBase(userid)
-    if user['status'] and user['data'].get('password')==Authority.Authority.hash_secret(params.get('oldpassword')):
+    if user['status'] and user['data'].get('password')==IdentifyUtil.hash_secret(params.get('oldpassword')):
         return jsonify(UserApi.updateUserPassword(userid,params.get('newpassword')))
     return jsonify(Common.falseReturn(None,'check old password wrong'))
 
 @user_blue.route("/realnames/",methods=["PUT"])
-@Authority.login_required
+@IdentifyUtil.login_required
 def change_userRealname():
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'user not find'))
     params=request.get_json()
@@ -91,9 +91,9 @@ def change_userRealname():
     return jsonify(UserApi.updateRealName(userid,params.get('realname')))
 
 @user_blue.route("/idcards/",methods=["PUT"])
-@Authority.login_required
+@IdentifyUtil.login_required
 def change_userIDCard():
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'user not find'))
     params=request.get_json()
@@ -102,9 +102,9 @@ def change_userIDCard():
     return jsonify(UserApi.updateIDCard(userid,params.get('idcard')))
 
 @user_blue.route("/cellphones/",methods=["PUT"])
-@Authority.login_required
+@IdentifyUtil.login_required
 def change_userPhone():
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'user not find'))
     params=request.get_json()
@@ -113,9 +113,9 @@ def change_userPhone():
     return jsonify(UserApi.updatePhone(userid,params.get('cellphone')))
 
 @user_blue.route("/emails/",methods=["PUT"])
-@Authority.login_required
+@IdentifyUtil.login_required
 def change_userEmail():
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'user not find'))
     params=request.get_json()
@@ -124,9 +124,9 @@ def change_userEmail():
     return jsonify(UserApi.updateEmail(userid,params.get('email')))
 
 @user_blue.route("/avatars/",methods=["PUT"])
-@Authority.login_required
+@IdentifyUtil.login_required
 def change_userAvatar():
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'user not find'))
     params=request.get_json()

@@ -86,4 +86,9 @@ if __name__=='__main__':
     # test.get_comments("ea5602b834b711e98eda1831bfb80f05")
     # test.get_file("2019/02/21/2019_02_21_13_55_01_C")
     import datetime
-    print(datetime.datetime.strptime(datetime.datetime.strftime(datetime.datetime.utcnow() + datetime.timedelta(days=0, minutes=0, seconds=0),"%Y %m"),"%Y %m"))
+    print(datetime.datetime.strptime(datetime.datetime.strftime(datetime.datetime.utcnow(),"%Y-%m-%d %H:%M:%S"),"%Y-%m-%d %H:%M:%S"))
+    import hashlib
+    print(datetime.datetime.strftime(datetime.datetime.utcnow(),"%M"))
+    obj = hashlib.md5()
+    obj.update(datetime.datetime.strftime(datetime.datetime.utcnow(),"%M").encode('utf-8'))
+    print( obj.hexdigest())

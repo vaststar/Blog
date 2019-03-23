@@ -1,12 +1,17 @@
-from flask import jsonify,request,make_response
+from flask import jsonify,request,make_response,abort
 import os, random, string
 from . import article_blue
 
 from app.ServerView.Common import Common
 from app.ServerView.Common.articleApi import ArticleApi
 from app.ServerView.Common.fileApi import FileApi
-from app.ServerView.Authority import Authority
+from app.ServerView.Common.Identify import IdentifyUtil
 from app.ServerConfig import config
+
+@article_blue.before_request
+@IdentifyUtil.robot_defend
+def before_req():
+    return None
 
 @article_blue.route("/",methods=["GET"])
 def get_AllArticles():
@@ -40,9 +45,9 @@ def get_ArticleByID(articleid):
     return jsonify(ArticleApi.getArticleBaseByID(articleid))
 
 @article_blue.route("/",methods=["POST"])
-@Authority.login_required
+@IdentifyUtil.login_required
 def post_Article():
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'user not find'))
     params = request.get_json()
@@ -58,9 +63,9 @@ def post_Article():
         return jsonify(Common.falseReturn(None,'Please make sure {"title":a,"breif":a,"keywords":a,"body":a}'))
 
 @article_blue.route("/<articleid>",methods=["PUT"])
-@Authority.login_required
+@IdentifyUtil.login_required
 def update_Article(articleid):
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'login required'))
     #判定是否是自己的文章，否则不能修改
@@ -77,9 +82,9 @@ def update_Article(articleid):
     return jsonify(Common.falseReturn(None,'save article file wrong'))
 
 @article_blue.route("/<articleid>",methods=["DELETE"])
-@Authority.login_required
+@IdentifyUtil.login_required
 def delete_Article(articleid):
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'login required'))
     #判定是否是自己的文章，否则不能删除
@@ -104,9 +109,9 @@ def get_UserArticleCountsByname(username):
     return jsonify(ArticleApi.getArticleCountByUsername(username))
 
 @article_blue.route("/belongs/<articleid>",methods=["GET"])
-@Authority.login_required
+@IdentifyUtil.login_required
 def get_IsSelfArticle(articleid):
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid:
         return jsonify(Common.falseReturn(None, 'login required'))
     return jsonify(ArticleApi.getIsSelfArticle(userid,articleid))

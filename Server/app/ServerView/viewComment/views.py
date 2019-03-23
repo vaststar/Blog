@@ -2,7 +2,7 @@ from flask import jsonify,request
 from . import comment_blue
 
 from app.ServerView.Common import Common
-from app.ServerView.Authority import Authority
+from app.ServerView.Common.Identify import IdentifyUtil
 from app.ServerView.Common.commentApi import CommentApi
 
 @comment_blue.route("/<articleid>",methods=["GET"])
@@ -30,10 +30,10 @@ def get_Comments(articleid):
     return jsonify(Common.trueReturn(l[(int(pageNumber)-1)*int(pageSize):int(pageNumber)*int(pageSize)],'query ok'))
 
 @comment_blue.route("/",methods=["POST"])
-@Authority.login_required
+@IdentifyUtil.login_required
 def post_Comments():
     '''需要提供articleid，comment，refid'''
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'login required'))
     params = request.get_json()
@@ -41,7 +41,7 @@ def post_Comments():
     return jsonify(res)
 
 @comment_blue.route("/<commentid>",methods=["DELETE"])
-@Authority.login_required
+@IdentifyUtil.login_required
 def delete_Comments(commentid):
     return jsonify(CommentApi.deleteComment(commentid))
 

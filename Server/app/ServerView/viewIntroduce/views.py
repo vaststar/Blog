@@ -2,7 +2,7 @@ from flask import jsonify,request
 from . import introduce_blue
 
 from app.ServerView.Common import Common
-from app.ServerView.Authority import Authority
+from app.ServerView.Common.Identify import IdentifyUtil
 from app.ServerView.Common.introduceApi import IntroduceApi
 
 
@@ -11,9 +11,9 @@ def get_UserIntroduce(userid):
     return jsonify(IntroduceApi.getIntroduceByUserid(userid))
 
 @introduce_blue.route("/",methods=['POST'])
-@Authority.login_required
+@IdentifyUtil.login_required
 def post_UserIntroduce():
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'login required'))
     params = request.get_json()
@@ -22,9 +22,9 @@ def post_UserIntroduce():
     return jsonify(Common.falseReturn(None,'add error'))
 
 @introduce_blue.route("/",methods=['PUT'])
-@Authority.login_required
+@IdentifyUtil.login_required
 def update_UserIntroduce():
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'login required'))
     params = request.get_json()
@@ -33,9 +33,9 @@ def update_UserIntroduce():
     return jsonify(Common.falseReturn(None,'add error'))
 
 @introduce_blue.route("/resumes/",methods=['PUT'])
-@Authority.login_required
+@IdentifyUtil.login_required
 def update_UserIntroduceResume():
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'login required'))
     params = request.get_json()
@@ -44,9 +44,9 @@ def update_UserIntroduceResume():
     return jsonify(Common.falseReturn(None,'resume is needed'))
 
 @introduce_blue.route("/tags/",methods=['PUT'])
-@Authority.login_required
+@IdentifyUtil.login_required
 def update_UserIntroduceTag():
-    userid = Authority.get_user_id()
+    userid = IdentifyUtil.get_user_id()
     if not userid :
         return jsonify(Common.falseReturn(None,'login required'))
     params = request.get_json()
