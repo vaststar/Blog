@@ -6,6 +6,11 @@ from app.ServerView.Common.Identify import IdentifyUtil
 from app.ServerView.Common.userApi import UserApi
 from app.ServerView.Common.validCode import ValidEmail
 
+@user_blue.before_request
+@IdentifyUtil.robot_defend
+def before_req():
+    return None
+
 @user_blue.route("/tokens/",methods=['POST'])
 def get_token():
     '''获取一个口令，用于保持登陆'''

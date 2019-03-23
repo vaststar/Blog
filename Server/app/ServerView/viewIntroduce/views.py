@@ -5,6 +5,10 @@ from app.ServerView.Common import Common
 from app.ServerView.Common.Identify import IdentifyUtil
 from app.ServerView.Common.introduceApi import IntroduceApi
 
+@introduce_blue.before_request
+@IdentifyUtil.robot_defend
+def before_req():
+    return None
 
 @introduce_blue.route("/<userid>",methods=['GET'])
 def get_UserIntroduce(userid):

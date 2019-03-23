@@ -5,6 +5,12 @@ from app.ServerView.Common import Common
 from app.ServerView.Common.validCode import ValidCode
 from app.ServerView.Common.validCode import ValidEmail
 from app.ServerView.Common.userApi import UserApi
+from app.ServerView.Common.Identify import IdentifyUtil
+
+@code_blue.before_request
+@IdentifyUtil.robot_defend
+def before_req():
+    return None
 
 @code_blue.route("/codes/",methods=["GET"])
 def get_validcodes():

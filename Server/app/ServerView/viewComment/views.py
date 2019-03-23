@@ -5,6 +5,11 @@ from app.ServerView.Common import Common
 from app.ServerView.Common.Identify import IdentifyUtil
 from app.ServerView.Common.commentApi import CommentApi
 
+@comment_blue.before_request
+@IdentifyUtil.robot_defend
+def before_req():
+    return None
+
 @comment_blue.route("/<articleid>",methods=["GET"])
 def get_Comments(articleid):
     pageNumber = request.args.get('pageNumber')
