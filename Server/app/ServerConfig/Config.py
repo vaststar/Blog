@@ -4,7 +4,7 @@ class Config(object):
     #数据库配置
     MYSQL_SET = {
                  "IP":"localhost", "PORT":3306, "USER":"root", "PASSWORD":"ZZT06118115",
-                 "sqlFile":[]
+                 "sqlFile":[os.path.join(os.path.dirname(os.path.realpath(__file__)),'SqlFile','sqlite_sql')]
                 }
     SQLITE_SET = {
                   "DBPATH":os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))),'DB','blog_sqlite.db'),
