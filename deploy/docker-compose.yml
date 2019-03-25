@@ -35,9 +35,11 @@ services:
       dockerfile: Dockerfile_mysql
     image: "blog/mysql:latest"
     restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
     valumes:
       - ../mysql/data:/var/lib/mysql
       - ../mysql/my.cnf:/etc/my.cnf
-      - ../mysql/init.sh:/docker-entrypoint-initdb.d/init.sh
+      - ../mysql/mysql_sql.sql:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
