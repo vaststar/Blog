@@ -5,6 +5,7 @@ services:
       context: ../Server
       dockerfile: Dockerfile_app
     image: "blog/app:latest"
+    restart: always
     ports:
       - "4444:4444"
     volumes:
@@ -18,6 +19,7 @@ services:
       context: ../nginx
       dockerfile: Dockerfile_nginx
     image: "blog/nginx:latest"
+    restart: always
     ports:
       - "8088:8088"
       - "80:80"
@@ -28,9 +30,11 @@ services:
       - ../nginx/conf.d:/etc/nginx/conf.d
       
   blog_mysql:
-    image: "mysql"
+    build:
+      context: ../mysql
+      dockerfile: Dockerfile_mysql
+    image: "blog/mysql:latest"
     restart: always
-    container_name: blog_mysql
     valumes:
       - ../mysql/data:/var/lib/mysql
       - ../mysql/my.cnf:/etc/my.cnf
