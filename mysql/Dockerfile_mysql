@@ -1,5 +1,10 @@
 FROM mysql
 MAINTAINER ThomasZhu 47029316@qq.com
 
+MYSQL_ROOT_PASSWORD=root
+
+COPY ./data:/var/lib/mysql
+COPY ./my.cnf:/etc/my.cnf
+COPY ./init.sh:/docker-entrypoint-initdb.d/init.sh
 
 EXPOSE 3306
