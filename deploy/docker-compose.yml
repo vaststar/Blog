@@ -13,6 +13,8 @@ services:
       - ../Server/DB:/blog/Server/DB
       - ../Server/StaticFile:/blog/Server/StaticFile
       - ../Server/log:/blog/Server/log
+    depends_on:
+      - blog_mysql
 
   blog_nginx:
     build:
@@ -37,9 +39,9 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: "root"
-    valumes:
+    volumes:
       - ../mysql/data:/var/lib/mysql
       - ../mysql/my.cnf:/etc/my.cnf
-      - ../mysql/mysql_sql.sql:/docker-entrypoint-initdb.d
+      - ../mysql/mysql_sql.sql:/docker-entrypoint-initdb.d/mysql_sql.sql
     ports:
       - "3306:3306"
