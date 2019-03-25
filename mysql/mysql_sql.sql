@@ -1,3 +1,5 @@
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
+flush privileges;
 create database if not exists blog;
 use blog;
 SET NAMES utf8mb4;
