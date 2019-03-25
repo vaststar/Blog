@@ -174,17 +174,28 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
         return self._FetchAll()
     #获取分页文章
     def getArticleLimit(self,limit,offset):
-        self._ExecuteSQL('SELECT * FROM article_base ORDER BY ROWID DESC LIMIT \'{}\' OFFSET \'{}\''.format(limit,offset))
+        if 'sqlite'==self._dbType:
+            self._ExecuteSQL('SELECT * FROM article_base ORDER BY ROWID DESC LIMIT \'{}\' OFFSET \'{}\''.format(limit,offset))
+        elif 'mysql'==self._dbType:
+            self._ExecuteSQL('SELECT articleid,userid,title,breif,keywords,coverurl,uptime,bodyurl from '
+                             '(SELECT @rowid:=@rowid+1 as rowid,article_base.* FROM (SELECT @rowid:=0)ro,article_base ORDER BY rowid DESC LIMIT {} OFFSET {}) as t'.format(limit, offset))
         return self._FetchAll()
     #获取某个用户的分页文章
     def getArticleLimitByUserid(self, userid, limit, offset):
-        self._ExecuteSQL(
-            'SELECT * FROM article_base WHERE userid=\'{}\' ORDER BY ROWID DESC LIMIT \'{}\' OFFSET \'{}\''.format(userid,limit, offset))
+        if 'sqlite' == self._dbType:
+            self._ExecuteSQL('SELECT * FROM article_base WHERE userid=\'{}\' ORDER BY ROWID DESC LIMIT \'{}\' OFFSET \'{}\''.format(userid,limit, offset))
+        elif 'mysql' == self._dbType:
+            self._ExecuteSQL('SELECT articleid,userid,title,breif,keywords,coverurl,uptime,bodyurl from '
+                '(SELECT @rowid:=@rowid+1 as rowid,article_base.* FROM (SELECT @rowid:=0)ro,article_base  WHERE userid=\'{}\' ORDER BY rowid DESC LIMIT {} OFFSET {}) as t'.format(
+                    userid, limit, offset))
         return self._FetchAll()
     #获取某个用户的分页文章
     def getArticleLimitByUsername(self, username, limit, offset):
-        self._ExecuteSQL(
-            'SELECT * FROM article_base WHERE username=\'{}\' ORDER BY ROWID DESC LIMIT \'{}\' OFFSET \'{}\''.format(username,limit, offset))
+        if 'sqlite' == self._dbType:
+            self._ExecuteSQL('SELECT * FROM article_base WHERE username=\'{}\' ORDER BY ROWID DESC LIMIT \'{}\' OFFSET \'{}\''.format(username,limit, offset))
+        elif 'mysql'==self._dbType:
+            self._ExecuteSQL('SELECT articleid,userid,title,breif,keywords,coverurl,uptime,bodyurl from '
+                             '(SELECT @rowid:=@rowid+1 as rowid,article_base.* FROM (SELECT @rowid:=0)ro,article_base WHERE username=\'{}\' ORDER BY rowid DESC LIMIT {} OFFSET {}) as t'.format(username, limit, offset))
         return self._FetchAll()
     #获取某个用户发表的文章数量
     def getArticleCountByUserid(self,userid):
@@ -193,10 +204,6 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
     #获取某个用户发表的文章数量
     def getArticleCountByUsername(self,username):
         self._ExecuteSQL('SELECT COUNT(*) FROM article_base WHERE username=\'{}\''.format(username))
-        return self._FetchAll()
-    #获取用户文章分页
-    def getArticleByUseridLimit(self,userid,limit,offset):
-        self._ExecuteSQL('SELECT * FROM article_base WHERE userid=\'{}\' ORDER BY ROWID DESC LIMIT \'{}\' OFFSET \'{}\''.format(userid,limit,offset))
         return self._FetchAll()
 
     #添加一个文章

@@ -3,13 +3,13 @@ import os,datetime
 class Config(object):
     #数据库配置
     MYSQL_SET = {
-                 "IP":"localhost", "PORT":3306, "USER":"root", "PASSWORD":"ZZT06118115",
-                 "sqlFile":[os.path.join(os.path.dirname(os.path.realpath(__file__)),'SqlFile','sqlite_sql')]
+                 "IP":"192.168.0.135", "PORT":3306, "USER":"root", "PASSWORD":"123456",
+                 "sqlFile":[os.path.join(os.path.dirname(os.path.realpath(__file__)),'SqlFile','mysql_sql.sql')]
                 }
     SQLITE_SET = {
                   "DBPATH":os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))),'DB','blog_sqlite.db'),
                   "sqlFile":[
-                             os.path.join(os.path.dirname(os.path.realpath(__file__)),'SqlFile','sqlite_sql')
+                             os.path.join(os.path.dirname(os.path.realpath(__file__)),'SqlFile','sqlite_sql.sql')
                              # ,os.path.join(os.getcwd(), 'ServerDB/SqlFile', 'sqlite_test_data')
                             ]
                  }

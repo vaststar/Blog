@@ -19,7 +19,7 @@ class Register extends Component {
         this.setState({registerok:true})
       }
       else{
-        message.error(result)
+        message.error(result.msg)
         console.log(result)
       }
       }).catch(function (e) {

@@ -10,13 +10,28 @@ class BaseDB(object,metaclass=abc.ABCMeta):
     def __InitSQLFile(self,sqlfilepaths):
         for v in sqlfilepaths:
             with open(v, 'r') as f:
-                for t in f.read().split('//'):
-                    self._ExecuteSQL(t)
+                statement = ''
+                for line in f:
+                    if line.strip().startswith('-') or line.strip()=='':
+                        continue
+                    else:
+                        statement+=line.strip()
+                    if line.strip().endswith(';'):
+                        self._ExecuteSQL(statement)
+                        statement=""
         self._CommitChange()
 
     def _ExecuteSQL(self,command):
         try:
             self.__cursor.execute(command)
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
+    def _ExecuteScripts(self,command):
+        try:
+            self.__cursor.executescript(command)
             return True
         except Exception as e:
             print(e)

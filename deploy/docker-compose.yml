@@ -26,3 +26,14 @@ services:
       - ../Client/blog-web/build:/blog/Client/blog-web/build
       - ../nginx/nginx_default.conf:/etc/nginx/nginx.conf
       - ../nginx/conf.d:/etc/nginx/conf.d
+      
+  blog_mysql:
+    image: "mysql"
+    restart: always
+    container_name: blog_mysql
+    valumes:
+      - ../mysql/data:/var/lib/mysql
+      - ../mysql/my.cnf:/etc/my.cnf
+      - ../mysql/init.sh:/docker-entrypoint-initdb.d/init.sh
+    ports:
+      - "3306:3306"

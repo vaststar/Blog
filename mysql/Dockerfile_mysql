@@ -1,0 +1,5 @@
+FROM mysql
+MAINTAINER ThomasZhu 47029316@qq.com
+
+
+EXPOSE 3306

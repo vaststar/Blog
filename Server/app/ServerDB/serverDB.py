@@ -4,6 +4,7 @@ from .OperateDB import OperateDB
 class mysqlDB(OperateDB):
     '''mysql connection'''
     def __init__(self,host='localhost',port=3306,user='root',passwd='testpassword',dbname='dbname',sqlFiles=None):
+        #先创建一下数据库，防止链接不上
         OperateDB.__init__(self,database=pymysql.connect(host=host, port=port, user=user, passwd=passwd,db=dbname),databaseType="mysql",sqlfiles=sqlFiles)
 
 
