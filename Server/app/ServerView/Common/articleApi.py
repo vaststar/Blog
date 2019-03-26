@@ -16,7 +16,6 @@ class ArticleApi(object):
     def getArticlePagnation(pageNumber=1,pagesize=1):
         result=[]
         for k,v in enumerate(blogDB.getArticleLimit(pagesize,(pageNumber-1)*pagesize)):
-            print('ggggg',v)
             result.append(dict(zip(("articleid", "userid", "title", "breif", "keywords","coverurl","uptime", "bodyurl"), v)))
         return Common.trueReturn(result, 'query ok')
 

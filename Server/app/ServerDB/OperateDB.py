@@ -20,7 +20,9 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
 
     #根据用户id获取基本表内容
     def getUserById(self,userid):
+        logger.info('bb check pasword ')
         self._ExecuteSQL('SELECT * FROM user_base WHERE userid=\'{}\''.format(userid))
+        logger.info('aa check pasword ')
         return self._FetchOne()
 
     #添加一个用户（基本表内添加）
@@ -55,9 +57,7 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
 
     #检查用户密码,返回用户id
     def checkPassword(self,username,password):
-        logger.info('before check pasword ', username, password)
         user =self.getUserByName(username)
-        logger.info('after check pasword ',username,password,user)
         if not user is None:
             if password == user[2]:
                 return user[0]
