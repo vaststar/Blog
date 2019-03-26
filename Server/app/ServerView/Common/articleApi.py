@@ -8,28 +8,48 @@ class ArticleApi(object):
     @staticmethod
     def getAllArticle():
         result = []
-        for k, v in enumerate(blogDB.getAllArticle()):
+        allArt = blogDB.getAllArticle()
+        if allArt is None :
+            return Common.falseReturn(None,'query wrong')
+        if len(allArt)==0:
+            return Common.trueReturn(result, 'query ok')
+        for k, v in enumerate(allArt):
             result.append(dict(zip(("articleid", "userid", "title", "breif", "keywords","coverurl","uptime", "bodyurl"), v)))
         return Common.trueReturn(result, 'query ok')
 
     @staticmethod
     def getArticlePagnation(pageNumber=1,pagesize=1):
         result=[]
-        for k,v in enumerate(blogDB.getArticleLimit(pagesize,(pageNumber-1)*pagesize)):
+        art = blogDB.getArticleLimit(pagesize,(pageNumber-1)*pagesize)
+        if art is None:
+            return Common.falseReturn(None,'query wrong')
+        if len(art) == 0:
+            return Common.trueReturn(result,'query ok')
+        for k,v in enumerate(art):
             result.append(dict(zip(("articleid", "userid", "title", "breif", "keywords","coverurl","uptime", "bodyurl"), v)))
         return Common.trueReturn(result, 'query ok')
 
     @staticmethod
     def getArticlePagnationByUserid(userid,pageNumber=1,pageSize=1):
         result=[]
-        for k,v in enumerate(blogDB.getArticleLimitByUserid(userid,pageSize,(pageNumber-1)*pageSize)):
+        art = blogDB.getArticleLimitByUserid(userid,pageSize,(pageNumber-1)*pageSize)
+        if art is None:
+            return Common.falseReturn(None,'query wrong')
+        if len(art) == 0:
+            return Common.trueReturn(result,'query ok')
+        for k,v in enumerate(art):
             result.append(dict(zip(("articleid", "userid", "title", "breif", "keywords","coverurl","uptime", "bodyurl"), v)))
         return Common.trueReturn(result, 'query ok')
 
     @staticmethod
     def getArticlePagnationByUsername(username,pageNumber=1,pageSize=1):
         result=[]
-        for k,v in enumerate(blogDB.getArticleLimitByUsername(username,pageSize,(pageNumber-1)*pageSize)):
+        art = blogDB.getArticleLimitByUsername(username, pageSize, (pageNumber - 1) * pageSize)
+        if art is None:
+            return Common.falseReturn(None,'query wrong')
+        if len(art) == 0:
+            return Common.trueReturn(result,'query ok')
+        for k,v in enumerate(art):
             result.append(dict(zip(("articleid", "userid", "title", "breif", "keywords","coverurl","uptime", "bodyurl"), v)))
         return Common.trueReturn(result, 'query ok')
 
