@@ -89,5 +89,6 @@ if __name__=='__main__':
 
     try:
         pymysql.connect(host="192.168.0.135", port=3306, user="root", passwd="root", db="blog")
+        print('00')
     except Exception as e:
         print('wrong',e)

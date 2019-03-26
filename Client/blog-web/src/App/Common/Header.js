@@ -57,10 +57,10 @@ class HeaderCom extends Component {
     componentDidMount(){
         //通过获取自己的信息，判断是否进入验证
         get(this.props.userUrl+"/selfid/").then(response => response.json()).then(result => {
-            // console.log(result);
             if(result.status){
                 this.props.ChangeValid(true);
             }else{
+                console.log('getself',result);
                 this.props.ChangeValid(false);
             }
         }).catch(function (e) {

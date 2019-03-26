@@ -1,5 +1,6 @@
 import abc
 from .BaseDB import BaseDB
+from app.ServerLog import logger
 
 class OperateDB(BaseDB,metaclass=abc.ABCMeta):
     '''中间层业务相关的operate，可能变化的数据库相关操作放在这里'''
@@ -54,7 +55,9 @@ class OperateDB(BaseDB,metaclass=abc.ABCMeta):
 
     #检查用户密码,返回用户id
     def checkPassword(self,username,password):
+        logger.info('before check pasword ', username, password)
         user =self.getUserByName(username)
+        logger.info('after check pasword ',username,password,user)
         if not user is None:
             if password == user[2]:
                 return user[0]

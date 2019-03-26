@@ -1,6 +1,7 @@
 import datetime
 from app.ServerDB import blogDB
 from app.ServerView.Common import Common
+from app.ServerLog import logger
 
 class ArticleApi(object):
     '''定义一些用户相关的接口，给视图调用，减少视图工作量'''

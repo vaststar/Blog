@@ -18,7 +18,6 @@ export default function request(method,url,body,token,detectString){
     } else { 
         body =  body && JSON.stringify(body); 
     }
-
     return fetch(url, {
         method,
         mode: "cors",
