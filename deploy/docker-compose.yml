@@ -15,8 +15,8 @@ services:
       - ../Server/log:/blog/Server/log
     depends_on:
       - blog_mysql
-    links:
-      - blog_mysql
+    networks:
+      - mysql_net
 
   blog_nginx:
     build:
@@ -32,6 +32,8 @@ services:
       - ../Client/blog-web/build:/blog/Client/blog-web/build
       - ../nginx/nginx_default.conf:/etc/nginx/nginx.conf
       - ../nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - mysql_net
       
   blog_mysql:
     build:
@@ -45,6 +47,11 @@ services:
     volumes:
       - ../mysql/data:/var/lib/mysql
       - ../mysql/my.cnf:/etc/my.cnf
-      - ../mysql/mysql_sql.sql:/docker-entrypoint-initdb.d/mysql_sql.sql
+      - ../mysql/init:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
+    networks:
+      - mysql_net
+networks:
+  mysql_net:
+    driver: bridge
