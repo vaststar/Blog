@@ -85,6 +85,9 @@ if __name__=='__main__':
     # test.post_comments(test.get_token('aaa','uu'),"3a2ee930359d11e993291831bfb80f05",'讲得好','')
     # test.get_comments("ea5602b834b711e98eda1831bfb80f05")
     # test.get_file("2019/02/21/2019_02_21_13_55_01_C")
-    import pymysql,os
+    import pymysql
 
-    os.system("mysql - h192.168.0.135 - P3306 - uroot - p123456 - e 'CREATE DATABASE IF NOT EXISTS blog'")
+    try:
+        pymysql.connect(host="192.168.0.135", port=3306, user="root", passwd="root", db="blog")
+    except Exception as e:
+        print('wrong',e)
