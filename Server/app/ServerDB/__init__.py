@@ -10,8 +10,15 @@ if config.DB_TYPE == "Sqlite":
     blogDB = DBOperate(database,'sqlite')
 elif config.DB_TYPE == "Mysql":
     from .MysqlBase import MysqlBase
-    database = MysqlBase(pymysql.connect(host=config.MYSQL_SET.get("IP"), port=config.MYSQL_SET.get("PORT"), user=config.MYSQL_SET.get("USER"), passwd=config.MYSQL_SET.get("PASSWORD"),
-                                         db="blog",autocommit=True),config.MYSQL_SET.get("sqlFile"))
+    while True:
+        try:
+            coon = pymysql.connect(host=config.MYSQL_SET.get("IP"), port=config.MYSQL_SET.get("PORT"), user=config.MYSQL_SET.get("USER"), passwd=config.MYSQL_SET.get("PASSWORD"),
+                                         db="blog",autocommit=True)
+            break
+        except Exception as e:
+            print(e)
+
+    database = MysqlBase(coon,config.MYSQL_SET.get("sqlFile"))
     blogDB = DBOperate(database,'mysql')
 else:
     from .SqliteBase import SqliteBase
