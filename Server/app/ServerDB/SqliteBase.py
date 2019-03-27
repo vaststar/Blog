@@ -1,4 +1,3 @@
-import sqlite3
 from .ServerDBBase import ServerDBBase
 from app.ServerLog import logger
 
@@ -12,7 +11,7 @@ class SqliteBase(ServerDBBase):
             with conn:
                 conn.execute(command)
                 return True
-        except (sqlite3.OperationalError, sqlite3.IntegrityError) as e:
+        except Exception as e:
             logger.warning('Could not complete operation:', command,e)
             return False
 
@@ -21,7 +20,7 @@ class SqliteBase(ServerDBBase):
         try:
             cursor.execute(command)
             return cursor.fetchone()
-        except (sqlite3.OperationalError, sqlite3.IntegrityError) as e:
+        except Exception as e:
             logger.warning('Could not complete operation:', command,e)
             return None
 
@@ -30,6 +29,6 @@ class SqliteBase(ServerDBBase):
         try:
             cursor.execute(command)
             return cursor.fetchall()
-        except (sqlite3.OperationalError, sqlite3.IntegrityError) as e:
+        except Exception as e:
             logger.warning('Could not complete operation:', command,e)
             return []

@@ -6,7 +6,10 @@ class BrowserApi(object):
     def getArticleBrowser(articleid):
         res = blogDB.getBrowserNumberByArticleId(articleid)
         if not res is None:
-            return Common.trueReturn(res[0], 'query ok')
+            if len(res) == 0:
+                return Common.trueReturn(0,'query ok')
+            else:
+                return Common.trueReturn(res[0], 'query ok')
         return Common.falseReturn(None, 'query false')
 
     @staticmethod

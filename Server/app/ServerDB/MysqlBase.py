@@ -1,4 +1,3 @@
-import pymysql
 from .ServerDBBase import ServerDBBase
 from app.ServerLog import logger
 
@@ -8,30 +7,26 @@ class MysqlBase(ServerDBBase):
 
     def _ExecuteSQL(self,command):
         try:
-            self._GetConnect().ping(reconnect=True)
-            with self._GetConnect().cursor() as cursor:
-                cursor.execute(command)
-                return True
-        except (pymysql.OperationalError, pymysql.IntegrityError) as e:
-            logger.warning('Could not complete operation:', command,e)
+            self._GetConnect().cursor().execute(command)
+            return True
+        except Exception as e:
+            logger.warning('Could not complete operation:'+ command+str(e))
             return False
 
     def _QueryOneSQL(self,command):
         try:
-            self._GetConnect().ping(reconnect=True)
-            with self._GetConnect().cursor() as cursor:
-                cursor.execute(command)
-                return cursor.fetchone()
-        except (pymysql.OperationalError, pymysql.IntegrityError) as e:
-            logger.warning('Could not query one:', command,e)
+            cursor =  self._GetConnect().cursor()
+            cursor.execute(command)
+            return cursor.fetchone()
+        except Exception as e:
+            logger.warning('Could not query one:'+ command+str(e))
             return None
 
     def _QueryAllSQL(self,command):
         try:
-            self._GetConnect().ping(reconnect=True)
-            with self._GetConnect().cursor() as cursor:
-                cursor.execute(command)
-                return cursor.fetchall()
-        except (pymysql.OperationalError, pymysql.IntegrityError) as e:
-            logger.warning('Could not query all:', command,e)
+            cursor=self._GetConnect().cursor()
+            cursor.execute(command)
+            return cursor.fetchall()
+        except Exception as e:
+            logger.warning('Could not query all:'+ command+str(e))
             return []

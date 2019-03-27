@@ -1,6 +1,4 @@
 import uuid
-from app.ServerLog import logger
-
 
 class DBOperate(object):
     '''中间层业务相关的operate，可能变化的数据库相关操作放在这里'''
@@ -216,6 +214,11 @@ class DBOperate(object):
     # 根据文章id获取所有顶级评论数量
     def getCommentNumberByArticleId(self, artid):
         return self.QueryAll('SELECT COUNT(*) FROM comments WHERE articleid=\'{}\' AND refid=\'\''.format(artid))
+
+    # #获取评论分页
+    # def getCommentByArticleIdLimit(self,artid,limit,offset):
+    #     self._ExecuteSQL('SELECT COUNT(*) FROM comments WHERE articleid=\'{}\' AND refid=\'\' ORDER BY ROWID DESC LIMIT \'{}\' OFFSET \'{}\''.format(artid,limit,offset))
+    #     return self._FetchAll()
 
     # 添加一个评论
     def addComment(self, articleid, userid, uptime, comments, refid):

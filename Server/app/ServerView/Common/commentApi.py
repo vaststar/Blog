@@ -32,12 +32,18 @@ class CommentApi(object):
     def getCommentCountByArticleId(artid):
         res = blogDB.getCommentNumberByArticleId(artid)
         if not res is None:
-            return Common.trueReturn(res[0], 'query ok')
+            if len(res) == 0:
+                return Common.trueReturn(0,'query ok')
+            else:
+                return Common.trueReturn(res[0], 'query ok')
         return Common.falseReturn(None, 'query false')
 
     @staticmethod
     def getChildCommentCountByCommentId(commentid):
         res = blogDB.getChildNumberByCommentId(commentid)
         if not res is None:
-            return Common.trueReturn(res[0], 'query ok')
+            if len(res) == 0:
+                return Common.trueReturn(0,'query ok')
+            else:
+                return Common.trueReturn(res[0], 'query ok')
         return Common.falseReturn(None, 'query false')

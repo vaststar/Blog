@@ -1,4 +1,4 @@
-import sqlite3,pymysql
+import sqlite3,mysql.connector
 
 from .DBOperate import DBOperate
 from app.ServerConfig import config
@@ -12,8 +12,8 @@ elif config.DB_TYPE == "Mysql":
     from .MysqlBase import MysqlBase
     while True:
         try:
-            coon = pymysql.connect(host=config.MYSQL_SET.get("IP"), port=config.MYSQL_SET.get("PORT"), user=config.MYSQL_SET.get("USER"), passwd=config.MYSQL_SET.get("PASSWORD"),
-                                         db="blog",autocommit=True)
+            coon = mysql.connector.connect(host=config.MYSQL_SET.get("IP"), port=config.MYSQL_SET.get("PORT"), user=config.MYSQL_SET.get("USER"), password =config.MYSQL_SET.get("PASSWORD"),
+                                           database="blog",autocommit=True)
             break
         except Exception as e:
             print(e)
