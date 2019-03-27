@@ -23,7 +23,6 @@ logconfig_dict = {
             "propagate": 0,
             "qualname": "gunicorn.error"
         },
-
         "gunicorn.access": {
             "level": "DEBUG",
             "handlers": ["access_file"],
