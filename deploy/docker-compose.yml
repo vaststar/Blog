@@ -10,6 +10,7 @@ services:
       - "4444:4444"
     volumes:
       - ../Server/app:/blog/Server/app
+      - ../Server/deploy/gunicorn_config.py:/blog/Server/deploy/gunicorn_config.py
       - ../Server/DB:/blog/Server/DB
       - ../Server/StaticFile:/blog/Server/StaticFile
       - ../Server/log:/blog/Server/log
