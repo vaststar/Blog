@@ -2,9 +2,10 @@ FROM python
 MAINTAINER ThomasZhu 47029316@qq.com
 
 RUN mkdir -p /blog/Server/app &&\
-    mkdir -p /blog/Server/log
+    mkdir -p /blog/Server/log &&\
+    mkdir -p /blog/Server/deploy
 
-COPY deploy /blog/Server/deploy
+COPY deploy/start_gunicorn.sh /blog/Server/deploy/start_gunicorn.sh
 COPY requirements /blog/Server/requirements
 
 WORKDIR /blog/Server
