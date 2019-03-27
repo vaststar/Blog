@@ -83,6 +83,7 @@ class ArticleApi(object):
     @staticmethod
     def getAllArticleCount():
         res = blogDB.getArticleCount()
+        logger.error('rrrrrrrrr')
         if res is not None :
             if len(res) == 0:
                 return Common.trueReturn(0,'query ok')
