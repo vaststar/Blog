@@ -8,6 +8,7 @@ class MysqlBase(ServerDBBase):
 
     def _ExecuteSQL(self,command):
         try:
+            self._GetConnect().ping(reconnect=True)
             with self._GetConnect().cursor() as cursor:
                 cursor.execute(command)
                 return True
@@ -17,6 +18,7 @@ class MysqlBase(ServerDBBase):
 
     def _QueryOneSQL(self,command):
         try:
+            self._GetConnect().ping(reconnect=True)
             with self._GetConnect().cursor() as cursor:
                 cursor.execute(command)
                 return cursor.fetchone()
@@ -26,6 +28,7 @@ class MysqlBase(ServerDBBase):
 
     def _QueryAllSQL(self,command):
         try:
+            self._GetConnect().ping(reconnect=True)
             with self._GetConnect().cursor() as cursor:
                 cursor.execute(command)
                 return cursor.fetchall()
