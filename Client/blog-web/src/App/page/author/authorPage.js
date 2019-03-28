@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Row,Col} from 'antd'
 import Header from '../../Common/Header'
 
 import AuthorDetail from './authorDetail'
@@ -8,9 +9,13 @@ class AuthorPage extends Component {
     render() {
         return (<div className="author_page">
                 <Header/>
-                <div className="author_page_content">
-                    <AuthorDetail/>
-                </div>
+                <Row type="flex" justify="space-around" align="middle">
+                    <Col span={16} >
+                        <div className="author_page_content">
+                            <AuthorDetail/>
+                        </div>
+                    </Col>
+                </Row>
         </div>)
     }
     

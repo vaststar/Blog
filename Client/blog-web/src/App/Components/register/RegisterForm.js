@@ -52,11 +52,11 @@ class RegisterForm extends Component {
         const formItemLayout = {
         labelCol: {
           xs: { span: 24 },
-          sm: { span: 8 },
+          sm: { span: 4 },
         },
         wrapperCol: {
           xs: { span: 24 },
-          sm: { span: 16 },
+          sm: { span: 20 },
         },
       };
       const tailFormItemLayout = {
@@ -66,8 +66,8 @@ class RegisterForm extends Component {
             offset: 0,
           },
           sm: {
-            span: 16,
-            offset: 8,
+            span: 20,
+            offset: 4,
           },
         },
       };
@@ -127,7 +127,7 @@ class RegisterForm extends Component {
                 {getFieldDecorator('phone', {
                     rules: [{ required: true, message: '请输入联系电话!' }],
                 })(
-                    <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+                    <Input style={{ width: '100%' }} />
                 )}
             </Form.Item>
 

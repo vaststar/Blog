@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Row,Col} from 'antd'
 import Header from '../../Common/Header'
 
 import Articles from './allArticles'
@@ -7,10 +8,11 @@ class HomePage extends Component {
         return (
             <div>
                 <Header/>
-                <div className='articlecom'>
-                    <Articles ></Articles>
-                </div>
-                
+                <Row type="flex" justify="space-around" align="middle">
+                    <Col span={14} className="articlecom">
+                        <Articles ></Articles>
+                    </Col>
+                </Row>
             </div>
         )
     }

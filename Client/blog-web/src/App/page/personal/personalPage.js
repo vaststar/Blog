@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Row,Col} from 'antd'
 import Header from '../../Common/Header'
 
 import PersonalPageCom from '../../Components/personalPageCom/personalPageCom'
@@ -8,9 +9,13 @@ class PersonalPage extends Component {
         return (
             <div>
                 <Header/> 
-                <div className="personal_setting_Com">
-                <PersonalPageCom />    
-                </div>           
+                <Row type="flex" justify="space-around" align="middle">
+                    <Col span={14}>
+                        <div className="personal_setting_Com">
+                        <PersonalPageCom />    
+                        </div>  
+                    </Col>
+                </Row>         
             </div>
         )
     }
