@@ -54,6 +54,7 @@ class Login extends Component {
       }
       else{
         message.error('用户名或者密码错误');
+        this.props.ChangeUser({'username':form.userName,'password':null,'remember':form.remember})
         this.setState({ redirectToReferrer: false });
         this.props.ChangeToken(null);
         this.props.ChangeValid(false);
