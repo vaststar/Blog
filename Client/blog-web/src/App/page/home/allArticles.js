@@ -29,7 +29,7 @@ class AllArticles extends Component {
         this.loadMore();
     }
     updateTotalPage=()=>{
-        get(this.props.articleUrl+"/counts/").then(response=>{console.log(response);return response.json();}).then(result=>{
+        get(this.props.articleUrl+"/counts/").then(response=>response.json()).then(result=>{
             if(result.status){
                 this.setState({totalPage:parseInt(result.data)/this.state.pageSize})
             }else{

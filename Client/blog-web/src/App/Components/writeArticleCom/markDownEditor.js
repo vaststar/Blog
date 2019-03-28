@@ -88,7 +88,6 @@ class MarkdownEditor extends Component {
         }
         let dataList = e.clipboardData.items
         for (let i = 0; i < dataList.length; i++) {
-            console.log('paste',dataList[i])
             if (dataList[i].kind === 'file' && dataList[i].getAsFile().type.indexOf('image') !== -1) {
                 let formData = new FormData()
                 formData.append('file', dataList[i].getAsFile())
