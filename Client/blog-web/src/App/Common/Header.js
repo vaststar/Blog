@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import { Link, withRouter} from 'react-router-dom'
-import {Layout, Menu, Icon,Row,Col,Avatar} from 'antd'
+import {Layout, Menu, Icon,Row,Col,Avatar,message} from 'antd'
 
 import {get} from './RequestREST'
 import {changeUser,changeToken,changeValid} from '../../Redux/ActionReducer/user'
@@ -60,13 +60,9 @@ class HeaderCom extends Component {
             if(result.status){
                 this.props.ChangeValid(true);
             }else{
-                console.log('getself',result);
                 this.props.ChangeValid(false);
             }
-        }).catch(function (e) {
-            this.props.ChangeValid(false);
-            console.log("fetch fail", e);
-        });
+        })
     }
 }
 

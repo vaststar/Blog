@@ -56,7 +56,7 @@ class ArticleApi(object):
     @staticmethod
     def getArticleBaseByID(artid):
         blogbase =blogDB.getArticleById(artid)
-        if not blogbase is None:
+        if blogbase is not None:
             result = dict(zip(("articleid", "userid", "title", "breif", "keywords","coverurl","uptime", "bodyurl"), blogbase))
             return Common.trueReturn(result,'query ok')
         return Common.falseReturn(None,'not found')
@@ -64,7 +64,7 @@ class ArticleApi(object):
     @staticmethod
     def postArticle(userid,title,brief,keys,coverurl,bodyurl):
         artid = blogDB.addArticle(userid,title,brief,keys,coverurl,datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),bodyurl)
-        if not artid is None:
+        if artid is not None:
             return Common.trueReturn({"articleid":artid},'add article ok')
         return Common.falseReturn(None,'add article false')
 
@@ -83,7 +83,6 @@ class ArticleApi(object):
     @staticmethod
     def getAllArticleCount():
         res = blogDB.getArticleCount()
-        logger.error('rrrrrrrrr')
         if res is not None :
             if len(res) == 0:
                 return Common.trueReturn(0,'query ok')
@@ -93,7 +92,7 @@ class ArticleApi(object):
     @staticmethod
     def getArticleCountByUserId(userid):
         res = blogDB.getArticleCountByUserid(userid)
-        if not res is None:
+        if res is not None:
             if len(res) == 0:
                 return Common.trueReturn(0,'query ok')
             else:
@@ -112,7 +111,9 @@ class ArticleApi(object):
     @staticmethod
     def getIsSelfArticle(userid,articleid):
         article = blogDB.getArticleById(articleid)
-        if not article is None:
+        if article is not None:
             if article[1] == userid:
                 return Common.trueReturn(True,'yes')
+            else:
+                return Common.trueReturn(False,'not mine')
         return Common.falseReturn(None,'no')

@@ -204,7 +204,7 @@ class DBOperate(object):
 
     # 删除一个文章
     def delArticle(self, articleid):
-        return self._ExecuteSQL('DELETE FROM article_base WHERE articleid=\'{}\''.format(articleid))
+        return self.ExecuteSQL('DELETE FROM article_base WHERE articleid=\'{}\''.format(articleid))
 
     # 评论表
     # 根据文章id获取所有评论

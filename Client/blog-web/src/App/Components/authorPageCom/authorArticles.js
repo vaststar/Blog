@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {Spin} from 'antd'
+import {Spin,message} from 'antd'
 
 import {get} from '../../Common/RequestREST'
 
@@ -35,9 +35,9 @@ class AuthorArticles extends Component {
             if(result.status){
                 this.setState({totalPage:parseInt(result.data)/this.state.pageSize})
             }else{
-                console.log("fetch article counts fail")
+                message.error("获取作者文章数量失败")
             }
-        }).catch(e=>console.log("fetch article counts fail",e))
+        })
     }
     loadMore=()=>{
         if(this.state.pageNumber<=this.state.totalPage){
@@ -49,10 +49,7 @@ class AuthorArticles extends Component {
                     this.setState({pageNumber:this.state.pageNumber+1});
                 }
                 this.setState({isLoadingMore:false});
-            }).catch(function (e) {
-                this.setState({isLoadingMore:false});
-                console.log("fetch all article bases fail", e);
-            });
+            })
         }
     }
     handleScroll=(event)=>{

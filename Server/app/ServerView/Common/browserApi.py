@@ -5,7 +5,7 @@ class BrowserApi(object):
     @staticmethod
     def getArticleBrowser(articleid):
         res = blogDB.getBrowserNumberByArticleId(articleid)
-        if not res is None:
+        if res is not None:
             if len(res) == 0:
                 return Common.trueReturn(0,'query ok')
             else:
@@ -29,7 +29,12 @@ class BrowserApi(object):
     @staticmethod
     def checkAlreadyBrowserArticle(articleid,userid,ip):
         res = blogDB.getBrowserArticleByIp(articleid,ip)
-        for k,v in enumerate(res):
-            if v[2] == userid:
-                return Common.trueReturn(True,'already in')
-        return Common.falseReturn(None,'not in')
+        if res is not None:
+            if len(res) == 0:
+                return Common.trueReturn(False,'not in')
+            for k,v in enumerate(res):
+                if v[2] == userid:
+                    return Common.trueReturn(True,'already in')
+            return Common.trueReturn(False,'not in')
+        else:
+            return Common.falseReturn(None,'not in')

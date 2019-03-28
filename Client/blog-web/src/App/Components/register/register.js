@@ -20,11 +20,8 @@ class Register extends Component {
       }
       else{
         message.error(result.msg)
-        console.log(result)
       }
-      }).catch(function (e) {
-        console.log("register fail", e);
-      });
+      })
     }
     
     render(){

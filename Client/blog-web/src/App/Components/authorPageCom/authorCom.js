@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {Avatar,Row,Col,Divider,Tag} from 'antd'
+import {Avatar,Row,Col,Divider,Tag,message} from 'antd'
 
 import {get} from '../../Common/RequestREST'
 
@@ -44,9 +44,9 @@ class AuthorCom extends Component{
             if(result.status)
             {
                 this.setState({avatarUrl:result.data})
+            }else{
+                message.error("获取头像失败")
             }
-        }).catch(function(e){
-            console.log( e);
         })
     }
     refreshAuthorName=(userid)=>{
@@ -54,9 +54,9 @@ class AuthorCom extends Component{
             if(result.status)
             {
                 this.setState({username:result.data})
+            }else{
+                message.error("获取用户名失败")
             }
-        }).catch(function(e){
-            console.log( e);
         })
     }
     refreshAuthorIntroduce=(userid)=>{
@@ -64,9 +64,9 @@ class AuthorCom extends Component{
             if(result.status)
             {
                 this.setState({introduces:result.data})
+            }else{
+                message.error("获取用户简介失败")
             }
-        }).catch(function(e){
-            console.log( e);
         })
     }
 }

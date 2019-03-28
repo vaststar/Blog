@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {Divider,Row,Col,Avatar,Tooltip,Input,Icon,Button} from 'antd'
+import {Divider,Row,Col,Avatar,Tooltip,Input,Icon,Button,message} from 'antd'
 
 import {get,put,post,postFile} from '../../Common/RequestREST'
 
@@ -19,9 +19,9 @@ class UserBaseCom extends Component{
         ).then(result=>result.json()).then(result=>{
             if(result.status){
                 this.updateAvatar(result.data.filepath)
+            }else{
+                message.error("上传头像失败")
             }
-        }).catch(function(e){
-            console.log(e)
         })
     }
     //写入修改头像
@@ -29,9 +29,9 @@ class UserBaseCom extends Component{
         put(this.props.userUrl+"/avatars/", {'avatar':avatarUrl}).then(result=>result.json()).then(result=>{
             if(result.status){
                 this.setState({avatarUrl:avatarUrl})
+            }else{
+                message.error("修改头像失败")
             }
-        }).catch(function(e){
-            console.log(e)
         })
     }
 //真实姓名问题
@@ -56,10 +56,10 @@ class UserBaseCom extends Component{
           // 在此处写获取数据之后的处理逻辑
           if(result.status){
               this.setState(state);              
+          }else{
+              message.error("修改姓名失败")
           }
-        }).catch(function (e) {
-            console.log("update tags fail", e);
-        });  
+        }) 
     }
 //身份证
     showIdcardInput=()=>{
@@ -83,10 +83,10 @@ class UserBaseCom extends Component{
           // 在此处写获取数据之后的处理逻辑
           if(result.status){
               this.setState(state);              
+          }else{
+              message.error("修改身份证失败")
           }
-        }).catch(function (e) {
-            console.log("update tags fail", e);
-        });  
+        }) 
     }
 //手机号
     showCellphoneInput=()=>{
@@ -110,10 +110,10 @@ class UserBaseCom extends Component{
           // 在此处写获取数据之后的处理逻辑
           if(result.status){
               this.setState(state);              
+          }else{
+              message.error("修改手机号失败")
           }
-        }).catch(function (e) {
-            console.log("update tags fail", e);
-        });  
+        }) 
     }
 
 //邮箱
@@ -138,10 +138,10 @@ class UserBaseCom extends Component{
           // 在此处写获取数据之后的处理逻辑
           if(result.status){
               this.setState(state);              
+          }else{
+              message.error("修改邮箱失败")
           }
-        }).catch(function (e) {
-            console.log("update tags fail", e);
-        });  
+        })  
     }
 
     render(){return(<div>
@@ -246,9 +246,9 @@ class UserBaseCom extends Component{
                 this.setState({userid:result.data})
                 this.getAvatar(result.data)
                 this.getUserName(result.data)
+            }else{
+                message.error("用户验证失败，请重新登陆")
             }
-        }).catch(function(e){
-            console.log(e);
         })
     }
     getAvatar=(userid)=>{
@@ -256,9 +256,9 @@ class UserBaseCom extends Component{
             if(result.status)
             {
                 this.setState({avatarUrl:result.data})
+            }else{
+                message.error("无法获取头像")
             }
-        }).catch(function(e){
-            console.log( e);
         })
     }
     getUserName=(userid)=>{
@@ -266,9 +266,9 @@ class UserBaseCom extends Component{
             if(result.status)
             {
                 this.setState({username:result.data})
+            }else{
+                message.error("无法获取用户名")
             }
-        }).catch(function(e){
-            console.log( e);
         })
 
     }
@@ -278,8 +278,6 @@ class UserBaseCom extends Component{
             {
                 this.setState({userinfo:result.data})
             }
-        }).catch(function(e){
-            console.log( e);
         })
     }
 }

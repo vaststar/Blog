@@ -7,7 +7,7 @@ class UserApi(object):
     @staticmethod
     def getUserBase(userid):
         user = blogDB.getUserById(userid)
-        if not user is None:
+        if user is not None:
             return Common.trueReturn(dict(zip(("id", "name", "password"), user)),'query ok')
         return Common.falseReturn(None,'cannot find userid:{}'.format(userid))
 
@@ -15,10 +15,10 @@ class UserApi(object):
     def registerUserBase(username,password):
         if not username or not password:
             return Common.falseReturn(None, 'username or password cannot be empty')
-        if not blogDB.getUserByName(username) is None:
+        if blogDB.getUserByName(username) is not None:
             return Common.falseReturn(None,'{} is already exists'.format(username))
         userid = blogDB.addUser(username, IdentifyUtil.hash_secret(password))
-        if not userid is None:
+        if userid is not None:
             return Common.trueReturn({'userid':userid},'register ok')
         else :
             return Common.falseReturn('unknown reason','register wrong')

@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import moment from 'moment'
-import {Row,Col,Icon,Popconfirm,Tooltip} from 'antd'
+import {Row,Col,Icon,Popconfirm,Tooltip,message} from 'antd'
 
 import Comment from '../comments/allComments'
 import {get, post,del} from '../../Common/RequestREST'
@@ -101,31 +101,29 @@ class ArticleComponent extends Component {
             if(result.status){
                 this.setState({commentsNumber:result.data})
             }else{
-                console.log('query comments number faile')
+                message.error('查询评论数量失败')
             }
-        }).catch(function (e){
-            console.log(e)
-        });
+        })
     }
     resfreshLikesNumbers=()=>{
         //根据文章id获取喜欢的人的数量
         get(this.props.likeUrl+"/articles/"+this.props[ARTICLE_PROPS].articleid).then(response => response.json()).then(result=>{
             if(result.status){
                 this.setState({likeNumber:result.data})
+            }else{
+                message.error("获取点赞数量失败")
             }
-        }).catch(function (e){
-            console.log(e)
-        });
+        })
     }
     resfreshBrowserNumbers=()=>{
         //获取浏览数量
         get(this.props.browserUrl+"/articles/"+this.props[ARTICLE_PROPS].articleid).then(response => response.json()).then(result=>{
             if(result.status){
                 this.setState({browseNumber:result.data})
+            }else{
+                message.error("获取浏览量失败")
             }
-        }).catch(function (e){
-            console.log(e)
-        });
+        })
 
     }
     refreshArticleDetail=()=>{
@@ -133,8 +131,6 @@ class ArticleComponent extends Component {
         let bodyurl = this.props[ARTICLE_PROPS].bodyurl.replace("\\","/");
         get(this.props.fileUrl+"/"+bodyurl).then(result=>result.text()).then(result=>{
             this.setState({content:result});
-        }).catch(function(e){
-            console.log( e);
         })
     }
     personalLikeArticleJudge=()=>{
@@ -143,19 +139,15 @@ class ArticleComponent extends Component {
             if(result.status){
                 this.setState({personalLike:result.data})
             }
-        }).catch(function (e){
-            console.log(e)
-        });
+        })
     }
     //判断是否是自己的文章
     personalArticleJudge=()=>{
         get(this.props.articleUrl+"/belongs/"+this.props[ARTICLE_PROPS].articleid).then(response => response.json()).then(result=>{
             if(result.status){
-                this.setState({personalArticle:true})
+                this.setState({personalArticle:result.data})
             }
-        }).catch(function (e){
-            console.log(e)
-        });
+        })
     }
     //点击评论按钮
     commentClick=()=>{
@@ -169,19 +161,19 @@ class ArticleComponent extends Component {
                 if(result.status){
                     this.setState({personalLike:false})
                     this.resfreshLikesNumbers()
+                }else{
+                    message.error("删除点赞失败")
                 }
-            }).catch(function (e){
-                console.log(e)
-            });
+            })
         }else{
             post(this.props.likeUrl+"/articles/",{'articleid':this.props[ARTICLE_PROPS].articleid}).then(response => response.json()).then(result=>{
                 if(result.status){
                     this.setState({personalLike:true})
                     this.resfreshLikesNumbers()
+                }else{
+                    message.error("点赞失败")
                 }
-            }).catch(function (e){
-                console.log(e)
-            });
+            })
         }
     }
     //删除文章
@@ -189,10 +181,10 @@ class ArticleComponent extends Component {
         del(this.props.articleUrl+"/"+this.props[ARTICLE_PROPS].articleid).then(response => response.json()).then(result=>{
             if(result.status){
                 this.setState({articleDeleted:true})
+            }else{
+                message.error("删除文章失败")
             }
-        }).catch(function (e){
-            console.log(e)
-        });
+        })
     }
     //编辑文章
     editClick=()=>{

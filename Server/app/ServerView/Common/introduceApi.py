@@ -5,7 +5,7 @@ class IntroduceApi(object):
     @staticmethod
     def getIntroduceByUserid(userid):
         intro = blogDB.getUserIntroduce(userid)
-        if not intro is None:
+        if intro is not None:
             result = dict(zip(("userid", "resume", "tags"), intro))
             return Common.trueReturn(result,'query ok')
         return Common.falseReturn(None,'not found')

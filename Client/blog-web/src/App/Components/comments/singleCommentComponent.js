@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import {Row,Col,Icon,Avatar,Divider,Tooltip} from 'antd'
+import {Row,Col,Icon,Avatar,Divider,message} from 'antd'
 
 import {get,post,del} from '../../Common/RequestREST'
 import TextEdit from './textEdit'
@@ -55,26 +55,24 @@ class CommentComponent extends Component {
             if(result.status){
                 this.setState({username:result.data})
             }else{
+                message.error("获取用户名失败")
             }
-        }).catch(function (e) {
-            console.log(e);
-        });
+        })
         //根据userid获取用户头像
         get(this.props.userUrl+"/avatars/"+this.props[COMMENT_PROPS].userid).then(response => response.json()).then(result=>{
             if(result.status && result.data){
                 this.setState({useravatar:"/rest/files/"+result.data})
+            }else{
+                message.error("未找到用户头像")
             }
-        }).catch(function (e) {
-            console.log(e);
-        });
-
+        })
         //根据评论id，获取子评论数量
         get(this.props.commentUrl+"/counts/childcomments/"+this.props[COMMENT_PROPS].commentid).then(response=>response.json()).then(result=>{
             if(result.status){
                 this.setState({childNumber:result.data})
+            }else{
+                message.error("获取子评论数量失败")
             }
-        }).catch((e)=>{
-            console.log(e)
         })
         //判断是否是自己喜欢的
         this.personalLikeCommentJudge()
@@ -90,10 +88,10 @@ class CommentComponent extends Component {
                 this.clickReply();
                 this.props[COMMENT_REFRESH_FUNC]();
                 this.setState({childNumber:parseInt(this.state.childNumber)+1})
+            }else{
+                message.error("提交评论失败")
             }
-        }).catch(function(e){
-            console.log(e)
-        });
+        })
     }
     //判断是否是自己喜欢的
     personalLikeCommentJudge=()=>{
@@ -102,19 +100,17 @@ class CommentComponent extends Component {
             if(result.status){
                 this.setState({personalLike:result.data})
             }
-        }).catch(function (e){
-            console.log(e)
-        });
+        })
     }
     //获取喜欢数量
     resfreshLikesNumbers=()=>{
         get(this.props.likeUrl+"/comments/"+this.props[COMMENT_PROPS].commentid).then(response => response.json()).then(result=>{
             if(result.status){
                 this.setState({likeNumber:result.data})
+            }else{
+                message.error("获取评论点赞数量失败")
             }
-        }).catch(function (e){
-            console.log(e)
-        });
+        })
     }
     //点击喜欢按钮
     likeItClick=()=>{
@@ -124,19 +120,19 @@ class CommentComponent extends Component {
                 if(result.status){
                     this.setState({personalLike:false})
                     this.resfreshLikesNumbers()
+                }else{
+                    message.error("删除评论点赞失败")
                 }
-            }).catch(function (e){
-                console.log(e)
-            });
+            })
         }else{
             post(this.props.likeUrl+"/comments/",{'commentid':this.props[COMMENT_PROPS].commentid}).then(response => response.json()).then(result=>{
                 if(result.status){
                     this.setState({personalLike:true})
                     this.resfreshLikesNumbers()
+                }else{
+                    message.error("点赞失败")
                 }
-            }).catch(function (e){
-                console.log(e)
-            });
+            })
         }
     }
 }

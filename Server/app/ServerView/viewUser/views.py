@@ -49,7 +49,7 @@ def register_Auths():
     if not params.get('emailcode') or not params.get('email'):
         return jsonify(Common.falseReturn(None,'emailcode if needed'))
 
-    elif not ValidEmail.check_validcode_email(params.get('email'),params.get('emailcode'),0)['status']:
+    elif not ValidEmail.check_validcode_email(params.get('email'),params.get('emailcode'),0)['data']:
         return jsonify(Common.falseReturn(None,'please make sure email and code is matched'))
     if not params.get('username') or not params.get('password'):
         return jsonify(Common.falseReturn(None,'username or password cannot be empty'))

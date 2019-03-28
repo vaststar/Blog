@@ -18,15 +18,23 @@ export default function request(method,url,body,token,detectString){
     } else { 
         body =  body && JSON.stringify(body); 
     }
-    return fetch(url, {
-        method,
-        mode: "cors",
-        headers: {
-            "Content-Type": "application/json,text/plain,*/*; charset=utf-8",
-            "Authorization":"JWT "+token,
-            "Robot-Detect":detectString
-        },
-        body
+    return new Promise((resolve, reject) => {
+        fetch(url, {
+            method,
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json,text/plain,*/*; charset=utf-8",
+                "Authorization":"JWT "+token,
+                "Robot-Detect":detectString
+            },
+            body
+        }).then(res=>{
+            if (res.ok){
+                return res
+            }else{
+                throw new Error(res.status.toString() + res.statusText);
+            }
+        }).then(data=>resolve(data)).catch(e=>{console.log("server error",e);reject(e)});
     });
 }
 

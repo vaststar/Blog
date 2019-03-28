@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import ReactMarkdown from 'react-markdown'
 import PropTypes from 'prop-types'
-import {Divider} from 'antd'
+import {Divider,message} from 'antd'
 
 import {get,post} from '../../Common/RequestREST'
 import Comments from '../comments/allComments'
@@ -51,19 +51,14 @@ class PureArticleCom extends Component {
                 get(this.props.fileUrl+"/"+bodyurl).then(result=>result.text()).then(result=>{
                     this.setState({content:result});
                     this.browserHistory();
-                }).catch(function(e){
-                    console.log( e);
                 })
             }else{
+                message.error("找不到该文章，id:"+this.props.articleid)
             }
-        }).catch(function (e) {
-            console.log( e);
-        });
+        })
     }
     browserHistory=()=>{//添加一条浏览历史
-        post(this.props.browserUrl+"/articles/",{'articleid':this.props.articleid}).catch(function (e) {
-            console.log( e);
-        });
+        post(this.props.browserUrl+"/articles/",{'articleid':this.props.articleid})
     }
 }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {Divider, Spin, Pagination} from 'antd'
+import {Divider, Spin, Pagination, message} from 'antd'
 
 import SingleComment from './singleCommentComponent'
 import TextEdit from './textEdit'
@@ -65,14 +65,11 @@ class Comments extends Component {
                         this.setState({comments:result.data});
                     }
                     this.setState({isLoadingMore:false});
-                }).catch(function (e) {
-                    this.setState({isLoadingMore:false});
-                    console.log("fetch all comments fail", e);
-                });
+                })
             }else{
-                console.log("fetch comments counts fail")
+                message.error("获取文章评论数量失败")
             }
-        }).catch(e=>console.log("fetch comments counts fail",e))
+        })
     }
     pageJump=(page, pageSize)=>{
         this.setState({pageNumber:page});
@@ -85,10 +82,10 @@ class Comments extends Component {
             if(result.status)
             {
                 this.jumpToEndComments()
+            }else{
+                message.error("提交评论失败")
             }
-        }).catch(function(e){
-            console.log(e)
-        });
+        })
     }
 }
 

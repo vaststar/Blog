@@ -35,10 +35,8 @@ class WriteArticleComponent extends Component {
                         this.props.history.push(this.fromPath.from);
                     }
                     else{
-                        message.error(result)
+                        message.error("上传文章失败")
                     }
-                }).catch(function(e){
-                    console.log(e)
                 })
             }
             else{
@@ -49,10 +47,8 @@ class WriteArticleComponent extends Component {
                         this.props.history.push(this.fromPath.from);
                     }
                     else{
-                        message.error(result)
+                        message.error("更新文章失败")
                     }
-                }).catch(function(e){
-                    console.log(e)
                 })
             }
           }
@@ -164,9 +160,11 @@ class WriteArticleComponent extends Component {
     postImage=(formData,filename)=>{
         postFile(this.props.fileUrl+"/articles/pictures/"+filename, formData
         ).then(result=>result.json()).then(result=>{
-            this.props.form.setFieldsValue({[ARTICLE_COVER]:result.data.filepath}) 
-        }).catch(function(e){
-            console.log(e)
+            if(result.status){
+                this.props.form.setFieldsValue({[ARTICLE_COVER]:result.data.filepath}) 
+            }else{
+                message.error("上传图片失败")
+            }
         })
     }
 }

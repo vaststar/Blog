@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 
 import {
-    Form, Icon, Input, Button, Checkbox, Select, Tooltip, Modal
+    Form, Icon, Input, Button, Checkbox, Select, Tooltip, Modal, message
   } from 'antd';
 
 import {postFile,post,get} from '../../Common/RequestREST'
@@ -287,9 +287,11 @@ class RegisterForm extends Component {
     postImage=(formData,filename)=>{
         postFile(this.props.fileUrl+"/avatars/"+filename, formData
         ).then(result=>result.json()).then(result=>{
-            this.props.form.setFieldsValue({avatarurl:result.data.filepath}) 
-        }).catch(function(e){
-            console.log(e)
+            if(result.status){
+                this.props.form.setFieldsValue({avatarurl:result.data.filepath}) 
+            }else{
+                message.error("上传头像失败")
+            }
         })
     }
     //加载控件，获取验证码
@@ -300,10 +302,10 @@ class RegisterForm extends Component {
         get(this.props.validcodeUrl+'/codes/').then(response=>response.json()).then(result=>{
             if(result.status){
                 this.setState((prestate)=>({validcode:{'code':result.data.code,'base64':'data:image/png;base64,'+result.data.base64}}))
+            }else{
+                message.error("验证码刷新失败")
             }
-        }).catch(function (e) {
-            console.log( e);
-        });
+        })
     }
     //获取邮箱验证码
     getEmailCode=()=>{
@@ -311,9 +313,10 @@ class RegisterForm extends Component {
         {
             this.startCountTime()
             post(this.props.validcodeUrl+'/emails/registers/',{'email':this.props.form.getFieldValue('email')}).then(response=>response.json()).then(result=>{
-            }).catch(function (e) {
-                console.log( e);
-            });
+                if(!result.status){
+                    message.error("发送验证码错误，请检查网络，或联系管理员")
+                }
+            })
         }
     }
     //开始邮箱按钮计时

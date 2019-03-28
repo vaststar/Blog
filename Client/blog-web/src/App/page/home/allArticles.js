@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {Spin} from 'antd'
+import {Spin, message} from 'antd'
 
 import {get} from '../../Common/RequestREST'
 
@@ -29,14 +29,13 @@ class AllArticles extends Component {
         this.loadMore();
     }
     updateTotalPage=()=>{
-        get(this.props.articleUrl+"/counts/").then(response=>response.json()).then(result=>{
+        get(this.props.articleUrl+"/counts/").then(response=>{console.log(response);return response.json();}).then(result=>{
             if(result.status){
                 this.setState({totalPage:parseInt(result.data)/this.state.pageSize})
             }else{
-                console.log(result)
-                console.log("fetch article counts fail")
+                message.error("获取文章数量失败")
             }
-        }).catch(e=>console.log("fetch article counts fail",e))
+        })
     }
     loadMore=()=>{
         if(this.state.pageNumber<=this.state.totalPage){
@@ -48,10 +47,7 @@ class AllArticles extends Component {
                     this.setState({pageNumber:this.state.pageNumber+1});
                 }
                 this.setState({isLoadingMore:false});
-            }).catch(function (e) {
-                this.setState({isLoadingMore:false});
-                console.log("fetch all article bases fail", e);
-            });
+            })
         }
     }
     handleScroll=(event)=>{

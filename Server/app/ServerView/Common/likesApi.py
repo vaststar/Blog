@@ -19,7 +19,7 @@ class LikesApi(object):
     @staticmethod
     def getLikesArticleNumber(articleid):
         res = blogDB.getLikesNumberByArticleId(articleid)
-        if not res is None:
+        if res is not None:
             if len(res) == 0:
                 return Common.trueReturn(0,'query ok')
             else:
@@ -53,14 +53,25 @@ class LikesApi(object):
     @staticmethod
     def getIsSelfLikesArticle(userid,articleid):
         res = blogDB.getLikesArticleByUser(userid)
-        for k,v in enumerate(res):
-            if articleid == v[1]:
-                return Common.trueReturn(True,'like it')
-        return Common.falseReturn(None,'no')
+        if res is not None:
+            if len(res) == 0:
+                return Common.trueReturn(False,'not like it')
+            for k,v in enumerate(res):
+                if articleid == v[1]:
+                    return Common.trueReturn(True,'like it')
+            return Common.trueReturn(False,'not like it')
+        else:
+            return Common.falseReturn(None,'no')
 
     @staticmethod
     def getIsSelfLikesComment(userid,commentid):
-        for k,v in enumerate(blogDB.getLikesCommentByUser(userid)):
-            if commentid == v[1]:
-                return Common.trueReturn(True,'like it')
-        return Common.falseReturn(None,'no')
+        res = blogDB.getLikesCommentByUser(userid)
+        if res is not None:
+            if len(res) == 0:
+                return Common.trueReturn(False,'not like it')
+            for k,v in enumerate(res):
+                if commentid == v[1]:
+                    return Common.trueReturn(True,'like it')
+            return Common.trueReturn(False,'not like it')
+        else:
+            return Common.falseReturn(None,'no')

@@ -37,7 +37,7 @@ class IdentifyUtil(object):
                 payload = Authority.decode_jwt(auth_token)
                 if not isinstance(payload, str):
                     user = blogDB.getUserById(payload['data']['id'])
-                    if not user is None:
+                    if user is not None:
                         return Common.trueReturn(payload['data']['id'], 'Account Verify OK')
                     else:
                         return Common.falseReturn(None, 'Account Verify Wrong')

@@ -40,9 +40,7 @@ class Login extends Component {
         else{
           message.error('该账户不存在');
         }
-    }).catch((e)=>{
-      console.log(e)
-    });
+    })
   }
   handleSubmit =(form)=>{
     //请求token
@@ -55,18 +53,12 @@ class Login extends Component {
         this.setState({ redirectToReferrer: true });
       }
       else{
+        message.error('用户名或者密码错误');
         this.setState({ redirectToReferrer: false });
         this.props.ChangeToken(null);
-        message.error('用户名或者密码错误');
         this.props.ChangeValid(false);
-        console.log('用户名或者密码错误',result);
       }
-    }).catch(function (e) {
-      this.setState({ redirectToReferrer: false });
-        this.props.ChangeToken(null);
-        this.props.ChangeValid(false);
-        console.log("fetch fail", e);
-    });
+    })
   }
 }
 

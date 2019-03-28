@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {Divider,Row,Col,Tag,Tooltip,Input,Icon,Button} from 'antd'
+import {Divider,Row,Col,Tag,Tooltip,Input,Icon,Button,message} from 'antd'
 
 import {get,put,post} from '../../Common/RequestREST'
 
@@ -22,10 +22,10 @@ class IntroduceCom extends Component{
             if(result.status){
                 state.tagsOP.tags = tas;
                 this.setState(state);              
+            }else{
+                message.error("删除标签失败")
             }
-          }).catch(function (e) {
-              console.log("update tags fail", e);
-          });    
+          })    
     }
     
     showTagInput = () => {
@@ -55,20 +55,20 @@ class IntroduceCom extends Component{
             // 在此处写获取数据之后的处理逻辑
             if(result.status){
                 this.setState(state);              
+            }else{
+                message.error("修改标签失败")
             }
-          }).catch(function (e) {
-              console.log("update tags fail", e);
-          });  
+          }) 
       }else{
         post(this.props.introduceUrl+"/",{'resume':'','tags':tags.join(" ")}).then(response => response.json()).then(result => {
             // 在此处写获取数据之后的处理逻辑
             if(result.status){
                 state.hasUserIntroduce=true;
                 this.setState(state);              
+            }else{
+                message.error("添加标签失败")
             }
-          }).catch(function (e) {
-              console.log("update tags fail", e);
-          }); 
+          })
       }
     }
     saveTagInputRef= input => this.tagsInput = input
@@ -97,20 +97,20 @@ class IntroduceCom extends Component{
             // 在此处写获取数据之后的处理逻辑
             if(result.status){
                 this.setState(state);              
+            }else{
+                message.error("修改简介失败")
             }
-          }).catch(function (e) {
-              console.log("update tags fail", e);
-          });  
+          }) 
       }else{
         post(this.props.introduceUrl+"/",{'resume':inputValue,'tags':''}).then(response => response.json()).then(result => {
             // 在此处写获取数据之后的处理逻辑
             if(result.status){
                 state.hasUserIntroduce=true;
                 this.setState(state);              
+            }else{
+                message.error("添加简介失败")
             }
-          }).catch(function (e) {
-              console.log("update tags fail", e);
-          });  
+          }) 
       }
       
     }
@@ -179,9 +179,9 @@ class IntroduceCom extends Component{
             {
                 this.setState({userid:result.data})
                 this.getIntroduce(result.data)
+            }else{
+                message.error("用户验证失败，请重新登陆")
             }
-        }).catch(function(e){
-            console.log( e);
         })
     }
     getIntroduce=(userid)=>{
@@ -198,8 +198,6 @@ class IntroduceCom extends Component{
             else{
                 this.setState({hasUserIntroduce:false})
             }
-        }).catch(function(e){
-            console.log( e);
         })
     }
 }

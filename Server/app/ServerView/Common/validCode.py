@@ -141,11 +141,11 @@ class ValidEmail(object):
     def check_validcode_email(email,code,emailtype):
         emailCode = blogDB.getEmailCode(email,emailtype)
         if emailCode is None:
-            return Common.falseReturn(None,'no code of {}'.format(email))
+            return Common.falseReturn(False,'no code of {}'.format(email))
         elif emailCode[3]!=code:
-            return Common.falseReturn(None, 'wrong code of {}'.format(email))
+            return Common.trueReturn(False, 'wrong code of {}'.format(email))
         elif datetime.datetime.utcnow() > datetime.datetime.strptime(emailCode[2],"%Y-%m-%d %H:%M:%S"):
-            return Common.falseReturn(None,'out of time')
+            return Common.trueReturn(False,'out of time')
         return Common.trueReturn(True,'ok')
 
 # if __name__=='__main__':

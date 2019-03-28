@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {Row, Col, Avatar, Icon} from 'antd'
+import {Row, Col, Avatar, Icon, message} from 'antd'
 import moment from 'moment'
 import {get,post,del} from '../../Common/RequestREST'
 
@@ -58,18 +58,21 @@ class ArticleAutor extends Component{
     //获取作者信息
     getAuthorName=()=>{
         get(this.props.userUrl+"/usernames/"+this.props[ARTICLE_BASEOBJ].userid).then(result=>result.json()).then(result=>{
-            
-            this.setState({username:result.data});
-        }).catch(function(e){
-            console.log( e);
+            if (result.status){
+                this.setState({username:result.data});
+            }else{
+                message.error("获取用户名失败！");
+            }
         })
     }
     //获取头像
     getAuthorAvatar=()=>{
         get(this.props.userUrl+"/avatars/"+this.props[ARTICLE_BASEOBJ].userid).then(result=>result.json()).then(result=>{
-            this.setState({avatar:this.props.fileUrl+"/"+result.data});
-        }).catch(function(e){
-            console.log( e);
+            if (result.status){
+                this.setState({avatar:this.props.fileUrl+"/"+result.data});
+            }else{
+                message.error("获取头像失败");
+            }
         })
     }
     //获取文章基本信息
@@ -78,20 +81,20 @@ class ArticleAutor extends Component{
         get(this.props.browserUrl+"/articles/"+this.props[ARTICLE_BASEOBJ].articleid).then(response => response.json()).then(result=>{
             if(result.status){
                 this.setState({browseNumber:result.data})
+            }else{
+                message.error("获取浏览数量失败");
             }
-        }).catch(function (e){
-            console.log(e)
-        });
+        })
     }
     //根据文章id获取喜欢的人的数量
     resfreshLikesNumbers=()=>{
         get(this.props.likeUrl+"/articles/"+this.props[ARTICLE_BASEOBJ].articleid).then(response => response.json()).then(result=>{
             if(result.status){
                 this.setState({likeNumber:result.data})
+            }else{
+                message.error("获取点赞数量失败");
             }
-        }).catch(function (e){
-            console.log(e)
-        });
+        })
     }
     //根据文章id获取评论数量
     refreshCommentNumbers=()=>{
@@ -99,11 +102,9 @@ class ArticleAutor extends Component{
             if(result.status){
                 this.setState({commentsNumber:result.data})
             }else{
-                console.log('query comments number faile')
+                message.error("获取评论数量失败");
             }
-        }).catch(function (e){
-            console.log(e)
-        });
+        })
     }
     //判断是否是自己喜欢的
     personalLikeArticleJudge=()=>{
@@ -112,9 +113,7 @@ class ArticleAutor extends Component{
             if(result.status){
                 this.setState({personalLike:result.data})
             }
-        }).catch(function (e){
-            console.log(e)
-        });
+        })
     }
     //单击喜欢按钮
     likesClick=()=>{
@@ -124,19 +123,19 @@ class ArticleAutor extends Component{
                 if(result.status){
                     this.setState({personalLike:false})
                     this.resfreshLikesNumbers()
+                }else{
+                    message.error("取消点赞失败");
                 }
-            }).catch(function (e){
-                console.log(e)
-            });
+            })
         }else{
             post(this.props.likeUrl+"/articles/",{'articleid':this.props[ARTICLE_BASEOBJ].articleid}).then(response => response.json()).then(result=>{
                 if(result.status){
                     this.setState({personalLike:true})
                     this.resfreshLikesNumbers()
+                }else{
+                    message.error("点赞失败");
                 }
-            }).catch(function (e){
-                console.log(e)
-            });
+            })
         }
     }
 }

@@ -7,6 +7,7 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 
 import {postFile} from '../../Common/RequestREST'
+import { message } from 'antd';
 
 
 class MarkdownEditor extends Component {
@@ -100,11 +101,13 @@ class MarkdownEditor extends Component {
     postImage=(editor,formData,filename)=>{
         postFile(this.props.fileUrl+"/articles/pictures/"+filename, formData
         ).then(result=>result.json()).then(result=>{
-            let url = `![](${this.props.fileUrl+"/"+result.data.filepath})` // 拼接成markdown语法
-            editor.setValue(editor.getValue() + url + '\n') // 和编辑框之前的内容进行拼接
-            editor.setCursor(editor.lineCount())
-        }).catch(function(e){
-            console.log(e)
+            if(result.status){
+                let url = `![](${this.props.fileUrl+"/"+result.data.filepath})` // 拼接成markdown语法
+                editor.setValue(editor.getValue() + url + '\n') // 和编辑框之前的内容进行拼接
+                editor.setCursor(editor.lineCount())
+            }else{
+                message.error("上传图片失败")
+            }
         })
     }
     //内容变化

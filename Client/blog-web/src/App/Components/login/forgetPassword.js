@@ -25,9 +25,7 @@ class ForgetPassword extends Component {
                     message.error("密码重置失败，请联系管理员")
                     this.refreshValidCode();
                 }
-            }).catch(function (e) {
-                console.log( e);
-            });
+            })
           }
         });
     }
@@ -150,10 +148,10 @@ class ForgetPassword extends Component {
             if(result.status){
                 let a = result.data.substr(0,2)+'***'+result.data.substr(6,result.data.split('').length);
                 this.props.form.setFieldsValue({'email':a})
+            }else{
+                message.error("未获取到用户邮箱")
             }
-        }).catch(e=>{
-            console.log(e)
-        });
+        })
     }
     refreshValidCode=()=>{
         get(this.props.validcodeUrl+'/codes/').then(response=>response.json()).then(result=>{
@@ -161,10 +159,10 @@ class ForgetPassword extends Component {
                 let state=this.state;
                 state.validcode={'code':result.data.code,'base64':'data:image/png;base64,'+result.data.base64};
                 this.setState(state)
+            }else{
+                message.error("验证码刷新失败")
             }
-        }).catch(function (e) {
-            console.log( e);
-        });
+        })
     }
     //获取邮箱验证码
     getEmailCode=()=>{
@@ -172,10 +170,10 @@ class ForgetPassword extends Component {
         {
             this.startCountTime()
             post(this.props.validcodeUrl+'/emails/passwords/',{'userid':this.props[USER_ID]}).then(response=>response.json()).then(result=>{
-                // console.log(result)
-            }).catch(function (e) {
-                console.log( e);
-            });
+                if(!result.status){
+                    message.error("发送验证码错误，请检查网络，或联系管理员")
+                }
+            })
         }
     }
     //开始邮箱按钮计时

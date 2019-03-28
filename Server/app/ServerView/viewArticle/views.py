@@ -93,8 +93,12 @@ def delete_Article(articleid):
         return jsonify(Common.falseReturn(None,'article not found'))
     if userid != articleBase['data']['userid']:
         return jsonify(Common.falseReturn(None,"it's not your article"))
-    os.remove(os.path.join(config.STATIC_FILE_PATH,articleBase['data']['bodyurl']))
-    return jsonify(ArticleApi.deleteArticle(articleid))
+    try:
+        os.remove(os.path.join(config.STATIC_FILE_PATH,articleBase['data']['bodyurl']))
+    except Exception as e:
+        print(e)
+    finally:
+        return jsonify(ArticleApi.deleteArticle(articleid))
 
 @article_blue.route("/counts/",methods=["GET"])
 def get_allArticleCounts():

@@ -7,7 +7,7 @@ class CommentApi(object):
     def postComment(articleid, userid, comments, refid):
         commentid = blogDB.addComment(articleid, userid, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                                       comments, refid)
-        if not commentid is None:
+        if commentid is not None:
             return Common.trueReturn({"commentid": commentid}, 'add comment ok')
         return Common.falseReturn(None, 'add comment false')
 
@@ -20,8 +20,10 @@ class CommentApi(object):
     @staticmethod
     def getCommentByArticleId(artid):
         comments = blogDB.getCommentByArticleId(artid)
-        if not comments is None:
+        if comments is not None:
             result = []
+            if len(comments)==0:
+                return Common.falseReturn(result,'no comment')
             for k, v in enumerate(comments):
                 comment = dict(zip(("commentid", "articleid", "userid", "uptime", "comments", "refid"), v))
                 result.append(comment)
@@ -31,7 +33,7 @@ class CommentApi(object):
     @staticmethod
     def getCommentCountByArticleId(artid):
         res = blogDB.getCommentNumberByArticleId(artid)
-        if not res is None:
+        if res is not None:
             if len(res) == 0:
                 return Common.trueReturn(0,'query ok')
             else:
@@ -41,7 +43,7 @@ class CommentApi(object):
     @staticmethod
     def getChildCommentCountByCommentId(commentid):
         res = blogDB.getChildNumberByCommentId(commentid)
-        if not res is None:
+        if res is not None:
             if len(res) == 0:
                 return Common.trueReturn(0,'query ok')
             else:
