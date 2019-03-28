@@ -64,8 +64,6 @@ class AuthorCom extends Component{
             if(result.status)
             {
                 this.setState({introduces:result.data})
-            }else{
-                message.error("获取用户简介失败")
             }
         })
     }
