@@ -47,6 +47,7 @@ services:
     ports:
       - "8088:8088"
       - "80:80"
+      - "443:443"
     volumes:
       - ../nginx/logs:/usr/local/nginx/logs
       - ../Client/blog-web/build:/blog/Client/blog-web/build
