@@ -18,6 +18,7 @@ services:
       - blog_mysql
     networks:
       - mysql_net
+      - app_server_net
 
   blog_nginx:
     build:
@@ -34,7 +35,7 @@ services:
       - ../nginx/nginx_default.conf:/etc/nginx/nginx.conf
       - ../nginx/conf.d:/etc/nginx/conf.d
     networks:
-      - mysql_net
+      - app_server_net
       
   blog_mysql:
     build:
@@ -55,4 +56,6 @@ services:
       - mysql_net
 networks:
   mysql_net:
+    driver: bridge
+  app_server_net:
     driver: bridge
