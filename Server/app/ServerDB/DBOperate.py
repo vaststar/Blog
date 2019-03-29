@@ -128,11 +128,11 @@ class DBOperate(object):
 
     # 修改简介内容
     def updateUserIntroduceResume(self, userid, resume):
-        return self._ExecuteSQL('UPDATE user_introduce SET resume=\'{}\' WHERE userid=\'{}\''.format(resume, userid))
+        return self.ExecuteSQL('UPDATE user_introduce SET resume=\'{}\' WHERE userid=\'{}\''.format(resume, userid))
 
     # 删除某个用户的简介
     def deleteUserIntroduce(self, userid):
-        return self._ExecuteSQL('DELETE FROM user_introduce WHERE userid=\'{}\''.format(userid))
+        return self.ExecuteSQL('DELETE FROM user_introduce WHERE userid=\'{}\''.format(userid))
 
     # 文章表
     # 获取所有文章
@@ -284,7 +284,7 @@ class DBOperate(object):
 
     # 删除某个文章内，某个ip的浏览记录
     def delBroswerArticleHistoryByIp(self, articleid, ip):
-        return self._ExecuteSQL(
+        return self.ExecuteSQL(
                 'DELETE FROM browsers_article WHERE articleid=\'{}\' and ipaddr=\'{}\''.format(articleid, ip))
 
     # 文章喜爱表
@@ -320,7 +320,7 @@ class DBOperate(object):
 
     # 删除对某个评论的赞
     def delLikesComment(self, commentid, userid):
-        return self._ExecuteSQL(
+        return self.ExecuteSQL(
                 'DELETE FROM likes_comment WHERE commentid=\'{}\' AND userid=\'{}\''.format(commentid, userid))
 
     # 获取某个用户对评论的所有的赞
