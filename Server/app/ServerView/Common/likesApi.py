@@ -4,7 +4,7 @@ from app.ServerView.Common import Common
 class LikesApi(object):
     @staticmethod
     def postLikesArticle(articleid,userid):
-        if LikesApi.getIsSelfLikesArticle(articleid,userid).get('status'):
+        if LikesApi.getIsSelfLikesArticle(articleid,userid).get('data'):
             return Common.falseReturn(None, 'already liked')
         if blogDB.addLikesArticle(articleid,userid):
             return Common.trueReturn(True,'like ok')
@@ -28,7 +28,7 @@ class LikesApi(object):
 
     @staticmethod
     def postLikesComment(commentid,userid):
-        if LikesApi.getIsSelfLikesComment(commentid,userid).get('status'):
+        if LikesApi.getIsSelfLikesComment(commentid,userid).get('data'):
             return Common.falseReturn(None, 'already liked')
         if blogDB.addLikesComment(commentid,userid):
             return Common.trueReturn(True,'like ok')
