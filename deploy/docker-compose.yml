@@ -55,7 +55,7 @@ services:
       - ../nginx/conf.d:/etc/nginx/conf.d
       - ../nginx/cert:/etc/nginx/cert
     networks:
-      - app_server_net
+      - server_net
       
 networks:
   mysql_net:
