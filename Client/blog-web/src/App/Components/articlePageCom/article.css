@@ -8,3 +8,20 @@
 .article_author_avatar{
     border:1px solid rgb(220, 220, 220);
 }
+
+.author-url-link{
+    text-decoration:none;
+    color: black;
+}
+.author-url-link:hover{
+    text-decoration:none;
+    color: black;
+}
+.author-url-link:active{
+    text-decoration:none;
+    color: black;
+}
+.author-url-link:link{
+    text-decoration:none;
+    color: black;
+}

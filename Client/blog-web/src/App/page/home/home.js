@@ -9,7 +9,7 @@ class HomePage extends Component {
             <div>
                 <Header/>
                 <Row type="flex" justify="space-around" align="middle">
-                    <Col span={14} className="articlecom">
+                    <Col span={12} className="articlecom">
                         <Articles ></Articles>
                     </Col>
                 </Row>

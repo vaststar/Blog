@@ -9,7 +9,7 @@ import PersonalPage from './page/personal/personalPage'
 export default [
     { path: "/", name: "App", component: HomePage ,auth:false},
     { path: "/login/", name: "Login", component: LoginPage },
-    { path: "/author/", name: "Authors", component: AuthorPage},
+    { path: "/author/:id?", name: "Authors", component: AuthorPage},
     { path: "/register/", name: "Register", component: RegisterPage ,auth:false},
     { path:"/articles/:id", name:"Articles",component:ArticlePage,auth:false},
     { path:"/writes/", name:"Writers",component:WriteArticlePage,auth:true},

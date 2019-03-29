@@ -8,15 +8,26 @@ import {get,post,del} from '../../Common/RequestREST'
 const ARTICLE_BASEOBJ="articleBase"
 class ArticleAutor extends Component{
     state={personalLike:false}
+    getLinkToUrl= (url)=>{
+        //处理登陆完之后的跳转页面
+        return ({
+            pathname:url,
+            state:{from:this.props.location.pathname}})
+    }
     render(){
         return (<div>
             <Row type="flex" justify="space-around" align="middle">
                 <Col span={1} >
-        {this.state.avatar&&<Avatar className="article_author_avatar"  size="large" icon="user" src={this.state.avatar} /> }
+                    {this.state.avatar&&
+                    <a className="author-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/author/'+this.props[ARTICLE_BASEOBJ].userid}>
+                        <Avatar className="article_author_avatar"  size="large" icon="user" src={this.state.avatar} /> 
+                    </a>}
                 </Col>
                 <Col span={12}>
                     <Row>
+                        <a className="author-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/author/'+this.props[ARTICLE_BASEOBJ].userid}>
                         <div className="article_page_author_name">{this.state.username}</div>
+                        </a>
                     </Row>
                     <Row>
                         <Col span={2} > 
