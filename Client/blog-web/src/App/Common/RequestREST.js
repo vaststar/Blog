@@ -43,13 +43,21 @@ export const post = (url, body) => request('POST', url, body, window.localStorag
 export const put = (url, body) => request('PUT', url, body, window.localStorage.getItem('token'),secretHeader()); 
 export const del = (url, body) => request('DELETE', url, body, window.localStorage.getItem('token'),secretHeader());
 export const postFile = (url,file)=>{
-    return fetch(url, {
-        method:"POST",
-        mode: "cors",
-        headers: {
-            "Authorization":"JWT "+window.localStorage.getItem('token'),
-            "Robot-Detect":secretHeader()
-        },
-        body:file
+    return new Promise((resolve, reject) => {
+        fetch(url, {
+            method:"POST",
+            mode: "cors",
+            headers: {
+                "Authorization":"JWT "+window.localStorage.getItem('token'),
+                "Robot-Detect":secretHeader()
+            },
+            body:file
+        }).then(res=>{
+            if (res.ok){
+                return res
+            }else{
+                throw new Error(res.status.toString() + res.statusText);
+            }
+        }).then(data=>resolve(data)).catch(e=>{console.log("server error",e);reject(e)});
     });
 }

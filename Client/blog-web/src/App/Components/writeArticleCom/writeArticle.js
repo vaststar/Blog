@@ -152,7 +152,7 @@ class WriteArticleComponent extends Component {
                 let formData = new FormData()
                 formData.append('file', dataList[i].getAsFile())
                 //粘贴之后，上传图片到服务器，返回结果写入编辑器
-                this.postImage(formData,dataList[i].getAsFile().name)
+                this.postImage(formData,'cover.png')
             }
         }
     }
@@ -163,6 +163,7 @@ class WriteArticleComponent extends Component {
             if(result.status){
                 this.props.form.setFieldsValue({[ARTICLE_COVER]:result.data.filepath}) 
             }else{
+                console.log(result)
                 message.error("上传图片失败")
             }
         })

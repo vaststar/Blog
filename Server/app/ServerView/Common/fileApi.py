@@ -1,6 +1,7 @@
 import os,datetime
 from werkzeug.utils import secure_filename
 from app.ServerView.Common import Common
+from app.ServerLog import logger
 
 class FileApi(object):
     @staticmethod
@@ -33,6 +34,7 @@ class FileApi(object):
 
     @staticmethod
     def saveRequestFileWithPath(filePath,req):
+        print(filePath,req)
         if 'file' in req.files:
             file = req.files['file']
             FileApi.makeSureFilePath(filePath)

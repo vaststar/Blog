@@ -92,7 +92,7 @@ class MarkdownEditor extends Component {
                 let formData = new FormData()
                 formData.append('file', dataList[i].getAsFile())
                 //粘贴之后，上传图片到服务器，返回结果写入编辑器
-                this.postImage(editor,formData,dataList[i].getAsFile().name)
+                this.postImage(editor,'article_pic.png')
             }
         }
     }

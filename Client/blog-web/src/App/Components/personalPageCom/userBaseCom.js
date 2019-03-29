@@ -11,7 +11,7 @@ class UserBaseCom extends Component{
     changeAvatarClick=()=>{
         let formData = new FormData()
         formData.append('file', this.fileUpload.files[0])
-        this.postImage(formData,this.fileUpload.files[0].name)
+        this.postImage(formData,'avatar.png')
     }
     //上传图片
     postImage=(formData,filename)=>{
