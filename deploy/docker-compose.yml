@@ -1,10 +1,10 @@
 version: "3.3"
 services:
-  blog_app:
+  blog_server:
     build:
       context: ../Server
       dockerfile: Dockerfile_app
-    image: "blog/app:latest"
+    image: "blog/server:latest"
     restart: always
     ports:
       - "4444:4444"
@@ -18,25 +18,8 @@ services:
       - blog_mysql
     networks:
       - mysql_net
-      - app_server_net
+      - server_net
 
-  blog_nginx:
-    build:
-      context: ../nginx
-      dockerfile: Dockerfile_nginx
-    image: "blog/nginx:latest"
-    restart: always
-    ports:
-      - "8088:8088"
-      - "80:80"
-    volumes:
-      - ../nginx/logs:/usr/local/nginx/logs
-      - ../Client/blog-web/build:/blog/Client/blog-web/build
-      - ../nginx/nginx_default.conf:/etc/nginx/nginx.conf
-      - ../nginx/conf.d:/etc/nginx/conf.d
-    networks:
-      - app_server_net
-      
   blog_mysql:
     build:
       context: ../mysql
@@ -54,8 +37,27 @@ services:
       - "3306:3306"
     networks:
       - mysql_net
+
+  blog_nginx:
+    build:
+      context: ../nginx
+      dockerfile: Dockerfile_nginx
+    image: "blog/nginx:latest"
+    restart: always
+    ports:
+      - "8088:8088"
+      - "80:80"
+    volumes:
+      - ../nginx/logs:/usr/local/nginx/logs
+      - ../Client/blog-web/build:/blog/Client/blog-web/build
+      - ../nginx/nginx_default.conf:/etc/nginx/nginx.conf
+      - ../nginx/conf.d:/etc/nginx/conf.d
+      - ../nginx/cert:/etc/nginx/cert
+    networks:
+      - app_server_net
+      
 networks:
   mysql_net:
     driver: bridge
-  app_server_net:
+  server_net:
     driver: bridge
