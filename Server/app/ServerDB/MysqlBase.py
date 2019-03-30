@@ -7,6 +7,7 @@ class MysqlBase(ServerDBBase):
 
     def _ExecuteSQL(self,command):
         try:
+            self.__KeepAlive()
             self._GetConnect().cursor().execute(command)
             return True
         except Exception as e:
@@ -15,6 +16,7 @@ class MysqlBase(ServerDBBase):
 
     def _QueryOneSQL(self,command):
         try:
+            self.__KeepAlive()
             cursor =  self._GetConnect().cursor()
             cursor.execute(command)
             return cursor.fetchone()
@@ -24,9 +26,16 @@ class MysqlBase(ServerDBBase):
 
     def _QueryAllSQL(self,command):
         try:
+            self.__KeepAlive()
             cursor=self._GetConnect().cursor()
             cursor.execute(command)
             return cursor.fetchall()
         except Exception as e:
             logger.warning('Could not query all:'+ command+str(e))
             return []
+
+    def __KeepAlive(self):
+        if not self._getConnect().is_connected():
+            self._getConnect().reconnect()
+
+
