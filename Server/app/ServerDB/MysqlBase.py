@@ -35,7 +35,7 @@ class MysqlBase(ServerDBBase):
             return []
 
     def __KeepAlive(self):
-        if not self._getConnect().is_connected():
-            self._getConnect().reconnect()
+        if not self._GetConnect().is_connected():
+            self._GetConnect().reconnect()
 
 
