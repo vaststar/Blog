@@ -33,6 +33,10 @@
 .article-url-link{
     text-decoration:none;
     color: black;
+    text-align: justify;
+    text-justify:inter-ideograph;
+    overflow:hidden;
+    text-overflow: ellipsis;
 }
 .article-url-link:hover{
     text-decoration:none;

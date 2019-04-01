@@ -51,18 +51,20 @@ class ArticleComponent extends Component {
                                     {moment(this.props.article.uptime,'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')}
                                 </div>
                             </Col>
-                            <Col span={3}>
+                            <Col span={5}>
+                            <Tooltip placement='bottom' title='查看作者主页'>
                                 <a className="article-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/author/'+this.props[ARTICLE_PROPS].userid}>
                                     作者：{this.state.username}
                                 </a>
+                            </Tooltip>
                             </Col>
                             {
-                                this.state.personalArticle&&this.state.mouseIn?<Tooltip placement="bottom" title="编辑文章"><Col span={1}>
+                                this.state.personalArticle&&this.state.mouseIn?<Tooltip placement="bottom" title="编辑文章"><Col span={2}>
                                 <div onClick={this.editClick} className="edit_article_com"><Icon type="edit" /></div>
                                 </Col></Tooltip>:null
                             }
                             {
-                                this.state.personalArticle&&this.state.mouseIn?<Tooltip placement="bottom" title="删除文章"><Col span={1}>
+                                this.state.personalArticle&&this.state.mouseIn?<Tooltip placement="bottom" title="删除文章"><Col span={2}>
                                 <Popconfirm title="确定删除该文章么?" onConfirm={this.deleteClick} okText="是" cancelText="否"><Icon type="delete" /></Popconfirm>
                                 </Col></Tooltip>:null
                             }
