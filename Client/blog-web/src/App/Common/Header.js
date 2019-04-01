@@ -24,15 +24,18 @@ class HeaderCom extends Component {
 
     render() {
         return (
-            <Layout.Header>
-                <Row gutter={24}>
-                    <Col span={1} offset={3}>
+            <Layout.Header theme='light' style={{ position: 'fixed', zIndex: 1, width: '100%' ,background:'white'}}>
+                <Row type="flex" justify="center" gutter={16}>
+                <Col span={4}>
+                        <span style={{'font-size':'36px','color':'black','float':'right'}}>学士阁</span>
+                </Col>
+                <Col span={2} >
                         <Avatar src={logo} alt="学士" size={60}></Avatar>
-                    </Col>
-                <Col span={19} offset={1}>
+                </Col>
+                <Col span={18}>
                 <Menu onClick={this.handleClick}
                   mode="horizontal"
-                  theme='dark'
+                  theme='light'
                   selectedKeys={[this.props.location.pathname]}
                   style={{ lineHeight: '64px' }}
                 >

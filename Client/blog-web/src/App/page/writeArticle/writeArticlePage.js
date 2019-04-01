@@ -10,7 +10,7 @@ class WritePage extends Component {
           <div>
             <Header/>
             <Row type="flex" justify="space-around" align="middle">
-              <Col span={18} className="write_article_Com">
+              <Col md={16} sm={18} xs={20} className="write_article_Com" >
                 <WriteArticleCom></WriteArticleCom>
               </Col>
             </Row>

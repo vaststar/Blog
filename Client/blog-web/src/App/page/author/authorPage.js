@@ -10,10 +10,8 @@ class AuthorPage extends Component {
         return (<div className="author_page">
                 <Header/>
                 <Row type="flex" justify="space-around" align="middle">
-                    <Col span={16} >
-                        <div className="author_page_content">
-                            <AuthorDetail/>
-                        </div>
+                    <Col span={16} className="author_page_content">
+                        <AuthorDetail/>
                     </Col>
                 </Row>
         </div>)

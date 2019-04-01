@@ -3,14 +3,14 @@ import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import moment from 'moment'
-import {Row,Col,Icon,Popconfirm,Tooltip,message} from 'antd'
+import {Row,Col,Icon,Popconfirm,Tooltip,message,Divider} from 'antd'
 
 import Comment from '../comments/allComments'
 import {get, post,del} from '../../Common/RequestREST'
 
 const ARTICLE_PROPS = 'article';
 class ArticleComponent extends Component {
-    state={commentsNumber:0,browseNumber:0,likeNumber:0,content:"",showComment:false,mouseIn:false,
+    state={username:null,commentsNumber:0,browseNumber:0,likeNumber:0,content:"",showComment:false,mouseIn:false,
            personalArticle:false,personalLike:false,articleDeleted:false}
     
     render(){
@@ -18,6 +18,7 @@ class ArticleComponent extends Component {
         if(!this.state.articleDeleted){
         return (
             <div className='articlesingle' onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} >
+            {/* <Divider></Divider> */}
             <Row type="flex" justify="space-between" gutter={16} align="middle">
                 <Col span={18}>
                     <div className="article-title">
@@ -26,10 +27,10 @@ class ArticleComponent extends Component {
                         </a>
                     </div>
                     <div className="article-breif">
-                        {this.props.article.breif.length>150?this.props.article.breif.slice(0,150)+ "  ......":this.props.article.breif}
+                        {this.props.article.breif}
                     </div>
                     <div className="article-note">
-                        <Row gutter={10} >
+                        <Row gutter={8} >
                             <Col span={2} > 
                                 <div ><a className="article-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/articles/'+this.props[ARTICLE_PROPS].articleid}>
                                     <Icon type="eye" /> {this.state.browseNumber} 
@@ -45,18 +46,23 @@ class ArticleComponent extends Component {
                                 {this.state.personalLike?<Icon type="heart" theme="twoTone" twoToneColor="#ff0000"/>:<Icon type="heart" />} {this.state.likeNumber} 
                                 </div>
                             </Col>  
-                            <Col span={8} >
+                            <Col span={5} >
                                 <div >
                                     {moment(this.props.article.uptime,'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')}
                                 </div>
                             </Col>
+                            <Col span={3}>
+                                <a className="article-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/author/'+this.props[ARTICLE_PROPS].userid}>
+                                    作者：{this.state.username}
+                                </a>
+                            </Col>
                             {
-                                this.state.personalArticle&&this.state.mouseIn?<Tooltip placement="bottom" title="编辑文章"><Col span={2}>
+                                this.state.personalArticle&&this.state.mouseIn?<Tooltip placement="bottom" title="编辑文章"><Col span={1}>
                                 <div onClick={this.editClick} className="edit_article_com"><Icon type="edit" /></div>
                                 </Col></Tooltip>:null
                             }
                             {
-                                this.state.personalArticle&&this.state.mouseIn?<Tooltip placement="bottom" title="删除文章"><Col span={2}>
+                                this.state.personalArticle&&this.state.mouseIn?<Tooltip placement="bottom" title="删除文章"><Col span={1}>
                                 <Popconfirm title="确定删除该文章么?" onConfirm={this.deleteClick} okText="是" cancelText="否"><Icon type="delete" /></Popconfirm>
                                 </Col></Tooltip>:null
                             }
@@ -73,6 +79,7 @@ class ArticleComponent extends Component {
             <Row className='articlesingle_comments'>
                 {this.state.showComment?<Comment articleid={this.props[ARTICLE_PROPS].articleid}/>:null}
             </Row>
+            <Divider></Divider>
             </div>
         );}else{
             return <div/>
@@ -90,10 +97,21 @@ class ArticleComponent extends Component {
         this.setState({mouseIn:false});
     }
     refreshShows=()=>{
+        this.refreshUsername()
         this.refreshCommentNumbers()
         this.resfreshLikesNumbers()
         this.resfreshBrowserNumbers()
         this.refreshArticleDetail()
+    }
+    refreshUsername=()=>{
+        //根据用户id获取用户名
+        get(this.props.userUrl+"/usernames/"+this.props[ARTICLE_PROPS].userid).then(response => response.json()).then(result=>{
+            if(result.status){
+                this.setState({username:result.data})
+            }else{
+                message.error('查询用户名失败')
+            }
+        })
     }
     refreshCommentNumbers=()=>{
         //根据文章id获取评论数量

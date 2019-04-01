@@ -10,10 +10,8 @@ class PersonalPage extends Component {
             <div>
                 <Header/> 
                 <Row type="flex" justify="space-around" align="middle">
-                    <Col span={14}>
-                        <div className="personal_setting_Com">
+                    <Col md={14} sm={18} xs={20} className="personal_setting_Com">
                         <PersonalPageCom />    
-                        </div>  
                     </Col>
                 </Row>         
             </div>

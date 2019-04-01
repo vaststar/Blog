@@ -7,7 +7,7 @@ class RegisterPage extends Component {
       return(
         <div className="register-page-regCom">
         <Row type="flex" justify="space-around" align="middle">
-          <Col span={14}>
+          <Col md={14} sm={16} xs={18} className="register-main-Com">
             <RegisterCom ></RegisterCom>
           </Col>
         </Row>

@@ -9,15 +9,12 @@ class ArticlePage extends Component {
         return (
             <div>
                 <Header/>
-                <Row type="flex" justify="space-around" align="middle">
-                    <Col span={20} >
-                        <div className="article_page_detail">
+                <Row type="flex" justify="space-around" align="middle" >
+                    <Col md={14} sm={18} xs={20} className="article_page_all" >
                         <PureArticle articleid={this.props.location.pathname.split("/").pop()}/>
-                        </div>
                     </Col>
                 </Row>
             </div>
-           
         )
     }    
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {Spin, message} from 'antd'
+import {Spin, message,Divider} from 'antd'
 
 import {get} from '../../Common/RequestREST'
 
@@ -10,10 +10,11 @@ class AllArticles extends Component {
     state={articles:[],pageNumber:1,pageSize:10,totalPage:1,isLoadingMore:false}
     render() {
         return (
-            <div>
+            <div className="article-info-div">
+                <Divider></Divider>
                 {this.state.articles.map((article,i)=>{
                     return (
-                    <div key={i} className="article-info-div">
+                    <div key={i} >
                         <Article article={article} ></Article>
                     </div>
                     )

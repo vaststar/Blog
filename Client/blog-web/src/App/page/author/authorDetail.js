@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import { withRouter} from 'react-router-dom'
-import {Row,Col, message} from 'antd'
+import {Row,Col, message,Divider} from 'antd'
 
 import {get} from '../../Common/RequestREST'
 
@@ -13,14 +13,14 @@ class AuthorDetail extends Component {
     render() {
         return (<div className="author_main_page">{this.state.userid?
             <div>
-                <Row type="flex" justify="space-around" align="top">
+                <Divider/>
+                <Row type="flex" justify="center" align="top" gutter={24}>
                     <Col span={19}>
                         <AuthorArticlesCom userid={this.state.userid}></AuthorArticlesCom>
                     </Col>
-                    <Col span={4}>
+                    <Col span={5}>
                         <AuthorCom userid={this.state.userid}></AuthorCom>
                     </Col>
-                    <Col/>
                 </Row>  
             </div>
         :null}</div>)

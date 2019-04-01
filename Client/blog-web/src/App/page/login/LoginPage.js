@@ -8,10 +8,8 @@ class LoginPage extends Component {
       return(
         <div >
           <Row type="flex" justify="space-around" align="middle">
-              <Col span={8}>
-                <div className="login_page_loginForm">
-                  <LoginCom></LoginCom>
-                </div>  
+              <Col span={8} className="login_page_loginForm">
+                <LoginCom></LoginCom>
               </Col>
           </Row> 
         </div>
