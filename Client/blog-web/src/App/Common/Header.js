@@ -27,7 +27,7 @@ class HeaderCom extends Component {
             <Layout.Header theme='light' style={{ position: 'fixed', zIndex: 1, width: '100%' ,background:'white'}}>
                 <Row type="flex" justify="center" gutter={16}>
                 <Col span={4}>
-                        <span style={{'font-size':'36px','color':'black','float':'right'}}>学士阁</span>
+                        <span style={{'fontSize':'36px','color':'black','float':'right'}}>学士阁</span>
                 </Col>
                 <Col span={2} >
                         <Avatar src={logo} alt="学士" size={60}></Avatar>

@@ -115,5 +115,5 @@ class ArticleApi(object):
             if article[1] == userid:
                 return Common.trueReturn(True,'yes')
             else:
-                return Common.trueReturn(False,'not mine')
-        return Common.falseReturn(None,'no')
+                return Common.falseReturn(False,'not mine')
+        return Common.falseReturn(False,'no')

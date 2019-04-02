@@ -15,7 +15,7 @@ class Comments extends Component {
         {
             data.map((node,index)=>(
                 <div key={node.commentid}>
-                    <SingleComment comment={node} refreshFunc={this.jumpToEndComments}/>
+                    <SingleComment comment={node} addResultFunc={this.refreshCurrentPage} delResultFunc={this.refreshFirstPage}/>
                     {
                         node.soncomment && node.soncomment.length>0?this.recursionNode(node.soncomment):null
                     }
@@ -60,10 +60,8 @@ class Comments extends Component {
                     page=jumpTo
                 }
                 get(this.props.commentUrl+"/"+this.props[ARTICLE_ID]+"?pageNumber="+page+"&&pageSize="+this.state.pageSize).then(response=>response.json()).then(result=>{
-                    if(result.status){
                         //读取所有文章基本信息
                         this.setState({comments:result.data});
-                    }
                     this.setState({isLoadingMore:false});
                 })
             }else{
@@ -74,6 +72,12 @@ class Comments extends Component {
     pageJump=(page, pageSize)=>{
         this.setState({pageNumber:page});
         this.updateComment(page);
+    }
+    refreshCurrentPage=()=>{
+        this.updateComment(this.state.pageNumber)
+    }
+    refreshFirstPage=()=>{
+        this.updateComment(0)
     }
     submitComment=(str)=>{
         //提交评论

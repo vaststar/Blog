@@ -133,7 +133,6 @@ class IntroduceCom extends Component{
         </Row>
         <Divider orientation="left">标签</Divider>
         <div>
-            
             <Row>
             {this.state.tagsOP.tags&&
                 this.state.tagsOP.tags.map((item,index)=>{

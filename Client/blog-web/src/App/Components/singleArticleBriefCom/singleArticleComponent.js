@@ -30,7 +30,7 @@ class ArticleComponent extends Component {
                         {this.props.article.breif}
                     </div>
                     <div className="article-note">
-                        <Row gutter={8} >
+                        <Row type="flex" justify="start" align='bottom' gutter={8} >
                             <Col span={2} > 
                                 <div ><a className="article-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/articles/'+this.props[ARTICLE_PROPS].articleid}>
                                     <Icon type="eye" /> {this.state.browseNumber} 

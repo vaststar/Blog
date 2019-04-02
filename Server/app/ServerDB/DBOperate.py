@@ -17,7 +17,7 @@ class DBOperate(object):
 
 
     # 业务相关放在这之后，比如取数据，注册之类的
-    # 用户基本表
+# 用户基本表
     def getAllUser(self):
         return self.QueryOne('SELECT * FROM user_base')
 
@@ -60,7 +60,7 @@ class DBOperate(object):
                 return user[0]
         return None
 
-    # 用户信息表
+# 用户信息表
     # 获取所有用户信息
     def getAllUserInfo(self):
         return self.QueryAll('SELECT * FROM user_info')
@@ -106,7 +106,7 @@ class DBOperate(object):
         return self.ExecuteSQL('UPDATE user_info SET avatarurl=\'{}\' WHERE userid=\'{}\''.
                                     format(avatarurl, userid))
 
-    # 用户简介表
+# 用户简介表
     # 获取某个用户的简介
     def getUserIntroduce(self, userid):
         return self.QueryOne('SELECT * FROM user_introduce WHERE userid=\'{}\''.format(userid))
@@ -134,7 +134,7 @@ class DBOperate(object):
     def deleteUserIntroduce(self, userid):
         return self.ExecuteSQL('DELETE FROM user_introduce WHERE userid=\'{}\''.format(userid))
 
-    # 文章表
+# 文章表
     # 获取所有文章
     def getAllArticle(self):
         return self.QueryAll('SELECT * FROM article_base')
@@ -206,10 +206,14 @@ class DBOperate(object):
     def delArticle(self, articleid):
         return self.ExecuteSQL('DELETE FROM article_base WHERE articleid=\'{}\''.format(articleid))
 
-    # 评论表
+# 评论表
     # 根据文章id获取所有评论
     def getCommentByArticleId(self, artid):
         return self.QueryAll('SELECT * FROM comments WHERE articleid=\'{}\''.format(artid))
+
+    #根据评论id，获取该条评论信息
+    def getCommentByCommentId(self, commentid):
+        return self.QueryOne('SELECT * FROM comments WHERE commentid=\'{}\''.format(commentid))
 
     # 根据文章id获取所有顶级评论数量
     def getCommentNumberByArticleId(self, artid):
@@ -237,13 +241,13 @@ class DBOperate(object):
     # 删除一个评论
     def delComment(self, commentid):
         return self.ExecuteSQL(
-                'DELETE FROM comments WHERE commentid=\'{}\' and refid=\'{}\''.format(commentid, commentid))
+                'DELETE FROM comments WHERE commentid=\'{}\' OR refid=\'{}\''.format(commentid, commentid))
 
     # 根据评论id。获取子评论数量
     def getChildNumberByCommentId(self, commentid):
         return self.QueryAll('SELECT COUNT(*) FROM comments WHERE refid=\'{}\''.format(commentid))
 
-    # 文章浏览表
+# 文章浏览表
     # 获取某个文章的浏览数量
     def getBrowserNumberByArticleId(self, articleid):
         return self.QueryAll('SELECT COUNT(*) FROM browsers_article WHERE articleid=\'{}\''.format(articleid))
@@ -251,7 +255,7 @@ class DBOperate(object):
     # 获取某个文章在某个ip的浏览记录
     def getBrowserArticleByIp(self, articleid, ip):
         return self.QueryAll(
-            'SELECT * FROM browsers_article WHERE articleid=\'{}\' and ipaddr=\'{}\''.format(articleid, ip))
+            'SELECT * FROM browsers_article WHERE articleid=\'{}\' AND ipaddr=\'{}\''.format(articleid, ip))
 
     # 记录一条浏览记录
     def addBrowserArticle(self, articleid, userid, ip):
@@ -280,12 +284,12 @@ class DBOperate(object):
     # 删除某个文章内，某个用户的浏览记录
     def delBroswerArticleHistoryByUser(self, articleid, userid):
         return self.ExecuteSQL(
-                'DELETE FROM browsers_article WHERE articleid=\'{}\' and userid=\'{}\''.format(articleid, userid))
+                'DELETE FROM browsers_article WHERE articleid=\'{}\'ANDuserid=\'{}\''.format(articleid, userid))
 
     # 删除某个文章内，某个ip的浏览记录
     def delBroswerArticleHistoryByIp(self, articleid, ip):
         return self.ExecuteSQL(
-                'DELETE FROM browsers_article WHERE articleid=\'{}\' and ipaddr=\'{}\''.format(articleid, ip))
+                'DELETE FROM browsers_article WHERE articleid=\'{}\'ANDipaddr=\'{}\''.format(articleid, ip))
 
     # 文章喜爱表
     # 获取某个文章的喜爱数量
@@ -301,7 +305,7 @@ class DBOperate(object):
     # 删除喜欢的记录
     def delLikesArticle(self, articleid, userid):
         return self.ExecuteSQL(
-                'DELETE FROM likes_article WHERE articleid=\'{}\' and userid=\'{}\''.format(articleid, userid))
+                'DELETE FROM likes_article WHERE articleid=\'{}\'ANDuserid=\'{}\''.format(articleid, userid))
 
     # 获取某个用户的喜爱的文章
     def getLikesArticleByUser(self, userid):

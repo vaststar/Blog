@@ -20,3 +20,7 @@
     margin-right: 4%;
     text-align: right;
 }
+
+.edit_comment_com{
+    cursor: pointer;
+}

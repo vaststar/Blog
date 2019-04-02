@@ -23,12 +23,25 @@ class CommentApi(object):
         if comments is not None:
             result = []
             if len(comments)==0:
-                return Common.falseReturn(result,'no comment')
+                return Common.trueReturn(result,'no comment')
             for k, v in enumerate(comments):
                 comment = dict(zip(("commentid", "articleid", "userid", "uptime", "comments", "refid"), v))
                 result.append(comment)
             return Common.trueReturn(result, 'query ok')
         return Common.falseReturn(None, 'not found')
+
+    @staticmethod
+    def getCommentByCommentId(commentid):
+        comment = blogDB.getCommentByCommentId(commentid)
+        if comment is not None:
+            return Common.trueReturn(dict(zip(("commentid", "articleid", "userid", "uptime", "comments", "refid"), comment)),'query ok')
+        return Common.falseReturn(None,'not found')
+
+    @staticmethod
+    def updateCommentByCommentId(commentid,content):
+        if blogDB.updateComment(commentid,content):
+            return Common.trueReturn(True,'update comment ok')
+        return Common.falseReturn(False,'update comment failure')
 
     @staticmethod
     def getCommentCountByArticleId(artid):
@@ -49,3 +62,23 @@ class CommentApi(object):
             else:
                 return Common.trueReturn(res[0], 'query ok')
         return Common.falseReturn(None, 'query false')
+
+    @staticmethod
+    def getIsSelfComment(userid,commentid):
+        comment = blogDB.getCommentByCommentId(commentid)
+        if comment is not None:
+            if comment[2] == userid:
+                return Common.trueReturn(True,'yes')
+            else:
+                return Common.falseReturn(False,'not mine')
+        return Common.falseReturn(False,'no')
+
+    @staticmethod
+    def getIsSelfArticlesComment(userid,commentid):
+        comment = blogDB.getCommentByCommentId(commentid)
+        if comment is not None:
+            article = blogDB.getArticleById(comment[1])
+            if article is not None:
+                if article[1] == userid:
+                    return Common.trueReturn(True,'yes')
+        return Common.falseReturn(False,'no')
