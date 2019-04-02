@@ -1,6 +1,9 @@
 
 .article_page_title{
     text-align: center;
+    font-size: 36px;
+    font-weight: 700;
+    margin:5px auto;
 }
 .article_page_author_name{
     font-weight: bold;

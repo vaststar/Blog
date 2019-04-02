@@ -284,12 +284,12 @@ class DBOperate(object):
     # 删除某个文章内，某个用户的浏览记录
     def delBroswerArticleHistoryByUser(self, articleid, userid):
         return self.ExecuteSQL(
-                'DELETE FROM browsers_article WHERE articleid=\'{}\'ANDuserid=\'{}\''.format(articleid, userid))
+                'DELETE FROM browsers_article WHERE articleid=\'{}\' AND userid=\'{}\''.format(articleid, userid))
 
     # 删除某个文章内，某个ip的浏览记录
     def delBroswerArticleHistoryByIp(self, articleid, ip):
         return self.ExecuteSQL(
-                'DELETE FROM browsers_article WHERE articleid=\'{}\'ANDipaddr=\'{}\''.format(articleid, ip))
+                'DELETE FROM browsers_article WHERE articleid=\'{}\' AND ipaddr=\'{}\''.format(articleid, ip))
 
     # 文章喜爱表
     # 获取某个文章的喜爱数量
@@ -305,7 +305,7 @@ class DBOperate(object):
     # 删除喜欢的记录
     def delLikesArticle(self, articleid, userid):
         return self.ExecuteSQL(
-                'DELETE FROM likes_article WHERE articleid=\'{}\'ANDuserid=\'{}\''.format(articleid, userid))
+                'DELETE FROM likes_article WHERE articleid=\'{}\' AND userid=\'{}\''.format(articleid, userid))
 
     # 获取某个用户的喜爱的文章
     def getLikesArticleByUser(self, userid):

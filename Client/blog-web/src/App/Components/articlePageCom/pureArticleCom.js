@@ -15,12 +15,12 @@ class PureArticleCom extends Component {
         return (
             <div className="article_page_div">
                 <div className="article_page_title">
-                    <h1 >{this.state.articleBase.title}</h1>
+                    {this.state.articleBase.title}
                 </div>
-                {this.state.articleBase.articleid && this.state.articleBase.userid?
+                {(this.state.articleBase.articleid && this.state.articleBase.userid) &&
                 <div className="article_page_author">
                     <ArticleAutor articleBase={this.state.articleBase}></ArticleAutor>
-                </div>:null
+                </div>
                 }
                 <Divider/>
                 <div>
