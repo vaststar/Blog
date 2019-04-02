@@ -102,8 +102,9 @@ class MarkdownEditor extends Component {
         ).then(result=>result.json()).then(result=>{
             if(result.status){
                 let url = `![](${this.props.fileUrl+"/"+result.data.filepath})` // 拼接成markdown语法
-                editor.setValue(editor.getValue() + url + '\n') // 和编辑框之前的内容进行拼接
-                editor.setCursor(editor.lineCount())
+                editor.replaceSelection(url)
+                // editor.setValue(editor.getValue() + url + '\n') // 和编辑框之前的内容进行拼接
+                // editor.setCursor(editor.lineCount())
             }else{
                 message.error("上传图片失败")
             }

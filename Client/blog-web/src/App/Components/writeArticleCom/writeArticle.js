@@ -89,7 +89,7 @@ class WriteArticleComponent extends Component {
                       normalize:this.normalAll
                     })(
                     <Input addonBefore="封面" addonAfter={<Icon type="eye" onClick={this.viewCover}/>} 
-                      onPaste={this.pasteCover} onDrop={this.dropCover}
+                      onPaste={this.pasteCover} onDrop={this.dropCover} onDragOver={this.onDragOver}
                       placeholder="拖拽图片或者粘贴图片" allowClear readOnly/>
                     )}
                 </Form.Item>            
@@ -120,7 +120,11 @@ class WriteArticleComponent extends Component {
     //关闭预览封面
     handleCancel = () => this.setState({ previewVisible: false })
     //拖拽
+    onDragOver=(event)=>{
+        event.preventDefault()
+    }
     dropCover=(e)=> {
+        console.log('ddd')
         if (!(e.dataTransfer && e.dataTransfer.files)) {
             alert("浏览器不支持拖拽上传")
             return
@@ -168,6 +172,7 @@ class WriteArticleComponent extends Component {
             }
         })
     }
+    
 }
 
 WriteArticleComponent.propTypes={

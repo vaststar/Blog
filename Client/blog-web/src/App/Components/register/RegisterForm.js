@@ -166,7 +166,7 @@ class RegisterForm extends Component {
                   normalize:this.normalAll
                 })(
                 <Input addonAfter={<Icon type="eye" onClick={this.viewAvatar}/>} 
-                  onPaste={this.pasteAvatar} onDrop={this.dropAvatar}
+                  onPaste={this.pasteAvatar} onDrop={this.dropAvatar}  onDragOver={this.onDragOver}
                   placeholder="拖拽图片或者粘贴图片" allowClear readOnly/>
                 )}
             </Form.Item>
@@ -247,6 +247,9 @@ class RegisterForm extends Component {
     //关闭预览封面
     handleCancel = () => this.setState({ previewVisible: false })
     //拖拽
+    onDragOver=(event)=>{
+        event.preventDefault()
+    }
     dropAvatar=(e)=> {
         if (!(e.dataTransfer && e.dataTransfer.files)) {
             alert("浏览器不支持拖拽上传")
