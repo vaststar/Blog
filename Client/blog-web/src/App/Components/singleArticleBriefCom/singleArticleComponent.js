@@ -51,7 +51,7 @@ class ArticleComponent extends Component {
                                     {moment(this.props.article.uptime,'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')}
                                 </div>
                             </Col>
-                            <Col span={5}>
+                            <Col span={6}>
                             <Tooltip placement='bottom' title='查看作者主页'>
                                 <a className="article-url-link" target="_blank" without="false" rel="noopener noreferrer" href={'/author/'+this.props[ARTICLE_PROPS].userid}>
                                     作者：{this.state.username}
