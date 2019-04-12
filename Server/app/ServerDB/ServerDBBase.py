@@ -25,13 +25,13 @@ class ServerDBBase(object,metaclass=abc.ABCMeta):
         return self.__db.cursor()
 
     @abc.abstractmethod
-    def _ExecuteSQL(self,command):
+    def ExecuteSQL(self,command):
         pass
 
     @abc.abstractmethod
-    def _QueryOneSQL(self,command):
+    def QueryOneSQL(self,command):
         pass
 
     @abc.abstractmethod
-    def _QueryAllSQL(self,command):
+    def QueryAllSQL(self,command):
         pass

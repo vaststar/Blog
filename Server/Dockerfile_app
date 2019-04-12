@@ -6,7 +6,7 @@ RUN mkdir -p /blog/Server/app &&\
     mkdir -p /blog/Server/deploy
 
 COPY deploy/start_gunicorn.sh /blog/Server/deploy/start_gunicorn.sh
-COPY requirements /blog/Server/requirements
+COPY app/requirements /blog/Server/requirements
 
 WORKDIR /blog/Server
 

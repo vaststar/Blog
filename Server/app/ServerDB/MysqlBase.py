@@ -5,7 +5,7 @@ class MysqlBase(ServerDBBase):
     def __init__(self, database, sqlfiles=None):
         ServerDBBase.__init__(self,database,sqlfiles)
 
-    def _ExecuteSQL(self,command):
+    def ExecuteSQL(self,command):
         try:
             self.__KeepAlive()
             self._GetConnect().cursor().execute(command)
@@ -14,7 +14,7 @@ class MysqlBase(ServerDBBase):
             logger.warning('Could not complete operation:'+ command+str(e))
             return False
 
-    def _QueryOneSQL(self,command):
+    def QueryOneSQL(self,command):
         try:
             self.__KeepAlive()
             cursor =  self._GetConnect().cursor()
@@ -24,7 +24,7 @@ class MysqlBase(ServerDBBase):
             logger.warning('Could not query one:'+ command+str(e))
             return None
 
-    def _QueryAllSQL(self,command):
+    def QueryAllSQL(self,command):
         try:
             self.__KeepAlive()
             cursor=self._GetConnect().cursor()

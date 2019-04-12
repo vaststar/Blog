@@ -32,8 +32,6 @@ class Config(object):
 class DevelopmentConfig(Config):
     '''开发环境配置'''
     DB_TYPE = "Sqlite"
-    if not os.path.isdir(os.path.dirname(Config.SQLITE_SET['DBPATH'])):
-        os.mkdir(os.path.dirname(Config.SQLITE_SET['DBPATH']))
 
 class ProductionConfig(Config):
     '''生产环境配置'''

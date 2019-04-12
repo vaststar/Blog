@@ -6,11 +6,11 @@ class DBOperate(object):
         self.DB = database
         self._dbType = dbtype
     def ExecuteSQL(self,command):
-        return self.DB._ExecuteSQL(command)
+        return self.DB.ExecuteSQL(command)
     def QueryOne(self,command):
-        return self.DB._QueryOneSQL(command)
+        return self.DB.QueryOneSQL(command)
     def QueryAll(self,command):
-        return self.DB._QueryAllSQL(command)
+        return self.DB.QueryAllSQL(command)
     @staticmethod
     def GenerateUUID():
         return "".join(str(uuid.uuid1()).split('-'))

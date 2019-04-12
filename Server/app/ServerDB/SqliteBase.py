@@ -5,7 +5,7 @@ class SqliteBase(ServerDBBase):
     def __init__(self, database, sqlfiles=None):
         ServerDBBase.__init__(self,database,sqlfiles)
 
-    def _ExecuteSQL(self,command):
+    def ExecuteSQL(self,command):
         conn= self._GetConnect()
         try:
             with conn:
@@ -15,7 +15,7 @@ class SqliteBase(ServerDBBase):
             logger.warning('Could not complete operation:', command,e)
             return False
 
-    def _QueryOneSQL(self,command):
+    def QueryOneSQL(self,command):
         cursor = self._GetCursor()
         try:
             cursor.execute(command)
@@ -24,7 +24,7 @@ class SqliteBase(ServerDBBase):
             logger.warning('Could not complete operation:', command,e)
             return None
 
-    def _QueryAllSQL(self,command):
+    def QueryAllSQL(self,command):
         cursor = self._GetCursor()
         try:
             cursor.execute(command)
