@@ -116,7 +116,7 @@ class UserApi(object):
     def getAllUserInfo():
         result=[]
         for k,v in enumerate(blogDB.getAllUserInfo()):
-            result.append(dict(zip("userid,realname,idcard,cellphone,email,avatarurl"),v))
+            result.append(dict(zip(("userid","realname","idcard","cellphone","email","avatarurl"),v)))
         return Common.trueReturn(result,'query ok')
 
     @staticmethod
