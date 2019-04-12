@@ -15,7 +15,7 @@ class ServerDBBase(object,metaclass=abc.ABCMeta):
                     else:
                         statement+=line.strip()
                     if line.strip().endswith(';'):
-                        self._ExecuteSQL(statement)
+                        self.ExecuteSQL(statement)
                         statement=""
 
     def _GetConnect(self):
