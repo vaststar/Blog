@@ -33,6 +33,7 @@ services:
       - ../mysql/data:/var/lib/mysql
       - ../mysql/my.cnf:/etc/my.cnf
       - ../mysql/init:/docker-entrypoint-initdb.d
+      - ../mysql/backup:/backup
     ports:
       - "3306:3306"
     networks:
