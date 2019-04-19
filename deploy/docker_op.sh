@@ -1,6 +1,7 @@
 #!/bin/bash
 #systemctl stop firewalld
 #systemctl restart network
+yum install -y firewalld
 yum install -y
 yum remove docker docker-common docker-engine
 yum install -y yum-utils device-mapper-pesistent-data lvm2
