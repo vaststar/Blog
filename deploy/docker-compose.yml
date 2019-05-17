@@ -28,7 +28,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: "root"
-      MYSQL_DATABASE: "blog"
+      MYSQL_DATABASE: "blog_mysql_password"
     volumes:
       - ../mysql/data:/var/lib/mysql
       - ../mysql/my.cnf:/etc/my.cnf
