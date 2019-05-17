@@ -3,7 +3,7 @@ import os,datetime
 class Config(object):
     #数据库配置
     MYSQL_SET = {
-                 "IP":"blog_mysql", "PORT":3306, "USER":"root", "PASSWORD":"root",
+                 "IP":"blog_mysql", "PORT":3306, "USER":"root", "PASSWORD":"blog_mysql_password",
                  "sqlFile":[]
                 }
     SQLITE_SET = {
